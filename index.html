@@ -1,0 +1,44 @@
+<!doctype html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+  <head>
+	<meta charset="utf-8">
+	<title>Xoces.js: Visualization library built on d3.js for mapping learning outcomes.</title>
+	<meta name="description" content="">
+	<meta name="viewport" content="width=device-width">
+	<link rel="icon" href="favicon.ico"/>
+
+	<link rel="stylesheet" href="vendor/foundation.css">
+  </head>
+
+  <body class="" ng-app="xocesApp">
+    <!--[if lt IE 7]>
+      <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+    <![endif]-->
+
+
+	<div class="body" ui-view></div>
+
+	<!-- include the webpack-dev-server script so our scripts get reloaded when we make a change -->
+	<!-- we'll run the webpack dev server on port 8090, so make sure it is correct -->
+	<script src="http://localhost:8090/webpack-dev-server.js"></script> 
+
+	<!-- load in vendor scripts -->
+	<script src="vendor/jquery.js"></script>
+	<script src="vendor/angular.js"></script>
+	<script src="vendor/angular-ui-router.js"></script>
+	<script src="vendor/lodash.custom.js"></script>
+	<script src="vendor/d3.js"></script>
+	<script src="vendor/color-0.7.1.js"></script>
+
+	<!-- include the bundle that contains all our scripts, produced by webpack -->
+	<!-- the bundle is served by the webpack-dev-server, so serve it also from localhost:8090 -->
+	<script type="text/javascript" src="http://localhost:8090/assets/bundle.js"></script> 
+
+	<script src="/bundle.js"></script>
+
+
+</body>
+</html>

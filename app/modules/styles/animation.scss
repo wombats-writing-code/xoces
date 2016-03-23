@@ -1,0 +1,65 @@
+// slide-down (enter sliding down from the top, exit sliding down to the bottom) 
+.animation--enter-from-top.ng-hide-remove, .animation--enter-from-top.ng-enter {
+	animation: enter-from-top 300ms cubic-bezier(0.19, 1, 0.22, 1);
+	opacity: 1;
+}
+
+.animation--exit-to-top.ng-hide-add, .animation--exit-to-to.ng-leave {
+	animation: exit-to-top 300ms cubic-bezier(0.95, 0.05, 0.795, 0.035);
+	opacity: 1;
+}
+
+@-webkit-keyframes enter-from-top {
+	0% {
+		transform: translateY(-100px);
+		opacity: 0;
+	}
+	75% {
+		opacity: .1;
+	}
+	100% {
+		transform: translateY(0);
+		opacity: 1;
+	}
+}
+
+@-webkit-keyframes exit-to-top {
+	30% {
+		opacity: 1;
+	}
+	75% {
+		opacity: 0;
+	}
+	100% {
+		transform: translateY(-100%);
+		opacity: 0;
+	}
+}
+
+@keyframes pulse {
+  0%   { opacity:1; }
+  50%  { opacity:.1; }
+  100% { opacity:1; }
+}
+@-o-keyframes pulse{
+  0%   { opacity:1; }
+  50%  { opacity:.1; }
+  100% { opacity:1; }
+}
+@-moz-keyframes pulse{
+  0%   { opacity:1; }
+  50%  { opacity:.1; }
+  100% { opacity:1; }
+}
+@-webkit-keyframes pulse{
+  0%   { opacity:1; }
+  50%  { opacity:.1; }
+  100% { opacity:1; }
+}
+
+.animation--pulse {
+   -webkit-animation: pulse 2s ease-out infinite;
+   -moz-animation: pulse 2s ease-out infinite;
+   -o-animation: pulse 2s ease-out infinite;
+    animation: pulse 2s ease-out infinite;
+}

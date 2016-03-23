@@ -1,0 +1,63 @@
+@import '../styles/base.scss';
+
+.breadcrumb-nav-wrapper {
+	box-shadow: 0 0 1px 1px rgba(#aaa, .5);
+	background: #333;
+	min-height: 3em;
+}
+
+.breadcrumb-nav {
+	list-style: none;
+        text-align: center;
+}
+
+.breadcrumb-nav__item {
+        position: relative;
+        padding: .75em 1em;
+}
+
+.breadcrumb-nav__name {
+	margin-bottom: 0;
+}
+
+.breadcrumb-nav__item:not(:last-of-type):after {
+        content: '\0003E';
+        color: #bbb;
+        position: absolute;
+        right: -.2em;
+        top: .4em;
+        font-size: 1.2em;
+        font-weight: 300;
+}
+
+.breadcrumb-nav__item:not(:last-of-type):hover {
+        transition: color .3s ease;
+        cursor: pointer;
+}       
+        
+.breadcrumb-nav__item:not(:last-of-type):hover .breadcrumb-nav__name {
+        transition: color .3s ease;
+        color: $red--secondary;
+}       
+        
+.breadcrumb-nav__item .breadcrumb-nav__name {
+        color: #bbb;
+}
+
+.breadcrumb-nav__item.is-last .breadcrumb-nav__name {
+        color: #fff;
+}
+
+.breadcrumb-nav-wrapper .vis-button, .breadcrumb-nav-wrapper .vis-button:focus, .breadcrumb-nav-wrapper .vis-button:active {
+        background: transparent;
+        border: none;
+        color: #ccc;
+	font-weight: 600;
+	font-size: 0.8125rem; /* 11.375px */
+}
+
+.breadcrumb-nav-wrapper .vis-button:hover, .breadcrumb-nav-wrapper .vis-button:focus {
+        background: transparent;
+        color: $red--secondary;
+}
+

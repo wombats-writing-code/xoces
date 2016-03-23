@@ -1,0 +1,20 @@
+
+<h1 class="text-center"><span class="x">X</span>oces.js e<span class="x">X</span>ample</h1>
+<p class="text-center">A starter kit for Xoces.js. Get the <a href="" target="_blank">docs at Github</a>.</p>
+
+<div class="vis-wrapper clearfix" responsive-width>
+	<breadcrumb-nav ng-if="isVisShown" breadcrumbs="viewHistory" click-breadcrumb="drawLevel(level)" show-tree="showTreeView()"></breadcrumb-nav>
+	<info-panel ng-if="isVisShown" ng-show="viewSpec.visType == 'CHORD'" mouseover-data="mouseoverSpec" view-data="viewSpec"></info-panel> 
+	<vis view-data="viewSpec"></vis>
+	<loading-curtain chosen-data="chosenData" ng-show="isLoading"></loading-curtain>
+
+	<div class="responsive-prompt" ng-if="!isVisShown">
+		<p class="small-12 medium-6 medium-centered columns">Your screen isn't wide enough! We are currently working on a mobile version, but for now please enlarge your window or visit Xoces on a larger screen. </p>
+	</div>
+</div>	
+
+<div class="row">
+	<p class="text-center">Xoces.js is an open-source (MIT license) JavaScript library.</p>
+	<p class="text-center">Stuck with code? Check out the API docs and examples on Github</a>.</p>
+	<p class="text-center">Stuck with mapping? Check out the <a href="http://xoces.mit.edu" target="_blank">Xoces site</a>.</p>
+</div>
