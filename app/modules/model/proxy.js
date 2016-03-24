@@ -36,9 +36,7 @@ module.exports = function($http, $q, DataParams) {
 		getObjectives: function(bankName) {
 			return $http.get( endpoints[bankName].objective )
 			.then( function(res) {
-				return res.data.map(unpack).filter( function(item) {
-					return !(item.displayName.indexOf('[L') == 0);
-				});
+				return res.data.map(unpack);
 			});
 		},
 
