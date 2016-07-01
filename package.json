@@ -2,21 +2,24 @@
   "scripts": {
     "start": "npm run serve | npm run dev",
     "serve": "./node_modules/.bin/http-server -p 8080",
-    "dev": "webpack-dev-server --progress --colors --port 8090"
+    "dev": "webpack-dev-server --progress --colors --port 8090",
+    "bundle": "browserify index.js > dist/xoces.bundle.js",
+    "watch-bundle": "watchify index.js -o dist/xoces.bundle.js"
   },
   "name": "xoces-js",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "main": "index.js",
-  "dependencies": {
-  },
+  "dependencies": {},
   "devDependencies": {
-    "ng-cache-loader": "0.0.15",
-    "file-loader": "0.8.5",
+    "browserify": "^13.0.1",
     "css-loader": "^0.23.0",
+    "file-loader": "0.8.5",
     "http-server": "~0.7.1",
+    "ng-cache-loader": "0.0.15",
     "node-sass": "~3.5.0",
     "sass-loader": "^3.1.2",
     "style-loader": "^0.13.0",
+    "watchify": "^3.7.0",
     "webpack": "~1.4.4",
     "webpack-dev-server": "1.14.0"
   }
