@@ -1,7 +1,6 @@
 
 // in these examples we use the bundled SFX that makes the variable xoces globally available
 
-var proxyParam = '?proxyname=AGENT_KEYjZNLVtAIDh8VPmnn16KIzj5pyrkiHzMotbElekzuRPmhj34moFj%2BgUAuLoymRxIx';
 var outcomesUrl = 'https://mc3.mit.edu/handcar/services/learning/objectivebanks/mc3-objectivebank%3A2821%40MIT-OEIT/objectives';
 var relationshipsUrl = 'https://mc3.mit.edu/handcar/services/relationship/families/mc3-family%3A147%40MIT-OEIT/relationships' + proxyParam;
  // + '?genustypeid=mc3-relationship%3Amc3.lo.2.lo.requisite%40MIT-OEIT';
@@ -71,7 +70,7 @@ function init(data) {
   var layout = Xoces.layout({}, packed);
   var el = Xoces.draw(layout, {
 
-    
+
   }, wrapperEl);
 
   console.log('layout', layout);

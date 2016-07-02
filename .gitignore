@@ -2,3 +2,4 @@ node_modules/
 .DS_STORE
 app/.tmp
 app/.sass-cache/
+examples/key.js
