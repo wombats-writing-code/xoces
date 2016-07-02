@@ -48,8 +48,8 @@ function init(data) {
 
   var wrapperEl = document.getElementById('treeWrapper');
 
-  wrapperEl.style.width = 940;
-  wrapperEl.style.height = 500;
+  wrapperEl.style.width = '940px';
+  wrapperEl.style.height = '500px';
 
   // get the prerequisites of this item, all the way
   var depthFn = function(item) {
@@ -62,17 +62,15 @@ function init(data) {
     return requisites;
   }
 
-  var params = {
-
-  };
-
   var packed = Xoces.pack(outcomes, relationships, depthFn);
   var layout = Xoces.layout({}, packed);
+
+  console.log('layout', layout);
+
   var el = Xoces.draw(layout, {
 
 
   }, wrapperEl);
 
-  console.log('layout', layout);
 
 }

@@ -39,7 +39,7 @@ function draw(layout, params, element) {
   svg.setAttributeNS("http://www.w3.org/2000/xmlns/", "xmlns:xlink", "http://www.w3.org/1999/xlink");
   element.appendChild(svg);
 
-  console.log(svg);
+  console.log('element', element, svg);
 
   // draw links first, or else links will be ontop of nodes
   for (var i=0; i<layout.links.length; i++) {
