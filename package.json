@@ -9,7 +9,9 @@
   "name": "xoces-js",
   "version": "1.0.0",
   "main": "index.js",
-  "dependencies": {},
+  "dependencies": {
+    "d3": "^4.0.0"
+  },
   "devDependencies": {
     "browserify": "^13.0.1",
     "css-loader": "^0.23.0",

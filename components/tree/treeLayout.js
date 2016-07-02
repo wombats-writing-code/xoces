@@ -40,14 +40,16 @@ function layout(params, model) {
   nodeParams.fill = nodeParams.fill || '#999';
   nodeParams.labelKey = nodeParams.labelKey || 'name';
   nodeParams.labelFill = nodeParams.labelFill = '#333';
+  nodeParams.labelFontSize = nodeParams.labelFontSize || '12px';
 
   linkParams.stroke = linkParams.stroke || '#555';
+  linkParams.strokeWidth = linkParams.strokeWidth || 2;
 
   var canvasWidth = drawingParams.width || 600;
 
 
-  var nodeSpacing = params.nodeSpacing || 50,
-    levelSpacing = params.levelSpacing || 170,
+  var nodeSpacing = params.nodeSpacing || nodeParams.width * 1.5,
+    levelSpacing = params.levelSpacing || nodeParams.height * 2.5,
     marginTop = 50,
     marginLeft = 50,
     marginRight = 50;
@@ -68,18 +70,22 @@ function layout(params, model) {
         var layout = {
           height: nodeParams.height,
           width: nodeParams.width,
-          x: (j+.5)*nodeSpacing,
+          x: (j+.5)*spacePerNode,
           y: lastY,
           fill: nodeParams.fill,
+        };
+        var node = Object.assign({}, nodeModel, layout, {
           label: {
+            x: layout.x,
+            y: layout.y + nodeParams.height / 2,
             text: nodeModel[nodeParams.labelKey],
+            fontSize: nodeParams.labelFontSize,
             fill: nodeParams.labelFill
           }
-        };
-        var node = Object.assign({}, nodeModel, layout);
+        });
+        nodes.push(node);
       };
 
-      nodes.push(node);
       lastY += levelSpacing;
     }
 
@@ -88,21 +94,24 @@ function layout(params, model) {
     for (var i=0; i<nodes.length; i++) {
       var node = nodes[i];
       var linksFromNode = model.links.filter( function(link) {
-        return link.sourceId === nodeModel.id;
+        return link.sourceId === node.id;
       });
+
+      console.log(linksFromNode.length, 'links from', node.name);
 
       for (var s=0; s<linksFromNode.length; s++) {
         var linkModel = linksFromNode[s];
         var targetNode = nodes.filter( function(node) {
           return node.id === linkModel.destinationId;
-        });
+        })[0];
 
         var layout = {
-          x1: node.x,
+          x1: node.x + node.width / 2,
           y1: node.y,
-          x2: targetNode.x,
+          x2: targetNode.x + node.width / 2,
           y2: targetNode.y,
           stroke: linkParams.stroke,
+          strokeWidth: linkParams.strokeWidth
         };
         var link = Object.assign({}, linkModel, layout);
 

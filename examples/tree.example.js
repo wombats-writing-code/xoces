@@ -30,7 +30,14 @@ window.setTimeout(function () {
   .then(function(data) {
     console.log('relationships', data);
 
-    relationships = _.filter(data, {genusTypeId: 'mc3-relationship%3Amc3.lo.2.lo.requisite%40MIT-OEIT'});
+    relationships = _.map(_.filter(data, {genusTypeId: 'mc3-relationship%3Amc3.lo.2.lo.requisite%40MIT-OEIT'}), function(rel) {
+      // rel._sourceId = rel.sourceId;
+      // rel._destinationId = rel.destinationId;
+      // rel.destinationId = rel._sourceId;
+      // rel.sourceId = rel._destinationId;
+      // console.log(rel);
+      return rel;
+    });
 
     init({
       outcomes: outcomes,
@@ -49,7 +56,7 @@ function init(data) {
   var wrapperEl = document.getElementById('treeWrapper');
 
   wrapperEl.style.width = '940px';
-  wrapperEl.style.height = '500px';
+  wrapperEl.style.height = '700px';
 
   // get the prerequisites of this item, all the way
   var depthFn = function(item) {
@@ -63,14 +70,18 @@ function init(data) {
   }
 
   var packed = Xoces.pack(outcomes, relationships, depthFn);
-  var layout = Xoces.layout({}, packed);
+  console.log('packed', packed);
+
+  var layout = Xoces.layout({
+    nodeParams: {
+      width: 80,
+      fill: '#bce'
+    }
+  }, packed);
 
   console.log('layout', layout);
 
-  var el = Xoces.draw(layout, {
-
-
-  }, wrapperEl);
+  var el = Xoces.draw(layout, {}, wrapperEl);
 
 
 }
