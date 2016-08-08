@@ -4,16 +4,26 @@
     "serve": "./node_modules/.bin/http-server -p 8080",
     "dev": "webpack-dev-server --progress --colors --port 8090",
     "bundle": "browserify index.js > dist/xoces.bundle.js",
-    "watch-bundle": "watchify index.js -o dist/xoces.bundle.js"
+    "watch-bundle": "watchify index.js -o dist/xoces.bundle.js",
+    "dev-components": "webpack-dev-server --config components.webpack.config.js --progress --colors --port 8090",
+    "start-components": "npm run serve | npm run dev-components"
   },
   "name": "xoces-js",
   "version": "1.0.0",
   "main": "index.js",
   "dependencies": {
-    "d3": "^4.0.0"
+    "d3": "^4.0.0",
+    "rhumbl-dao": "^0.3.1"
   },
   "devDependencies": {
     "browserify": "^13.0.1",
+    "babel-core": "^6.11.4",
+    "babel-loader": "^6.2.4",
+    "babel-plugin-transform-decorators-legacy": "^1.3.4",
+    "babel-preset-es2015": "^6.9.0",
+    "babel-preset-react": "^6.11.1",
+    "babel-preset-stage-0": "^6.5.0",
+    "babelify": "^7.3.0",
     "css-loader": "^0.23.0",
     "file-loader": "0.8.5",
     "http-server": "~0.7.1",

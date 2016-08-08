@@ -1,27 +1,6 @@
 var d3 = require('d3');
 
-/**
-  params is an object that must contain at least {
-    element: [the raw DOM element],
-    levelSpacing: [the vertical spacing between each level],
-    nodeSpacing: [the horizontal spacing between each node],
-    drawingParams: {
-      width: Number,
-      height: NUmber,
-      fill: [color of the drawing],
-    },
-    nodeParams: {
-      width: Number,
-      height: Number,
-      fill: [color of the node, hex color],
-      labelKey: [the property of the node that should be used to label the node]
-      labelFill: [color of the label text, hex color]
-    },
-    linkParams: {
-      stroke: [color of the links, hex color]
-    }
-  }
-*/
+
 function draw(layout, params, element) {
 
   var drawingParams = params.drawingParams || {},
@@ -77,13 +56,13 @@ function draw(layout, params, element) {
   .style('fill', function(d) {return d.fill})
 
   svgEl.selectAll('text')
-  .data(layout.nodes)
+  .data(layout.labels)
   .enter().append("text")
-  .attr('x', function(d) {return d.label.x})
-  .attr('y', function(d) {return d.label.y})
-  .text( function(d) {return d.label.text})
-  .style('font-size', function(d) {return d.label.fontSize;})
-  .style('fill', function(d) {return d.label.fill})
+  .attr('x', function(d) {return d.x})
+  .attr('y', function(d) {return d.y})
+  .text( function(d) {return d.text})
+  .style('font-size', function(d) {return d.fontSize;})
+  .style('fill', function(d) {return d.fill})
 
 
   // then draw nodes
