@@ -3,12 +3,6 @@ var d3 = require('d3');
 
 function draw(layout, params, element) {
 
-  var drawingParams = params.drawingParams || {},
-    nodeParams = params.nodeParams || {},
-    linkParams = params.linkParams || {};
-
-    drawingParams.backgroundFill = drawingParams.backgroundFill || '#eee';
-
   var svgId = element.id + 'tree';
 
   // create and append an SVG element to the passed in element
@@ -20,7 +14,7 @@ function draw(layout, params, element) {
   var svgEl = d3.select('#' + svgId)
   .attr('width', element.style.width)
   .attr('height', element.style.height)
-  .attr('fill', drawingParams.backgroundFill);
+  .attr('fill', params.drawing.background);
 
   svgEl.append("svg:defs").append("svg:marker")
     .attr("id", "triangle")
@@ -44,7 +38,6 @@ function draw(layout, params, element) {
   .style('stroke', function(d) {return d.stroke})
   // .attr("marker-start", "url(#triangle)")
 
-  console.log(layout.nodes);
   // draw links first, or else links will be ontop of nodes
   let node;
   if (!layout.nodes[0].borderRadius || layout.nodes[0].borderRadius === '0%') {
@@ -66,7 +59,12 @@ function draw(layout, params, element) {
   }
 
   node
-  .style('fill', function(d) {return d.fill})
+  .style('fill', (d) => {
+    if (typeof d.fill === 'function') {
+      return d.fill(d);
+    }
+    return d.fill;
+  })
 
   let label = svgEl.selectAll('.label')
   .data(layout.labels)
