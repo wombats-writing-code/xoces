@@ -1,6 +1,7 @@
+import _ from 'lodash'
 
+import {multiLine} from './utils'
 import layoutParams from './layoutParams'
-var _ = require('lodash');
 
 function layout(userParams, ranked, edges) {
   if (!ranked) {
@@ -30,12 +31,16 @@ function layout(userParams, ranked, edges) {
       };
 
       nodes.push( _.assign({}, sibling, nodeLayout));
+      let textLines = multiLine(sibling[params.label.property], params.label.fontSize, params.node.width*2);
 
       labels.push( _.assign({}, {
         x: nodeLayout.x,
         y: nodeLayout.y + params.node.height + params.label.fontSize,
+        width: params.node.width*3,
         text: sibling[params.label.property],
+        multiLines: textLines,
         fontSize: params.label.fontSize,
+        lineHeight: 1.25,
         entity: sibling
       }));
     };
@@ -60,9 +65,9 @@ function layout(userParams, ranked, edges) {
 
       links.push( _.assign({}, linkModel, {
         x1: node.x + node.width / 2,
-        y1: node.y,
+        y1: node.y + node.height / 2,
         x2: targetNode.x + node.width / 2,
-        y2: targetNode.y,
+        y2: targetNode.y + node.height / 2,
       }));
     }
   }

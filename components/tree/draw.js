@@ -42,7 +42,7 @@ function draw(layout, params, element) {
   .attr('y2', function(d) {return d.y2})
   .style('stroke-width', function(d) {return d.strokeWidth})
   .style('stroke', function(d) {return d.stroke})
-  .attr("marker-start", "url(#triangle)")
+  // .attr("marker-start", "url(#triangle)")
 
 
   // draw links first, or else links will be ontop of nodes
@@ -55,14 +55,28 @@ function draw(layout, params, element) {
   .attr('height', function(d) {return d.height})
   .style('fill', function(d) {return d.fill})
 
-  svgEl.selectAll('text')
+  let label = svgEl.selectAll('.label')
   .data(layout.labels)
-  .enter().append("text")
-  .attr('x', function(d) {return d.x})
-  .attr('y', function(d) {return d.y})
-  .text( function(d) {return d.text})
-  .style('font-size', function(d) {return d.fontSize;})
-  .style('fill', function(d) {return d.fill})
+  .enter().append("foreignObject")
+  .attr('class', 'foreignObject')
+  .attr('x', function(d) { return d.x - d.width/4})
+  .attr('y', function(d) { return d.y; })
+  .attr("width", function(d) { return d.width })
+  .attr("height", function(d) { return d.height })
+  .append("xhtml:p")
+  .style('background', (d) => d.background)
+  .style('line-height', function(d) {console.log('lineHeight', d); return d.lineHeight;})
+  .style('font-size', function(d) {return d.fontSize + 'px';})
+  .style('color', (d) => d.fill)
+  .text(function(d) { return d.text });
+
+  // if (layout.labels[0].text) {
+  //   label.text( function(d) {return d.text})
+  // } else if (layout.labels[0].multiLine) {
+  //   label.text( function(d) {return d.text})
+  //
+  // }
+
 
 
   // then draw nodes

@@ -4,12 +4,7 @@
 module.exports = {
   depthSpacing: 150,
   drawing: {
-    width: 600,
-    height: 450,
-    paddingTop: 50,
-    paddingRight: 50,
-    paddingBottom: 50,
-    paddingLeft: 50
+    background: '#fff'
   },
   node: {
     fill: '#bbb',
@@ -21,5 +16,6 @@ module.exports = {
   },
   label: {
     fill: '#444',
+    background: 'rgba(255, 255, 255, 0.6)'
   }
 }
