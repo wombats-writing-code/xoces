@@ -14,8 +14,11 @@ module.exports = {
     stroke: '#aaa',
     strokeWidth: 1
   },
-  label: {
+  nodeBottomLabel: {
     fill: '#444',
     background: 'rgba(255, 255, 255, 0.6)'
+  },
+  nodeCenterLabel: {
+    fill: '#222',
   }
 }

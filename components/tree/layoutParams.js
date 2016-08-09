@@ -16,8 +16,8 @@ module.exports = {
     height: 50,
     borderRadius: 0
   },
-  label: {
+  nodeBottomLabel: {
     fontSize: 10,
     property: 'name'
-  }
+  },
 }

@@ -12,7 +12,7 @@ function layout(userParams, ranked, edges) {
   let params = _.merge({}, layoutParams, userParams);
 
   // --- layout elements ----------
-  let nodes = [], labels = [];
+  let nodes = [], nodeBottomLabels = [], nodeCenterLabels = [];
   let depths = Object.keys(ranked);
 
   let depthSpacing = Math.max(params.depthSpacing, (params.drawing.height - params.drawing.paddingTop - params.drawing.paddingBottom) / depths.length);
@@ -31,18 +31,44 @@ function layout(userParams, ranked, edges) {
       });
 
       nodes.push( _.assign({}, sibling, nodeLayout));
-      let textLines = multiLine(sibling[params.label.property], params.label.fontSize, params.node.width*2);
 
-      labels.push( _.assign({}, {
+      let bottomLabelText;
+      if (typeof params.nodeBottomLabel.property === 'function') {
+        bottomLabelText = params.nodeBottomLabel.property(sibling);
+      } else {
+        bottomLabelText = sibling[params.nodeBottomLabel.property];
+      }
+
+      // make bottom labels
+      nodeBottomLabels.push( _.assign({}, {
         x: nodeLayout.x,
-        y: nodeLayout.y + params.node.height + params.label.fontSize,
-        width: params.node.width*3,
-        text: sibling[params.label.property],
-        multiLines: textLines,
-        fontSize: params.label.fontSize,
+        y: nodeLayout.y + params.node.height + params.nodeBottomLabel.fontSize,
+        width: params.node.width*4,
+        text: bottomLabelText,
+        fontSize: params.nodeBottomLabel.fontSize,
         lineHeight: 1.15,
         entity: sibling
       }));
+
+      // make center labels
+      if (params.nodeCenterLabel) {
+        let centerLabelText;
+        if (typeof params.nodeCenterLabel.property === 'function') {
+          centerLabelText = params.nodeCenterLabel.property(sibling);
+        } else {
+          centerLabelText = sibling[params.nodeCenterLabel.property];
+        }
+
+        nodeCenterLabels.push( _.assign({}, {
+          x: nodeLayout.x - nodeLayout.width/4,
+          y: nodeLayout.y,
+          text: centerLabelText,
+          fontSize: params.nodeCenterLabel.fontSize,
+          lineHeight: 1.15,
+          entity: sibling
+        }));
+      }
+
     };
 
     lastY += depthSpacing;
@@ -82,7 +108,7 @@ function layout(userParams, ranked, edges) {
   }
 
   return {
-    nodes, labels, links
+    nodes, links, nodeBottomLabels, nodeCenterLabels
   }
 }
 

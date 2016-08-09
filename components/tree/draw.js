@@ -66,8 +66,8 @@ function draw(layout, params, element) {
     return d.fill;
   })
 
-  let label = svgEl.selectAll('.label')
-  .data(layout.labels)
+  let nodeBottomLabel = svgEl.selectAll('.node-bottom-label')
+  .data(layout.nodeBottomLabels)
   .enter().append("foreignObject")
   .attr('class', 'foreignObject')
   .attr('x', function(d) { return d.x - d.width/4})
@@ -81,12 +81,25 @@ function draw(layout, params, element) {
   .style('color', (d) => d.fill)
   .text(function(d) { return d.text });
 
-  // if (layout.labels[0].text) {
-  //   label.text( function(d) {return d.text})
-  // } else if (layout.labels[0].multiLine) {
-  //   label.text( function(d) {return d.text})
-  //
-  // }
+  let nodeCenterLabels = svgEl.selectAll('.node-center-label')
+  .data(layout.nodeCenterLabels)
+  .enter().append("foreignObject")
+  .attr('class', 'foreignObject')
+  .attr('x', (d) => {
+    if (d.width) {
+      return d.x - d.width/4;
+    }
+    return d.x;
+  })
+  .attr('y', function(d) { return d.y; })
+  .attr("width", function(d) { return d.width })
+  .attr("height", function(d) { return d.height })
+  .append("xhtml:p")
+  .style('background', (d) => d.background)
+  .style('line-height', (d) => d.lineHeight)
+  .style('font-size', function(d) {return d.fontSize + 'px';})
+  .style('color', (d) => d.fill)
+  .text(function(d) { return d.text });
 
 
 

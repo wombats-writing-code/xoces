@@ -23,13 +23,20 @@ module.exports = function style(userParams, data) {
     });
   }
 
-  let labels;
-  if (data.labels) {
-    labels = _.map(data.labels, (e) => {
-      return _.assign({}, e, params.label);
+  let nodeBottomLabels;
+  if (data.nodeBottomLabels) {
+    nodeBottomLabels = _.map(data.nodeBottomLabels, (e) => {
+      return _.assign({}, e, params.nodeBottomLabel);
     });
   }
 
-  return {nodes, links, labels};
+  let nodeCenterLabels;
+  if (data.nodeCenterLabels) {
+    nodeCenterLabels = _.map(data.nodeCenterLabels, (e) => {
+      return _.assign({}, e, params.nodeCenterLabel);
+    });
+  }
+
+  return {nodes, links, nodeBottomLabels, nodeCenterLabels};
 
 }

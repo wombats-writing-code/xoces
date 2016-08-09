@@ -95,9 +95,8 @@ fetch('./outcomes.json')
         width: 15,
         height: 15,
         borderRadius: '50%',
-        fill: function(item) {
-          if (hasAssessmentItem(item.id)) {
-            console.log('has item', item)
+        fill: function(outcome) {
+          if (hasAssessmentItem(outcome.id)) {
             return '#AAD8B0';
           }
 
@@ -105,6 +104,16 @@ fetch('./outcomes.json')
           return '#FF6F69';
         }
       },
+      nodeCenterLabel: {
+        fontSize: 10,
+        property: function(outcome) {
+          var items = _.filter(asssessmentItems, function(item) {
+            return item.learningObjectiveIds.indexOf(outcome.id) > -1;
+          });
+
+          return items.length;
+        }
+      }
     }
   });
 });
