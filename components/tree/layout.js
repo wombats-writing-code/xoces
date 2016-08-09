@@ -14,7 +14,7 @@ function layout(userParams, ranked, edges) {
   // --- layout elements ----------
   let nodes = [], labels = [];
   let depths = Object.keys(ranked);
-  
+
   let depthSpacing = Math.max(params.depthSpacing, (params.drawing.height - params.drawing.paddingTop - params.drawing.paddingBottom) / depths.length);
 
   let lastY = params.drawing.paddingTop;
@@ -25,12 +25,10 @@ function layout(userParams, ranked, edges) {
       let sibling = level[j];
       let spacePerNode = Math.max(params.node.width + 5, (params.drawing.width - params.drawing.paddingLeft - params.drawing.paddingRight) / level.length);
 
-      let nodeLayout = {
-        height: params.node.height,
-        width: params.node.width,
+      let nodeLayout = _.assign({}, params.node, {
         x: (j+.5) * spacePerNode,
         y: lastY,
-      };
+      });
 
       nodes.push( _.assign({}, sibling, nodeLayout));
       let textLines = multiLine(sibling[params.label.property], params.label.fontSize, params.node.width*2);
@@ -42,7 +40,7 @@ function layout(userParams, ranked, edges) {
         text: sibling[params.label.property],
         multiLines: textLines,
         fontSize: params.label.fontSize,
-        lineHeight: 1.25,
+        lineHeight: 1.15,
         entity: sibling
       }));
     };
@@ -65,12 +63,21 @@ function layout(userParams, ranked, edges) {
       // console.log('linkModel', linkModel);
       // console.log('targetNode', targetNode);
 
-      links.push( _.assign({}, linkModel, {
-        x1: node.x + node.width / 2,
-        y1: node.y + node.height / 2,
-        x2: targetNode.x + node.width / 2,
-        y2: targetNode.y + node.height / 2,
-      }));
+      if (!targetNode.borderRadius || targetNode.borderRadius === '0%') {
+        links.push( _.assign({}, linkModel, {
+          x1: node.x + node.width / 2,
+          y1: node.y + node.height / 2,
+          x2: targetNode.x + node.width / 2,
+          y2: targetNode.y + node.height / 2,
+        }));
+      } else {
+        links.push( _.assign({}, linkModel, {
+          x1: node.x,
+          y1: node.y,
+          x2: targetNode.x,
+          y2: targetNode.y,
+        }));
+      }
     }
   }
 

@@ -14,6 +14,7 @@ module.exports = {
   node: {
     width: 50,
     height: 50,
+    borderRadius: 0
   },
   label: {
     fontSize: 10,
