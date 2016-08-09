@@ -2,7 +2,7 @@
 /** default parameters for tree */
 
 module.exports = {
-  depthSpacing: 150,
+  depthSpacing: 70,
   drawing: {
     width: 600,
     height: 450,

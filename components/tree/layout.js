@@ -14,6 +14,8 @@ function layout(userParams, ranked, edges) {
   // --- layout elements ----------
   let nodes = [], labels = [];
   let depths = Object.keys(ranked);
+  
+  let depthSpacing = Math.max(params.depthSpacing, (params.drawing.height - params.drawing.paddingTop - params.drawing.paddingBottom) / depths.length);
 
   let lastY = params.drawing.paddingTop;
   for (var i=0; i<depths.length; i++) {
@@ -45,7 +47,7 @@ function layout(userParams, ranked, edges) {
       }));
     };
 
-    lastY += params.depthSpacing;
+    lastY += depthSpacing;
   }
 
   // --- layout links --------

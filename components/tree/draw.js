@@ -65,7 +65,7 @@ function draw(layout, params, element) {
   .attr("height", function(d) { return d.height })
   .append("xhtml:p")
   .style('background', (d) => d.background)
-  .style('line-height', function(d) {console.log('lineHeight', d); return d.lineHeight;})
+  .style('line-height', (d) => d.lineHeight)
   .style('font-size', function(d) {return d.fontSize + 'px';})
   .style('color', (d) => d.fill)
   .text(function(d) { return d.text });

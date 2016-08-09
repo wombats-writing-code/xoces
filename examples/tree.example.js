@@ -43,7 +43,8 @@ fetch('./outcomes.json')
 
   init({
     outcomes: outcomes,
-    relationships: relationships
+    relationships: relationships,
+    wrapperId: 'example1'
   });
 });
 
@@ -51,24 +52,21 @@ function init(data) {
   var outcomes = data.outcomes,
     relationships = data.relationships;
 
-  var wrapperEl = document.getElementById('treeWrapper');
+  var wrapperEl = document.getElementById(data.wrapperId);
 
-  var width = 900;
+  var width = 900, height = 500;
   wrapperEl.style.width = width + 'px';
-  wrapperEl.style.height = '700px';
+  wrapperEl.style.height = height + 'px';
 
   var dag = dao.getPathway('mc3-objective%3A14478%40MIT-OEIT', ['mc3-relationship%3Amc3.lo.2.lo.requisite%40MIT-OEIT'], 'OUTGOING_ALL', daoData);
-  console.log('dag', dag);
-
   var ranked = dao.rankDAG(dag, function(item) {
     return dao.getIncomingEntitiesAll(item.id, ['mc3-relationship%3Amc3.lo.2.lo.requisite%40MIT-OEIT'], daoData);
   });
 
-  console.log('ranked', ranked);
-
   let params = {
     drawing: {
-      width: width
+      width: width,
+      height: height
     },
     node: {
       width: 30,
@@ -82,6 +80,4 @@ function init(data) {
   // console.log('styled', styled)
 
   var el = Xoces.tree.draw(styled, {}, wrapperEl);
-
-
 }
