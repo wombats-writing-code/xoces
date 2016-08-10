@@ -8,22 +8,27 @@ Xoces.js was created by Luwen Huang and [Karen E. Willcox](http://kiwi.mit.edu) 
 
 
 ## What is Xoces.js for
-Xoces.js is a JavaScript library that makes interactive chord visualizations out of "mappable" data. ([What is educational mapping?](http://kiwi.mit.edu/education.php)) Xoces.js was originally created to visualize the learning outcomes of MIT, but has since been adopted to visualize the learning outcome data of other institutions, including the Singapore University of Technology & Design and Arapahoe Community College. Xoces.js is front-end only and doesn't supply any data - you'll need to provide the RESTful service of your choice to feed data into Xoces.js.
+Xoces.js is a JavaScript library that makes interactive chord and tree visualizations out of "mappable" data. ([What is educational mapping?](http://kiwi.mit.edu/education.php)) Xoces.js was originally created to visualize the learning outcomes of MIT, but has since been adopted to visualize the learning outcome data of other institutions, including the Singapore University of Technology & Design and Arapahoe Community College. Xoces.js is front-end only and doesn't supply any data - you'll need to provide the RESTful service of your choice to feed data into Xoces.js.
 
 Use Xoces.js when you have mappable data, and you want a multiple-level chord visualization to show the connections in your data.
 
 ## How to use Xoces.js
 
-Xoces.js is available in two forms: the entire bundled app (in `app/`) and modular components (in `components`). If you just want to get the chord visualization as quickly as possible, you'll want the entire bundled app. If you want to pick and choose different things, use the modular components.
+Xoces.js is available in two forms: the entire bundled app (in `app/`) and the modular tree component (in `components`). If you just want to get the chord visualization as quickly as possible, you'll want the entire bundled app. If you want to pick and choose different things, use the modular components.
 
-## Installing Xoces.js modular components
+## Gettting just the Xoces-tree component
 
-You'll need to be running
+The tree diagram in Xoces is available as standalone ES6 and CommonJS modules as well as a browser bundle.
 
 ```
-git clone https://github.com/luwen-huang/xoces.git
+git clone https://github.com/wombats-writing-code/xoces
 cd xoces
 ```
+
+We're still busy writing up the documentation, but to look at the examples, start up any server in the root `xoces` directory. Then navigate to `examples/index.html` and `/examples/big-tree.html`. You'll see examples of our tree widget component:
+
+![Xoces-tree component](images/xoces-tree-component.png)
+![Another Xoces-tree component](images/xoces-big-tree.png)
 
 
 ## Installing the Xoces.js app
@@ -31,7 +36,7 @@ cd xoces
 Download the repository:
 
 ```
-git clone https://github.com/luwen-huang/xoces.git
+git clone https://github.com/wombats-writing-code/xoces
 cd xoces
 ```
 
@@ -152,7 +157,7 @@ var getChildrenFns = {
 ```
 
 ## Dependencies
-Xoces.js requires these open-source libraries (thanks all!): jQuery, lodash, angular, angular-ui-router, d3.js, harthur-color and dao. You can find them already built in the `vendor/` directory.
+Xoces.js requires these open-source libraries (thanks all!): jQuery, [lodash](https://lodash.com/), angular, angular-ui-router, [d3.js](https://github.com/d3/d3), harthur-color and [dao](https://github.com/rhumbl/dao). You can find them already built in the `vendor/` directory.
 
 Refactoring Xoces.js to be non-dependent on AngularJS and jQuery is entirely possible. Those may be milestones for the future.
 
