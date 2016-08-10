@@ -25,7 +25,7 @@ git clone https://github.com/wombats-writing-code/xoces
 cd xoces
 ```
 
-We're still busy writing up the documentation, but to look at the examples, start up any server in the root `xoces` directory. Then navigate to `examples/index.html` and `/examples/big-tree.html`. You'll see examples of our tree widget component:
+We're still busy writing up the documentation, but to look at the examples, start up any server in the root `xoces` directory. Then navigate to `examples/index.html`. You'll see examples of our tree widget component:
 
 ![Xoces-tree component](images/xoces-tree-component.png)
 
