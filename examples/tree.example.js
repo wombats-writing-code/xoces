@@ -4,14 +4,11 @@ var relationships;
 var asssessmentItems;
 var daoData;
 
-var moduleIds = ['mc3-objective%3A14227%40MIT-OEIT']; // Unit 2 in college algebra
-
 fetch('./outcomes.json')
 .then(function(res) {
   return res.json();
 })
 .then(function(data) {
-  data = _.filter(data, {genusTypeId: 'mc3-objective%3Amc3.learning.outcome%40MIT-OEIT'});
   outcomes = _.map(data, function(o) {
     return _.assign({}, o, {
       name: o.displayName.text
@@ -24,24 +21,15 @@ fetch('./outcomes.json')
   return res.json();
 })
 .then(function(data) {
-  relationships = _.map(_.filter(data, {genusTypeId: 'mc3-relationship%3Amc3.lo.2.lo.requisite%40MIT-OEIT'}), function(rel) {
+  relationships = _.map(_.filter(data, function(rel) {
     rel.type = rel.genusTypeId;
     rel.targetId = rel.destinationId;
     return rel;
-  });
+  }));
 
   daoData = {entities: outcomes, relationships: relationships};
 
-  // then fetch assessment items
-  return fetch('./ACC-items.json')
-})
-.then(function(res) {
-  return res.json();
-})
-.then(function(data) {
-  console.log('assessment items', data);
-  asssessmentItems = data;
-  let targetIds = ['mc3-objective%3A14478%40MIT-OEIT', 'mc3-objective%3A14329%40MIT-OEIT', 'assessment.Item%3A5751b5e8e7dde00feac50d94%40bazzim.MIT.EDU'];
+  let targetIds = ['mc3-objective%3A13055%40MIT-OEIT', 'mc3-objective%3A13060%40MIT-OEIT', 'mc3-objective%3A13063%40MIT-OEIT'];
 
   var width = 900, height = 500;
 
@@ -64,7 +52,7 @@ fetch('./outcomes.json')
   });
 
   init({
-    targetId: 'mc3-objective%3A14581%40MIT-OEIT',
+    targetId: targetIds[1],
     outcomes: outcomes,
     relationships: relationships,
     wrapperId: 'example2',
@@ -75,15 +63,21 @@ fetch('./outcomes.json')
         height: height
       },
       node: {
-        width: 15,
-        height: 15,
+        width: 30,
+        height: 30,
         borderRadius: '50%'
       },
+      nodeBottomLabel: {
+        fontSize: 10,
+        property: function(outcome) {
+          return outcome.name.split(' ').slice(0, 4).join(' ') + '...';
+        }
+      }
     }
   });
 
   init({
-    targetId: targetIds[1],
+    targetId: targetIds[2],
     outcomes: outcomes,
     relationships: relationships,
     wrapperId: 'example3',
@@ -98,10 +92,9 @@ fetch('./outcomes.json')
         height: 15,
         borderRadius: '50%',
         fill: function(outcome) {
-          if (hasAssessmentItem(outcome.id)) {
+          if (Math.random() > .5) {
             return '#AAD8B0';
           }
-
           // color red if outcome is doesn't have any assessment items
           return '#FF6F69';
         }
@@ -109,21 +102,18 @@ fetch('./outcomes.json')
       nodeCenterLabel: {
         fontSize: 10,
         property: function(outcome) {
-          var items = _.filter(asssessmentItems, function(item) {
-            return item.learningObjectiveIds.indexOf(outcome.id) > -1;
-          });
-
-          return items.length;
+          return outcome.id.split('%')[1];
+        }
+      },
+      nodeBottomLabel: {
+        fontSize: 10,
+        property: function(outcome) {
+          return outcome.name.split(' ').slice(0, 3).join(' ') + '...';
         }
       }
     }
   });
 });
-
-function hasAssessmentItem(outcomeId) {
-  let taggedOutcomeIds = _.uniq(_.flatten(_.map(asssessmentItems, 'learningObjectiveIds')));
-  return taggedOutcomeIds.indexOf(outcomeId) > -1;
-}
 
 function init(data) {
   var outcomes = data.outcomes,
@@ -143,18 +133,4 @@ function init(data) {
   var layout = Xoces.tree.layout(data.params, ranked, dag.edges);
   var styled = Xoces.tree.style(data.params, layout);
   var el = Xoces.tree.draw(styled, data.params, wrapperEl);
-}
-
-function initAssessment(data) {
-  var targetId = data.targetId;
-  var wrapperEl = document.getElementById(data.wrapperId);
-
-  wrapperEl.style.width = data.params.drawing.width + 'px';
-  wrapperEl.style.height = data.params.drawing.height + 'px';
-
-  // var dag = dao.getPathway(data.targetId, ['mc3-relationship%3Amc3.lo.2.lo.requisite%40MIT-OEIT'], 'OUTGOING_ALL', daoData);
-  // var ranked = dao.rankDAG(dag, function(item) {
-  //   return dao.getIncomingEntitiesAll(item.id, ['mc3-relationship%3Amc3.lo.2.lo.requisite%40MIT-OEIT'], daoData);
-  // });
-
 }

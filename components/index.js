@@ -3,13 +3,15 @@
 import layout from './tree/layout'
 import draw from './tree/draw'
 import style from './tree/style'
+import clear from './tree/clear'
 
 var Xoces = window.Xoces || {};
 
 Xoces.tree = {
   style: style,
   layout: layout,
-  draw: draw
+  draw: draw,
+  clear: clear
 };
 
 // aggressively exports Xoces globally

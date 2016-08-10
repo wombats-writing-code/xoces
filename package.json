@@ -5,6 +5,7 @@
     "dev": "webpack-dev-server --progress --colors --port 8090",
     "bundle": "browserify index.js > dist/xoces.bundle.js",
     "watch-bundle": "watchify index.js -o dist/xoces.bundle.js",
+    "build-components": "webpack --config components.webpack.config.js",
     "dev-components": "webpack-dev-server --config components.webpack.config.js --progress --colors --port 8090",
     "start-components": "npm run serve | npm run dev-components"
   },

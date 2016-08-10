@@ -16,7 +16,7 @@ Use Xoces.js when you have mappable data, and you want a multiple-level chord vi
 
 Xoces.js is available in two forms: the entire bundled app (in `app/`) and the modular tree component (in `components`). If you just want to get the chord visualization as quickly as possible, you'll want the entire bundled app. If you want to pick and choose different things, use the modular components.
 
-## Gettting just the Xoces-tree component
+## Getting just the Xoces-tree component
 
 The tree diagram in Xoces is available as standalone ES6 and CommonJS modules as well as a browser bundle.
 
@@ -28,7 +28,6 @@ cd xoces
 We're still busy writing up the documentation, but to look at the examples, start up any server in the root `xoces` directory. Then navigate to `examples/index.html` and `/examples/big-tree.html`. You'll see examples of our tree widget component:
 
 ![Xoces-tree component](images/xoces-tree-component.png)
-![Another Xoces-tree component](images/xoces-big-tree.png)
 
 
 ## Installing the Xoces.js app
