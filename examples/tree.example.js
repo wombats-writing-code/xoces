@@ -48,6 +48,9 @@ fetch('./outcomes.json')
         width: 30,
         height: 30,
       },
+      nodeBottomLabel: {
+        fontSize: 11,
+      }
     }
   });
 

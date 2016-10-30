@@ -68,22 +68,22 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	var Xoces = window.Xoces || {};
+	var xoces = window.xoces || {};
 
-	Xoces.tree = {
+	xoces.tree = {
 	  style: _style2.default,
 	  layout: _layout2.default,
 	  draw: _draw2.default,
 	  clear: _clear2.default
 	};
 
-	// aggressively exports Xoces globally
-	window.Xoces = Xoces;
-	global.Xoces = Xoces;
+	// aggressively exports xoces globally
+	window.xoces = xoces;
+	global.xoces = xoces;
 
 	// export it for CommonJS and es2015
-	module.exports = Xoces;
-	exports.default = Xoces;
+	module.exports = xoces;
+	exports.default = xoces;
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
 /***/ },
@@ -96,9 +96,9 @@
 
 	var _lodash2 = _interopRequireDefault(_lodash);
 
-	var _utils = __webpack_require__(5);
+	var _utils = __webpack_require__(6);
 
-	var _layoutParams = __webpack_require__(6);
+	var _layoutParams = __webpack_require__(7);
 
 	var _layoutParams2 = _interopRequireDefault(_layoutParams);
 
@@ -336,7 +336,7 @@
 
 	'use strict';
 
-	var _styleParams = __webpack_require__(7);
+	var _styleParams = __webpack_require__(5);
 
 	var _styleParams2 = _interopRequireDefault(_styleParams);
 
@@ -404,6 +404,36 @@
 
 	'use strict';
 
+	/** default parameters for tree */
+
+	module.exports = {
+	  depthSpacing: 150,
+	  drawing: {
+	    background: '#fff'
+	  },
+	  node: {
+	    fill: '#bbb',
+	    stroke: '#999'
+	  },
+	  link: {
+	    stroke: '#aaa',
+	    strokeWidth: 1
+	  },
+	  nodeBottomLabel: {
+	    fill: '#444',
+	    background: 'rgba(255, 255, 255, 0.6)'
+	  },
+	  nodeCenterLabel: {
+	    fill: '#222'
+	  }
+	};
+
+/***/ },
+/* 6 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
@@ -452,7 +482,7 @@
 	};
 
 /***/ },
-/* 6 */
+/* 7 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -477,36 +507,6 @@
 	  nodeBottomLabel: {
 	    fontSize: 10,
 	    property: 'name'
-	  }
-	};
-
-/***/ },
-/* 7 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	/** default parameters for tree */
-
-	module.exports = {
-	  depthSpacing: 150,
-	  drawing: {
-	    background: '#fff'
-	  },
-	  node: {
-	    fill: '#bbb',
-	    stroke: '#999'
-	  },
-	  link: {
-	    stroke: '#aaa',
-	    strokeWidth: 1
-	  },
-	  nodeBottomLabel: {
-	    fill: '#444',
-	    background: 'rgba(255, 255, 255, 0.6)'
-	  },
-	  nodeCenterLabel: {
-	    fill: '#222'
 	  }
 	};
 

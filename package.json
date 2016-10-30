@@ -9,8 +9,8 @@
     "dev-components": "webpack-dev-server --config components.webpack.config.js --progress --colors --port 8090",
     "start-components": "npm run serve | npm run dev-components"
   },
-  "name": "xoces-js",
-  "version": "1.0.0",
+  "name": "xoces",
+  "version": "1.2.0",
   "main": "index.js",
   "dependencies": {
     "d3": "^4.0.0",
