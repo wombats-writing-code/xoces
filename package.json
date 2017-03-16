@@ -1,39 +1,47 @@
 {
-  "scripts": {
-    "start": "npm run serve | npm run dev",
-    "serve": "./node_modules/.bin/http-server -p 8080",
-    "dev": "webpack-dev-server --progress --colors --port 8090",
-    "bundle": "browserify index.js > dist/xoces.bundle.js",
-    "watch-bundle": "watchify index.js -o dist/xoces.bundle.js",
-    "build-components": "webpack --config components.webpack.config.js",
-    "dev-components": "webpack-dev-server --config components.webpack.config.js --progress --colors --port 8090",
-    "start-components": "npm run serve | npm run dev-components"
-  },
   "name": "xoces",
-  "version": "1.2.0",
+  "version": "2.0.0",
+  "description": "Interactive chord and tree visualization widget",
   "main": "index.js",
-  "dependencies": {
-    "d3": "^4.0.0",
-    "rhumbl-dao": "^0.3.1"
+  "scripts": {
+    "start": "webpack-dev-server --open",
+    "test": "test",
+    "build": "webpack"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wombats-writing-code/xoces.git"
+  },
+  "keywords": [
+    "Data",
+    "viz"
+  ],
+  "author": "MIT Mapping Lab",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/wombats-writing-code/xoces/issues"
+  },
+  "homepage": "https://github.com/wombats-writing-code/xoces#readme",
   "devDependencies": {
-    "browserify": "^13.0.1",
-    "babel-core": "^6.11.4",
+    "babel-core": "^6.13.2",
     "babel-loader": "^6.2.4",
-    "babel-plugin-transform-decorators-legacy": "^1.3.4",
-    "babel-preset-es2015": "^6.9.0",
+    "babel-preset-es2015": "^6.13.2",
     "babel-preset-react": "^6.11.1",
-    "babel-preset-stage-0": "^6.5.0",
-    "babelify": "^7.3.0",
-    "css-loader": "^0.23.0",
-    "file-loader": "0.8.5",
-    "http-server": "~0.7.1",
-    "ng-cache-loader": "0.0.15",
-    "node-sass": "~3.5.0",
-    "sass-loader": "^3.1.2",
-    "style-loader": "^0.13.0",
-    "watchify": "^3.7.0",
-    "webpack": "~1.4.4",
-    "webpack-dev-server": "1.14.0"
+    "babel-preset-stage-2": "^6.13.0",
+    "css-loader": "^0.23.1",
+    "node-sass": "^4.5.0",
+    "postcss-loader": "^0.9.1",
+    "react-hot-loader": "^3.0.0-beta.6",
+    "redux-devtools": "^3.3.2",
+    "sass-loader": "^6.0.3",
+    "style-loader": "^0.13.1",
+    "webpack": "^2.1.0-beta.25",
+    "webpack-dev-server": "^2.1.0-beta.0"
+  },
+  "dependencies": {
+    "d3": "^4.7.2",
+    "react": "^15.3.0",
+    "react-dom": "^15.3.0",
+    "react-redux": "^5.0.3"
   }
 }
