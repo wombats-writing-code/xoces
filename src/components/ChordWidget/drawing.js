@@ -14,7 +14,9 @@ export const drawArcs = (props) => {
 
   let arcGroup = props.selection
     .selectAll(`${props.className}`)
-    .data(data)
+    .data(data);
+
+  arcGroup
     .enter().append('path')
     .attr('d', arc)
     .attr('class', d => d.className)
@@ -23,14 +25,14 @@ export const drawArcs = (props) => {
 
   // let arcClassName = data.className;
 
-  //
-  // arcGroup.exit()
-  //   .transition()
-  //   .duration( ARC_TRANSITION_DURATION )
-  //   .ease('cubic-in-out')
-  //   .attrTween('d', arcExitTween)
-  //   .remove();
-  //
+
+  arcGroup.exit()
+    // .transition()
+    // .duration( ARC_TRANSITION_DURATION )
+    // .ease('cubic-in-out')
+    // .attrTween('d', arcExitTween)
+    .remove();
+
   // arcGroup.attr('d', arc)
   //   .style('fill', (d, i) => d.fill.default)
   //   .transition()

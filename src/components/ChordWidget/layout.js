@@ -18,15 +18,26 @@ export const computeDimensions = (width, height) => {
   }
 }
 
+/**
+  needs an object of {
+    data
+    hierarchy
+    level,
+    graph
+  }
+*/
+export const computeLayout = (props) => {
+  // console.log('computeLayout props', props)
+  let data = props.data;
+  let hierarchy = props.hierarchy;
+  let level = props.level;
+  let graph = props.graph;
+  let arcLabelKey = props.arcLabelKey;
+  let outerRadius = props.outerRadius
 
-export const computeLayout = (data, hierarchy, viewName, graph, arcLabelKey, outerRadius) => {
-  // console.log('computeLayout data', data)
-
-  let result;
-
-  let depth = hierarchy.indexOf(viewName);
+  let depth = hierarchy.indexOf(level);
   if (depth === -1) {
-    return new Error('viewName ' + viewName + ' not found');
+    return new Error('level ' + level + ' not found');
   }
 
   // ====

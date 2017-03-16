@@ -1,6 +1,10 @@
 
 
 export const stylize = (data, scheme) => {
+  if (!scheme) {
+    throw new TypeError('stylize must be provided the style scheme')
+  }
+
   let styled = _.assign({}, data, {
     arcs: _.map(data.arcs, a => {
       return _.assign({}, a, {

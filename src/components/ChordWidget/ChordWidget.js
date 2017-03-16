@@ -15,7 +15,9 @@ class ChordWidget extends Component {
   constructor(props) {
     super(props);
 
-    this.graph = graphProvider(this.props.relationship)
+    this.w;
+    this.h;
+    this.drawingGroup;
   }
 
   componentDidMount() {
@@ -31,10 +33,60 @@ class ChordWidget extends Component {
     let h = parseFloat(chordVis.style('height'), 10);
 
     let drawingGroup = chordVis.append('g')
-      .attr("transform", "translate(" + w / 2 + "," + h / 2 + ")")
+      .attr("transform", "translate(" + w / 2 + "," + h / 2 + ")");
 
+    this.w = w;
+    this.h = h;
+    this.drawingGroup = drawingGroup;
+
+    this._update(drawingGroup, w, h, this.props);
+
+    // attach events to sub-arcs
+    attachEvent({
+      selection: d3.selectAll('.subArc'),
+      onMouseOver: this.props.onMouseOver,
+      onMouseOut: this.props.onMouseOut,
+      onClick: this.props.onClickEntity,
+      onMouseOverCallback: this.props.onMouseOverCallback,
+      onMouseOutCallback: this.props.onMouseOutCallback,
+      onClickCallback: this.props.onClickCallback
+    })
+
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (this.props.currentLevel !== nextProps.currentLevel) {
+
+      this._update(this.drawingGroup, this.w, this.h, nextProps);
+    }
+  }
+
+  render() {
+    // console.log('props', this.props)
+
+    return (
+      <div>
+        <h1>I am a Chord Widget</h1>
+        <svg id={_.uniqueId('svg_')} ref={(el) => { this.svgEl = el; }}>
+        </svg>
+      </div>
+    )
+  }
+
+  _update(drawingGroup, w, h, props) {
     let {innerRadius, outerRadius} = computeDimensions(w, h);
-    let layout = computeLayout(this.props.data, this.props.hierarchy, this.props.hierarchy[0], this.graph, this.props.arcLabel, outerRadius);
+
+    let scheme = getScheme(props.colorScheme)
+    let graph = graphProvider(props.relationship)
+
+    let layout = computeLayout({
+      data: props.data,
+      hierarchy: props.hierarchy,
+      level: props.currentLevel,
+      graph: graph,
+      arcLabelKey: props.arcLabel,
+      outerRadius: outerRadius
+    });
     layout = stylize(layout, scheme);
 
     // console.log('layout', layout)
@@ -63,35 +115,6 @@ class ChordWidget extends Component {
       data: layout.labels,
       className: 'arc-label',
     });
-
-    // attach events to arcs
-    attachEvent({
-      selection: d3.selectAll('.subArc'),
-      onMouseOver: this.props.onMouseOver,
-      onMouseOut: this.props.onMouseOut,
-      onClick: this.props.onClickSubArc,
-      onMouseOverCallback: this.props.onMouseOverCallback,
-      onMouseOutCallback: this.props.onMouseOutCallback,
-      onClickCallback: this.props.onClickCallback
-    })
-
-  }
-
-  componentWillUpdate() {
-    return false;
-  }
-
-  render() {
-    // console.log('props', this.props)
-
-    return (
-      <div>
-        <h1>I am a Chord Widget</h1>
-        <svg id={_.uniqueId('svg_')} ref={(el) => { this.svgEl = el; }}>
-        </svg>
-      </div>
-    )
-
   }
 
 }

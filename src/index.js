@@ -5,6 +5,7 @@ import { createStore } from 'redux'
 import { Provider } from 'react-redux'
 import _ from 'lodash'
 import reducer from './reducers'
+import {setConfig} from './reducers/setConfig'
 import ChordWidget from './components/ChordWidget';
 
 let store = createStore(reducer)
@@ -30,7 +31,8 @@ module.exports = {
                }
 
                let props = _.assign({}, config, arg);
-               let validatedProps = validateProps(props);
+
+               store.dispatch(setConfig(props))
 
                ReactDOM.render(
                  <Provider store={store}>
@@ -44,11 +46,4 @@ module.exports = {
         }
      }
    }
-}
-
-function validateProps(props) {
-
-  // if (!)
-
-  return _.assign({}, props);
 }
