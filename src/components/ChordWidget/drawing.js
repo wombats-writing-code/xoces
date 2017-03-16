@@ -17,6 +17,7 @@ export const drawArcs = (props) => {
     .data(data)
     .enter().append('path')
     .attr('d', arc)
+    .attr('class', d => d.className)
     .style('fill', d => d.fill)
     .style('stroke', d => d.stroke);
 

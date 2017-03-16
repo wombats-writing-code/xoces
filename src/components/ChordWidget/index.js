@@ -1,3 +1,3 @@
-import ChordWidget from './ChordWidget'
+import ChordWidget from './ChordWidgetContainer'
 
 export default ChordWidget

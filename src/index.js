@@ -1,8 +1,14 @@
 //index.js
 import React from 'react'
 import ReactDOM from 'react-dom'
-import ChordWidget from './components/ChordWidget';
+import { createStore } from 'redux'
+import { Provider } from 'react-redux'
 import _ from 'lodash'
+import reducer from './reducers'
+import ChordWidget from './components/ChordWidget';
+
+let store = createStore(reducer)
+
 
 module.exports = {
   config: (config) => {
@@ -27,9 +33,11 @@ module.exports = {
                let validatedProps = validateProps(props);
 
                ReactDOM.render(
-                   <ChordWidget {...props}/>,
-                   container,
-                   arg.callback
+                 <Provider store={store}>
+                   <ChordWidget {...props}/>
+                 </Provider>,
+                 container,
+                 arg.callback
                )
              }
            }

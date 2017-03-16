@@ -36,7 +36,7 @@ export const computeLayout = (data, hierarchy, viewName, graph, arcLabelKey, out
   let arcModels = _.filter(data.entities, {type: arcModelType});
   let arcAngle = (2*Math.PI / arcModels.length);
   let arcPadding = .025;
-  let arcs = _.map(arcModels, (m, idx) => _createArc(m, idx, arcAngle, arcPadding));
+  let arcs = _.map(arcModels, (m, idx) => _createArc(m, idx, arcAngle, arcPadding, null, 'arc'));
 
   // console.log('arcs', arcModels, 'arcModelType', arcModelType)
 
@@ -59,7 +59,7 @@ export const computeLayout = (data, hierarchy, viewName, graph, arcLabelKey, out
     // get the rightful starting position of each subArc, from its parent
     let parentArc = _.find(arcs, a => a.model.id === parentId);
     // compute arcs for these subarcs and append them to the running result
-    result = _.concat(result, _.map(group, (m, idx) => _createArc(m, idx, subArcAngle, subArcSpacing, parentArc.startAngle)));
+    result = _.concat(result, _.map(group, (m, idx) => _createArc(m, idx, subArcAngle, subArcSpacing, parentArc.startAngle, 'subArc')));
 
     return result;
   }, []);
@@ -73,13 +73,11 @@ export const computeLayout = (data, hierarchy, viewName, graph, arcLabelKey, out
 
   console.log('labels', labels);
 
-
-
   return {arcs, subArcs, labels};
 }
 
 
-export function _createArc(datum, i, arcAngle, arcPadding, start = 0) {
+export function _createArc(datum, i, arcAngle, arcPadding, start = 0, className) {
   let startAngle = start + i*arcAngle;
 
   return {
@@ -89,13 +87,13 @@ export function _createArc(datum, i, arcAngle, arcPadding, start = 0) {
     endAngle: startAngle + arcAngle,
     padding: arcPadding,
     model: datum,
-    className: 'arc',
+    className
   }
 }
 
 export function _createLabel(arc, i, arcLabelKey, outerRadius) {
   let centroid = _arcCentroid(arc);
-  console.log(arc.model.name, 'centroid', _radiansToDegrees(centroid))
+  // console.log(arc.model.name, 'centroid', _radiansToDegrees(centroid))
   return {
     index: i,
     value: 1,

@@ -1,6 +1,6 @@
 
 
-export const style = (data, scheme) => {
+export const stylize = (data, scheme) => {
   let styled = _.assign({}, data, {
     arcs: _.map(data.arcs, a => {
       return _.assign({}, a, {
@@ -10,7 +10,8 @@ export const style = (data, scheme) => {
     subArcs: _.map(data.subArcs, a => {
       return _.assign({}, a, {
         fill: scheme.subArc.fill,
-        stroke: scheme.subArc.stroke
+        stroke: scheme.subArc.stroke,
+        activeFill: scheme.subArc.activeFill
       })
     }),
     labels: _.map(data.labels, l => {
@@ -33,7 +34,8 @@ export const getScheme = (name) => {
       },
       subArc: {
         fill: '#AC6C82',
-        stroke: '#e0e0e0'
+        stroke: '#e0e0e0',
+        activeFill: '#fff'
       },
       label: {
         fill: '#fff'
