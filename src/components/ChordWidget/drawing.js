@@ -1,23 +1,51 @@
 import * as d3 from 'd3';
 import {arcEnterTween, arcExitTween, ARC_TRANSITION_DURATION} from './animation'
+import {getScheme} from './style'
+import {computeDimensions} from './layout'
+
+export const init = (chordVis, props) => {
+  let scheme = getScheme(props.colorScheme)
+
+  chordVis
+  .style('height', props.height)
+  .style('width', props.width)
+  .style('background', scheme.background);
+
+  let w = parseFloat(chordVis.style('width'), 10);
+  let h = parseFloat(chordVis.style('height'), 10);
+
+  let {innerRadius, outerRadius} = computeDimensions(w, h);
+
+  let d3Arc = d3.arc()
+    .innerRadius(innerRadius)
+    .outerRadius(outerRadius);
+
+  // console.log('arc', innerRadius, outerRadius)
+
+  let drawingGroup = chordVis.append('g')
+    .attr("transform", "translate(" + w / 2 + "," + h / 2 + ")");
+
+  return {drawingGroup, w, h, d3Arc}
+}
 
 export const drawArcs = (props) => {
   let data = props.data;
-
-  let arc = d3.arc()
-    .innerRadius(props.innerRadius)
-    .outerRadius(props.outerRadius)
-    // .startAngle(0)
-    // .endAngle(2*Math.PI)
-    // .padAngle(d => d.padding)
-  // console.log('props', props)
+  let arc = props.arc;
 
   let arcGroup = props.selection
-    .selectAll(`${props.className}`)
-    .data(data);
+    .selectAll(`path.${props.className}`)
+    .data(data, d => d.id);
 
-  arcGroup
-    .enter().append('path')
+  arcGroup.exit()
+    // .transition()
+    // .duration( ARC_TRANSITION_DURATION )
+    // .ease('cubic-in-out')
+    // .attrTween('d', arcExitTween)
+    .remove();
+
+
+  arcGroup.enter()
+    .append('path')
     .attr('d', arc)
     .attr('class', d => d.className)
     .style('fill', d => d.fill)
@@ -26,12 +54,6 @@ export const drawArcs = (props) => {
   // let arcClassName = data.className;
 
 
-  arcGroup.exit()
-    // .transition()
-    // .duration( ARC_TRANSITION_DURATION )
-    // .ease('cubic-in-out')
-    // .attrTween('d', arcExitTween)
-    .remove();
 
   // arcGroup.attr('d', arc)
   //   .style('fill', (d, i) => d.fill.default)
@@ -58,8 +80,12 @@ export const drawArcs = (props) => {
 }
 
 export const drawLabels = (props) => {
-	let text = props.selection.selectAll(props.className)
-		.data(props.data);
+  console.log('props.className', props.className)
+	let text = props.selection.selectAll(`text.${props.className}`)
+		.data(props.data, d => d.id);
+
+  text.exit()
+    .remove();
 
 	text.enter()
     .append('svg:text')
@@ -68,6 +94,7 @@ export const drawLabels = (props) => {
 		// .duration(TEXT_TRANSITION_DURATION)
 		// .ease('cubic-in-out')
 		// .style('opacity', function(d,i) { return d.label.opacity.default; })
+    .attr( 'class', d => d.className)
     .attr( 'fill', d => d.fill)
 		.attr('x', (d, i) => d.position.x)
 		.attr('y', (d, i) => d.position.y)
@@ -75,6 +102,7 @@ export const drawLabels = (props) => {
 		.attr('text-anchor', (d, i) => d.textAnchor)
 		.attr('transform', (d, i) => 'translate(' + d.translation.x + ',' + d.translation.y + ') rotate(' + d.rotation + ',' + d.position.x + ',' + d.position.y + ')')
 		.text( d => d.text )
+
 
     return text
 }

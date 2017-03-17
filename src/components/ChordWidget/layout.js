@@ -13,8 +13,8 @@ export const computeDimensions = (width, height) => {
   }
 
   return {
-    innerRadius: w/6,
-    outerRadius: w/6 + 18
+    innerRadius: h/3,
+    outerRadius: h/3 + 18
   }
 }
 
@@ -49,7 +49,7 @@ export const computeLayout = (props) => {
   let arcPadding = .025;
   let arcs = _.map(arcModels, (m, idx) => _createArc(m, idx, arcAngle, arcPadding, null, 'arc'));
 
-  // console.log('arcs', arcModels, 'arcModelType', arcModelType)
+  console.log('arcs', arcModels, 'arcModelType', arcModelType)
 
   // ====
   // compute layout for subarcs
@@ -92,6 +92,7 @@ export function _createArc(datum, i, arcAngle, arcPadding, start = 0, className)
   let startAngle = start + i*arcAngle;
 
   return {
+    id: datum.id,
     index: i,
     value: 1,
     startAngle: startAngle + arcPadding,
@@ -106,10 +107,11 @@ export function _createLabel(arc, i, arcLabelKey, outerRadius) {
   let centroid = _arcCentroid(arc);
   // console.log(arc.model.name, 'centroid', _radiansToDegrees(centroid))
   return {
+    id: arc.model.id,
     index: i,
     value: 1,
     arc: arc,
-    className: 'arc',
+    className: 'arcLabel',
     text: arc.model[arcLabelKey],
     position: _polarToRectangular({theta: centroid, r: outerRadius + 10}),
     translation: {

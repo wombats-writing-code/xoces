@@ -4,7 +4,7 @@ import './ChordWidget.scss'
 import _ from 'lodash'
 
 import {computeDimensions, computeLayout} from './layout'
-import {drawArcs, drawLabels} from './drawing'
+import {init, drawArcs, drawLabels} from './drawing'
 import {getScheme, stylize} from './style'
 import {attachEvent, detachEvent} from './events'
 import graphProvider from '../graph/'
@@ -18,26 +18,22 @@ class ChordWidget extends Component {
     this.w;
     this.h;
     this.drawingGroup;
+    this.d3Arc;
   }
 
   componentDidMount() {
-    let scheme = getScheme(this.props.colorScheme)
+    console.log('this.props', this.props)
     let chordVis = d3.select(`#${this.svgEl.id}`);
-
-    chordVis
-    .style('height', this.props.height)
-    .style('width', this.props.width)
-    .style('background', scheme.background);
-
-    let w = parseFloat(chordVis.style('width'), 10);
-    let h = parseFloat(chordVis.style('height'), 10);
-
-    let drawingGroup = chordVis.append('g')
-      .attr("transform", "translate(" + w / 2 + "," + h / 2 + ")");
+    let {drawingGroup, w, h, d3Arc} = init(chordVis, {
+      colorScheme: this.props.colorScheme,
+      height: this.props.height,
+      width: this.props.width
+    });
 
     this.w = w;
     this.h = h;
     this.drawingGroup = drawingGroup;
+    this.d3Arc = d3Arc;
 
     this._update(drawingGroup, w, h, this.props);
 
@@ -96,8 +92,7 @@ class ChordWidget extends Component {
       selection: drawingGroup,
       data: layout.arcs,
       className: 'arc',
-      innerRadius,
-      outerRadius
+      arc: this.d3Arc
     });
 
     // draw subarcs
@@ -105,15 +100,14 @@ class ChordWidget extends Component {
       selection: drawingGroup,
       data: layout.subArcs,
       className: 'subArc',
-      innerRadius,
-      outerRadius
+      arc: this.d3Arc
     });
 
     // draw labels
     drawLabels({
       selection: drawingGroup,
       data: layout.labels,
-      className: 'arc-label',
+      className: 'arcLabel',
     });
   }
 
