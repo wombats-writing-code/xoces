@@ -3,6 +3,12 @@ import {arcEnterTween, arcExitTween, ARC_TRANSITION_DURATION} from './animation'
 import {getScheme} from './style'
 import {computeDimensions} from './layout'
 
+export const ARC_CLASS_NAME = 'ARC_CLASS_NAME'
+export const SUB_ARC_CLASS_NAME = 'SUB_ARC_CLASS_NAME'
+export const ARC_LABEL_CLASS_NAME = 'ARC_LABEL_CLASS_NAME'
+export const SUB_ARC_LABEL_CLASS_NAME = "SUB_ARC_LABEL_CLASS_NAME"
+
+
 export const init = (chordVis, props) => {
   let scheme = getScheme(props.colorScheme)
 
@@ -47,7 +53,7 @@ export const drawArcs = (props) => {
   arcGroup.enter()
     .append('path')
     .attr('d', arc)
-    .attr('class', d => d.className)
+    .attr('class', d => props.className)
     .style('fill', d => d.fill)
     .style('stroke', d => d.stroke);
 
@@ -80,9 +86,12 @@ export const drawArcs = (props) => {
 }
 
 export const drawLabels = (props) => {
-  console.log('props.className', props.className)
+  console.log('drawLabels props', props);
+
 	let text = props.selection.selectAll(`text.${props.className}`)
 		.data(props.data, d => d.id);
+
+  // console.log('label exit', text.exit())
 
   text.exit()
     .remove();
@@ -94,13 +103,14 @@ export const drawLabels = (props) => {
 		// .duration(TEXT_TRANSITION_DURATION)
 		// .ease('cubic-in-out')
 		// .style('opacity', function(d,i) { return d.label.opacity.default; })
-    .attr( 'class', d => d.className)
+    .attr( 'class', d => props.className)
     .attr( 'fill', d => d.fill)
 		.attr('x', (d, i) => d.position.x)
 		.attr('y', (d, i) => d.position.y)
-    .style( 'font-size', d => d.fontSize)
 		.attr('text-anchor', (d, i) => d.textAnchor)
 		.attr('transform', (d, i) => 'translate(' + d.translation.x + ',' + d.translation.y + ') rotate(' + d.rotation + ',' + d.position.x + ',' + d.position.y + ')')
+    .style( 'font-size', d => d.fontSize)
+    .style('opacity', d => d.opacity)
 		.text( d => d.text )
 
 

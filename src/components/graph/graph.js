@@ -9,6 +9,12 @@ const getParent = (id, entities, relationships) => {
   return rel ? _.find(entities, {id: rel[config.targetRef]}) : null;
 }
 
+const getChildren = (id, entities, relationships) => {
+  let rels = _.filter(relationships, {[config.targetRef]: id, type: config.parentType})
+
+  return _.map(rels, r => _.find(entities, {id: r[config.sourceRef]}));
+}
+
 
 function provider(configuration) {
   if (!configuration) {
@@ -27,6 +33,7 @@ function provider(configuration) {
 
   return {
     getParent,
+    getChildren
   }
 
 }

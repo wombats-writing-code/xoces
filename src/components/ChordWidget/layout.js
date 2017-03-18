@@ -22,40 +22,37 @@ export const computeDimensions = (width, height) => {
   needs an object of {
     data
     hierarchy
-    level,
+    currentLevelEntity,
     graph
   }
 */
 export const computeLayout = (props) => {
-  // console.log('computeLayout props', props)
+  // console.log('computeLayout props', props);
   let data = props.data;
   let hierarchy = props.hierarchy;
-  let level = props.level;
+  let currentLevelEntity = props.currentLevelEntity;
   let graph = props.graph;
-  let arcLabelKey = props.arcLabelKey;
-  let outerRadius = props.outerRadius
+  let entityLabelKey = props.entityLabelKey;
+  let outerRadius = props.outerRadius;
 
-  let depth = hierarchy.indexOf(level);
-  if (depth === -1) {
-    return new Error('level ' + level + ' not found');
-  }
 
   // ====
   // compute layout for arcs
   // ===
-  let arcModelType = hierarchy[depth+1];
-  let arcModels = _.filter(data.entities, {type: arcModelType});
+  let arcModels = graph.getChildren(currentLevelEntity.id, data.entities, data.relationships);
   let arcAngle = (2*Math.PI / arcModels.length);
   let arcPadding = .025;
-  let arcs = _.map(arcModels, (m, idx) => _createArc(m, idx, arcAngle, arcPadding, null, 'arc'));
+  let arcs = _.map(arcModels, (m, idx) => _createArc(m, idx, arcAngle, arcPadding, null));
 
-  console.log('arcs', arcModels, 'arcModelType', arcModelType)
+  // console.log('arc names', _.map(arcs, 'model.name'))
 
   // ====
   // compute layout for subarcs
   // ====
-  let subArcModelType = hierarchy[depth+2];
-  let subArcModels = _.filter(data.entities, {type: subArcModelType});
+  // get subArcModels by selecting those who are children of current model
+  let subArcModels = _.flatten(_.map(arcModels, e => {
+    return graph.getChildren(e.id, data.entities, data.relationships);
+  }));
   let subArcModelsGrouped = _.groupBy(subArcModels, model => {
     let parent = graph.getParent(model.id, data.entities, data.relationships);
     return parent ? parent.id : null;
@@ -70,25 +67,28 @@ export const computeLayout = (props) => {
     // get the rightful starting position of each subArc, from its parent
     let parentArc = _.find(arcs, a => a.model.id === parentId);
     // compute arcs for these subarcs and append them to the running result
-    result = _.concat(result, _.map(group, (m, idx) => _createArc(m, idx, subArcAngle, subArcSpacing, parentArc.startAngle, 'subArc')));
+    result = _.concat(result, _.map(group, (m, idx) => _createArc(m, idx, subArcAngle, subArcSpacing, parentArc.startAngle)));
 
     return result;
   }, []);
 
-  console.log('subarcs', subArcs);
+  // console.log('subarcs', subArcs);
+  // console.log('subarcs names', _.map(subArcs, 'model.name'))
 
   // =====
   //  compute layout for labels
   // =====
-  let labels = _.map(arcs, (a, idx) => _createLabel(a, idx, arcLabelKey, outerRadius));
+  let arcLabels = _.map(arcs, (a, idx) => _createLabel(a, idx, entityLabelKey, outerRadius));
+  let subArcLabels = _.map(subArcs, (a, idx) => _createLabel(a, idx, entityLabelKey, outerRadius, 'start'));
 
-  console.log('labels', labels);
+  console.log('arc labels', arcLabels);
+  console.log('subArc labels', subArcLabels);
 
-  return {arcs, subArcs, labels};
+  return {arcs, subArcs, arcLabels, subArcLabels};
 }
 
 
-export function _createArc(datum, i, arcAngle, arcPadding, start = 0, className) {
+export function _createArc(datum, i, arcAngle, arcPadding, start = 0) {
   let startAngle = start + i*arcAngle;
 
   return {
@@ -99,33 +99,38 @@ export function _createArc(datum, i, arcAngle, arcPadding, start = 0, className)
     endAngle: startAngle + arcAngle,
     padding: arcPadding,
     model: datum,
-    className
   }
 }
 
-export function _createLabel(arc, i, arcLabelKey, outerRadius) {
-  let centroid = _arcCentroid(arc);
-  // console.log(arc.model.name, 'centroid', _radiansToDegrees(centroid))
+export function _createLabel(arc, i, entityLabelKey, outerRadius, position = 'centroid') {
+  let angle = _arcCentroid(arc);
+  if (position === 'start') {
+    angle = _arcStart(arc);
+  }
+  // console.log(arc.model.name, 'angle', _radiansToDegrees(angle))
   return {
     id: arc.model.id,
     index: i,
     value: 1,
     arc: arc,
-    className: 'arcLabel',
-    text: arc.model[arcLabelKey],
-    position: _polarToRectangular({theta: centroid, r: outerRadius + 10}),
+    text: arc.model[entityLabelKey],
+    position: _polarToRectangular({theta: angle, r: outerRadius + 10}),
     translation: {
       x: 0,
       y: 0
     },
     fontSize: 12,
-    rotation: _rotation(centroid),
-    textAnchor: _textAnchor(centroid)
+    rotation: _rotation(angle),
+    textAnchor: _textAnchor(angle)
   }
 }
 
 function _arcCentroid(arc) {
   return arc.startAngle + (arc.endAngle - arc.startAngle) / 2;
+}
+
+function _arcStart(arc) {
+  return arc.startAngle + (arc.endAngle - arc.startAngle) / 3;
 }
 
 /***

@@ -7,22 +7,17 @@ export const stylize = (data, scheme) => {
 
   let styled = _.assign({}, data, {
     arcs: _.map(data.arcs, a => {
-      return _.assign({}, a, {
-        fill: scheme.arc.fill,
-      })
+      return _.assign({}, a, scheme.arc)
     }),
     subArcs: _.map(data.subArcs, a => {
-      return _.assign({}, a, {
-        fill: scheme.subArc.fill,
-        stroke: scheme.subArc.stroke,
-        activeFill: scheme.subArc.activeFill
-      })
+      return _.assign({}, a, scheme.subArc)
     }),
-    labels: _.map(data.labels, l => {
-      return _.assign({}, l, {
-        fill: scheme.label.fill
-      })
-    })
+    arcLabels: _.map(data.arcLabels, l => {
+      return _.assign({}, l, scheme.arcLabel)
+    }),
+    subArcLabels: _.map(data.subArcLabels, l => {
+      return _.assign({}, l, scheme.subArcLabel)
+    }),
   })
 
   return styled;
@@ -34,16 +29,26 @@ export const getScheme = (name) => {
     return {
       background: '#333',
       arc: {
-        fill: '#fff',
+        fill: '#555',
       },
       subArc: {
         fill: '#AC6C82',
         stroke: '#e0e0e0',
-        activeFill: '#fff'
+        activeFill: '#fff',
+        nonActiveOpacity: .5
       },
-      label: {
-        fill: '#fff'
-      }
+      arcLabel: {
+        fill: '#fff',
+        fontSize: 13,
+        opacity: 1,
+        nonActiveOpacity: .5
+      },
+      subArcLabel: {
+        fill: '#fff',
+        fontSize: 11,
+        opacity: 0,
+        activeOpacity: 1
+      },
     }
   }
 }

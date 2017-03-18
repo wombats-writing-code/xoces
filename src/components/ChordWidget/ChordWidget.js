@@ -1,10 +1,16 @@
 import React, {Component} from 'react'
 import * as d3 from 'd3-selection'
-import './ChordWidget.scss'
 import _ from 'lodash'
 
+import BreadcrumbsNav from '../BreadcrumbsNav'
+import './ChordWidget.scss'
+
+
 import {computeDimensions, computeLayout} from './layout'
-import {init, drawArcs, drawLabels} from './drawing'
+import {
+  init, drawArcs, drawLabels,
+  ARC_CLASS_NAME, SUB_ARC_CLASS_NAME, ARC_LABEL_CLASS_NAME, SUB_ARC_LABEL_CLASS_NAME
+} from './drawing'
 import {getScheme, stylize} from './style'
 import {attachEvent, detachEvent} from './events'
 import graphProvider from '../graph/'
@@ -22,7 +28,7 @@ class ChordWidget extends Component {
   }
 
   componentDidMount() {
-    console.log('this.props', this.props)
+    // console.log('this.props', this.props)
     let chordVis = d3.select(`#${this.svgEl.id}`);
     let {drawingGroup, w, h, d3Arc} = init(chordVis, {
       colorScheme: this.props.colorScheme,
@@ -37,32 +43,28 @@ class ChordWidget extends Component {
 
     this._update(drawingGroup, w, h, this.props);
 
-    // attach events to sub-arcs
-    attachEvent({
-      selection: d3.selectAll('.subArc'),
-      onMouseOver: this.props.onMouseOver,
-      onMouseOut: this.props.onMouseOut,
-      onClick: this.props.onClickEntity,
-      onMouseOverCallback: this.props.onMouseOverCallback,
-      onMouseOutCallback: this.props.onMouseOutCallback,
-      onClickCallback: this.props.onClickCallback
-    })
-
   }
 
   componentWillReceiveProps(nextProps) {
-    if (this.props.currentLevel !== nextProps.currentLevel) {
+    if (this.props.currentLevelEntity !== nextProps.currentLevelEntity) {
 
       this._update(this.drawingGroup, this.w, this.h, nextProps);
     }
   }
 
   render() {
+    let scheme = getScheme(this.props.colorScheme)
+
     // console.log('props', this.props)
 
     return (
       <div>
         <h1>I am a Chord Widget</h1>
+        <BreadcrumbsNav breadcrumbs={this.props.breadcrumbs}
+                      schemeName={this.props.colorScheme}
+                      entityLabelKey={this.props.entityLabelKey}
+                      hierarchy={this.props.hierarchy} />
+
         <svg id={_.uniqueId('svg_')} ref={(el) => { this.svgEl = el; }}>
         </svg>
       </div>
@@ -78,9 +80,10 @@ class ChordWidget extends Component {
     let layout = computeLayout({
       data: props.data,
       hierarchy: props.hierarchy,
-      level: props.currentLevel,
+      currentLevelEntity: props.currentLevelEntity,
+      currentLevel: props.currentLevel,
       graph: graph,
-      arcLabelKey: props.arcLabel,
+      entityLabelKey: props.entityLabelKey,
       outerRadius: outerRadius
     });
     layout = stylize(layout, scheme);
@@ -91,7 +94,7 @@ class ChordWidget extends Component {
     drawArcs({
       selection: drawingGroup,
       data: layout.arcs,
-      className: 'arc',
+      className: ARC_CLASS_NAME,
       arc: this.d3Arc
     });
 
@@ -99,16 +102,33 @@ class ChordWidget extends Component {
     drawArcs({
       selection: drawingGroup,
       data: layout.subArcs,
-      className: 'subArc',
+      className: SUB_ARC_CLASS_NAME,
       arc: this.d3Arc
     });
 
     // draw labels
     drawLabels({
       selection: drawingGroup,
-      data: layout.labels,
-      className: 'arcLabel',
+      data: layout.arcLabels,
+      className: ARC_LABEL_CLASS_NAME,
     });
+
+    drawLabels({
+      selection: drawingGroup,
+      data: layout.subArcLabels,
+      className: SUB_ARC_LABEL_CLASS_NAME,
+    });
+
+    // attach events to sub-arcs
+    attachEvent({
+      selection: d3.selectAll(`.${SUB_ARC_CLASS_NAME}`),
+      onMouseOver: props.onMouseOver,
+      onMouseOut: props.onMouseOut,
+      onClick: props.onClickEntity,
+      onMouseOverCallback: props.onMouseOverCallback,
+      onMouseOutCallback: props.onMouseOutCallback,
+      onClickCallback: props.onClickCallback
+    })
   }
 
 }
