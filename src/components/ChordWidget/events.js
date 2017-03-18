@@ -11,7 +11,7 @@ export function attachEvent(props) {
     .on('mouseout', _.partialRight(_handleMouseOut, props))
     .on('click', function(d, i, g) {
       // console.log('clicked!', d, this)
-      props.onClick(d);
+      props.onClick(d.model);
     });
 }
 

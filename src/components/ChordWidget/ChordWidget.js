@@ -63,7 +63,9 @@ class ChordWidget extends Component {
         <BreadcrumbsNav breadcrumbs={this.props.breadcrumbs}
                       schemeName={this.props.colorScheme}
                       entityLabelKey={this.props.entityLabelKey}
-                      hierarchy={this.props.hierarchy} />
+                      hierarchy={this.props.hierarchy}
+                      onClickBreadcrumb={this.props.onClickBreadcrumb}
+                    />
 
         <svg id={_.uniqueId('svg_')} ref={(el) => { this.svgEl = el; }}>
         </svg>
@@ -81,11 +83,13 @@ class ChordWidget extends Component {
       data: props.data,
       hierarchy: props.hierarchy,
       currentLevelEntity: props.currentLevelEntity,
-      currentLevel: props.currentLevel,
       graph: graph,
       entityLabelKey: props.entityLabelKey,
       outerRadius: outerRadius
     });
+
+    if (!layout) return;
+
     layout = stylize(layout, scheme);
 
     // console.log('layout', layout)
@@ -124,7 +128,7 @@ class ChordWidget extends Component {
       selection: d3.selectAll(`.${SUB_ARC_CLASS_NAME}`),
       onMouseOver: props.onMouseOver,
       onMouseOut: props.onMouseOut,
-      onClick: props.onClickEntity,
+      onClick: props.onClickSubArc,
       onMouseOverCallback: props.onMouseOverCallback,
       onMouseOutCallback: props.onMouseOutCallback,
       onClickCallback: props.onClickCallback

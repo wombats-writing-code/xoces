@@ -25,6 +25,9 @@
   color: #fff;
 }
 
+.breadcrumbs-nav.dark .breadcrumb__text.last:hover {
+  color: #e0e0e0;
+}
 
 .breadcrumb {
   position: relative;
@@ -37,6 +40,10 @@
   font-weight: 600;
   margin: 0;
   cursor: default;
+}
+
+.breadcrumbs-nav .breadcrumb__text.last {
+  font-weight: 400;
 }
 
 

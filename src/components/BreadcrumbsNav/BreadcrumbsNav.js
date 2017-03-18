@@ -18,7 +18,7 @@ class BreadcrumbsNav extends Component {
           let lastStyle = (idx === props.breadcrumbs.length - 1) ? 'last' : null
 
           return (
-            <div key={`crumb_${crumb.id}`} className="breadcrumb">
+            <div key={`crumb_${crumb.id}`} className="breadcrumb" onClick={(e) => props.onClickBreadcrumb(crumb)}>
               <p className={`breadcrumb__text ${lastStyle}`}>{crumb[props.entityLabelKey]}</p>
             </div>
           )

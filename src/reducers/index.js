@@ -1,13 +1,19 @@
 // import { applyMiddleware, compose, createStore } from 'redux'
 // import thunk from 'redux-thunk'
 // import { browserHistory } from 'react-router'
+import _ from 'lodash'
 import {SET_CONFIG} from './setConfig'
 import graphProvider from '../components/graph'
 
-export const CLICK_ENTITY = 'CLICK_ENTITY'
+export const CLICK_SUB_ARC = 'CLICK_SUB_ARC'
+export const CLICK_BREADCRUMB = 'CLICK_BREADCRUMB'
 
-export const clickEntity = (entity) => {
-  return {type: CLICK_ENTITY, entity}
+export const clickSubArc = (entity) => {
+  return {type: CLICK_SUB_ARC, entity}
+}
+
+export const clickBreadcrumb = (entity) => {
+  return {type: CLICK_BREADCRUMB, entity}
 }
 
 
@@ -19,13 +25,12 @@ let defaultState = {
 };
 export default function visReducer(state = defaultState, action) {
   // console.log('action', action)
-  let breadcrumbs;
 
   switch(action.type) {
     case SET_CONFIG:
       let firstModel = _.find(action.config.data.entities, {type: action.config.hierarchy[0]})
 
-      breadcrumbs = _.assign({}, state.breadcrumbs, {
+      var breadcrumbs = _.assign({}, state.breadcrumbs, {
         present: _.concat(state.breadcrumbs.present, firstModel)
       });
 
@@ -34,19 +39,20 @@ export default function visReducer(state = defaultState, action) {
       return _.assign({}, state, {
         data: action.config.data,
         config: action.config,
-        breadcrumbs
+        breadcrumbs,
+        currentLevelEntity: firstModel
       })
 
 
-    case CLICK_ENTITY:
-      let idx = state.config.hierarchy.indexOf(action.entity.model.type);
-      let currentLevel = state.config.hierarchy[idx-1];
+    case CLICK_SUB_ARC:
+      var idx = state.config.hierarchy.indexOf(action.entity.type);
+      var currentLevel = state.config.hierarchy[idx-1];
 
-      let graph = graphProvider(state.config.relationship);
+      var graph = graphProvider(state.config.relationship);
       // console.log('state.currentClick', state.currentClick)
-      let model = graph.getParent(action.entity.model.id, state.data.entities, state.data.relationships);
+      var model = graph.getParent(action.entity.id, state.data.entities, state.data.relationships);
 
-      breadcrumbs = _.assign({}, state.breadcrumbs, {
+      var breadcrumbs = _.assign({}, state.breadcrumbs, {
         present: _.concat(state.breadcrumbs.present, model)
       });
 
@@ -54,7 +60,25 @@ export default function visReducer(state = defaultState, action) {
 
       return _.assign({}, state, {
         breadcrumbs,
-        currentClick: action.entity,
+        currentSubArc: action.entity,
+        currentLevelEntity: model
+      })
+
+    case CLICK_BREADCRUMB:
+      var idx = state.config.hierarchy.indexOf(action.entity.type);
+      var currentLevel = state.config.hierarchy[idx];
+
+      // go back to the breadcrumb that was clicked on
+      var breadcrumbs = _.assign({}, state.breadcrumbs, {
+        present: _.dropRightWhile(state.breadcrumbs.present, crumb => crumb !== action.entity)
+      });
+
+      // console.log('breadcrumbs', breadcrumbs)
+
+      return _.assign({}, state, {
+        breadcrumbs,
+        currentSubArc: null,
+        currentLevelEntity: action.entity
       })
 
     default:

@@ -86,7 +86,7 @@ export const drawArcs = (props) => {
 }
 
 export const drawLabels = (props) => {
-  console.log('drawLabels props', props);
+  // console.log('drawLabels props', props);
 
 	let text = props.selection.selectAll(`text.${props.className}`)
 		.data(props.data, d => d.id);

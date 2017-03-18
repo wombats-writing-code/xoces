@@ -1,6 +1,10 @@
 const _ = require('lodash')
 import graphProvider from '../graph'
-
+import {
+  arcCentroid, arcStart,
+  polarToRectangular, radiansToDegrees,
+  rotation, textAnchor
+} from './geometry'
 
 export const computeDimensions = (width, height) => {
   let w, h;
@@ -27,7 +31,7 @@ export const computeDimensions = (width, height) => {
   }
 */
 export const computeLayout = (props) => {
-  // console.log('computeLayout props', props);
+  console.log('computeLayout props', props);
   let data = props.data;
   let hierarchy = props.hierarchy;
   let currentLevelEntity = props.currentLevelEntity;
@@ -46,17 +50,32 @@ export const computeLayout = (props) => {
 
   // console.log('arc names', _.map(arcs, 'model.name'))
 
-  // ====
+  if (!arcModels || arcModels.length === 0) {
+    console.log('no arc models')
+    // console.log('arc names', _.map(arcs, 'model.name'))
+    return null;
+  }
+
+  // =======
   // compute layout for subarcs
-  // ====
-  // get subArcModels by selecting those who are children of current model
-  let subArcModels = _.flatten(_.map(arcModels, e => {
-    return graph.getChildren(e.id, data.entities, data.relationships);
-  }));
-  let subArcModelsGrouped = _.groupBy(subArcModels, model => {
-    let parent = graph.getParent(model.id, data.entities, data.relationships);
-    return parent ? parent.id : null;
-  });
+  // ========
+  let subArcModelsGrouped;
+  if (arcModels[0].type === _.last(hierarchy)) {
+    // get subArcModels by selecting those who are children of current model
+    // let subArcModels = _.clone(arcModels);
+    // subArcModelsGrouped = _.groupBy(subArcModels, 'id');
+
+  } else {
+    // get subArcModels by selecting those who are children of current model
+    let subArcModels = _.flatten(_.map(arcModels, e => {
+      return graph.getChildren(e.id, data.entities, data.relationships);
+    }));
+
+    subArcModelsGrouped = _.groupBy(subArcModels, model => {
+      let parent = graph.getParent(model.id, data.entities, data.relationships);
+      return parent ? parent.id : null;
+    });
+  }
 
   // console.log('subArcModelsGrouped', subArcModelsGrouped)
 
@@ -75,14 +94,16 @@ export const computeLayout = (props) => {
   // console.log('subarcs', subArcs);
   // console.log('subarcs names', _.map(subArcs, 'model.name'))
 
-  // =====
+  // ===========
   //  compute layout for labels
-  // =====
+  // ===========
   let arcLabels = _.map(arcs, (a, idx) => _createLabel(a, idx, entityLabelKey, outerRadius));
   let subArcLabels = _.map(subArcs, (a, idx) => _createLabel(a, idx, entityLabelKey, outerRadius, 'start'));
 
-  console.log('arc labels', arcLabels);
-  console.log('subArc labels', subArcLabels);
+  // console.log('arc labels', arcLabels);
+  // console.log('subArc labels', subArcLabels);
+
+  // =======
 
   return {arcs, subArcs, arcLabels, subArcLabels};
 }
@@ -103,87 +124,24 @@ export function _createArc(datum, i, arcAngle, arcPadding, start = 0) {
 }
 
 export function _createLabel(arc, i, entityLabelKey, outerRadius, position = 'centroid') {
-  let angle = _arcCentroid(arc);
+  let angle = arcCentroid(arc);
   if (position === 'start') {
-    angle = _arcStart(arc);
+    angle = arcStart(arc);
   }
-  // console.log(arc.model.name, 'angle', _radiansToDegrees(angle))
+  // console.log(arc.model.name, 'angle', radiansToDegrees(angle))
   return {
     id: arc.model.id,
     index: i,
     value: 1,
     arc: arc,
     text: arc.model[entityLabelKey],
-    position: _polarToRectangular({theta: angle, r: outerRadius + 10}),
+    position: polarToRectangular({theta: angle, r: outerRadius + 10}),
     translation: {
       x: 0,
       y: 0
     },
     fontSize: 12,
-    rotation: _rotation(angle),
-    textAnchor: _textAnchor(angle)
+    rotation: rotation(angle),
+    textAnchor: textAnchor(angle)
   }
 }
-
-function _arcCentroid(arc) {
-  return arc.startAngle + (arc.endAngle - arc.startAngle) / 2;
-}
-
-function _arcStart(arc) {
-  return arc.startAngle + (arc.endAngle - arc.startAngle) / 3;
-}
-
-/***
-  theta is in radians, relative to 12'oclock
- note that SVG coors is x -> positive and y going down is positive
-*/
-function _polarToRectangular(coors) {
-  return {
-    x: coors.r * Math.sin(coors.theta),
-    y: -coors.r * Math.cos(coors.theta)
-  }
-}
-
-function _radiansToDegrees(rad) {
-  return rad * 180 / Math.PI;
-}
-
-function _textAnchor(centroid) {
-  // console.log('arc', arc.model.name, 'start', _radiansToDegrees(arc.startAngle), 'end', _radiansToDegrees(arc.endAngle), 'degrees');
-  // console.log('arc', arc.model.name, 'start', (arc.startAngle), 'end', (arc.endAngle), 'rad');
-
-  if (centroid < Math.PI) {
-    return 'start'
-
-  } else {
-    return 'end'
-  }
-}
-
-function _rotation(centroid) {
-  if (centroid < Math.PI) {
-    return -1 * _radiansToDegrees(Math.PI / 2 - centroid)
-
-  } else {
-    return _radiansToDegrees(centroid) - 90 - 180;
-  }
-}
-
-// let layout = new ChordLayout();
-//
-// visWidth = angular.element('.vis').width();
-// visHeight = angular.element('.vis').height();
-// visCenterX = visWidth/2 - 120;
-// visCenterY = Params.vis.outerRadius + Params.vis.marginTop;
-//
-// let arcPadding = Mathy.deg2rad(1.5);		// TODO: not hardcode
-// let positioner = labelPositioner(models);
-//
-// if (models.length == 1) {
-//   arcPadding = 0;
-// }
-//
-// for (let i=0; i<models.length; i++) {
-//   let labelPosition = positioner(startAngle, startAngle + arcAngle);
-//
-// }
