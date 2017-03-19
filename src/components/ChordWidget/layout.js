@@ -17,8 +17,8 @@ export const computeDimensions = (width, height) => {
   }
 
   return {
-    innerRadius: h/3,
-    outerRadius: h/3 + 18
+    innerRadius: h/3.5,
+    outerRadius: h/3.5 + 18
   }
 }
 
@@ -47,10 +47,11 @@ export const computeLayout = (props) => {
   let arcPadding = .025;
   let arcs = _.map(arcModels, (m, idx) => _createArc(m, idx, arcAngle, arcPadding, null));
 
+  // console.log('arcs', arcs);
   // console.log('arc names', _.map(arcs, 'model.name'))
 
   if (!arcModels || arcModels.length === 0) {
-    console.log('no arc models')
+    console.warn('no arc models')
     // console.log('arc names', _.map(arcs, 'model.name'))
     return null;
   }
@@ -61,8 +62,8 @@ export const computeLayout = (props) => {
   let subArcModelsGrouped;
   if (arcModels[0].type === _.last(hierarchy)) {
     // get subArcModels by selecting those who are children of current model
-    // let subArcModels = _.clone(arcModels);
-    // subArcModelsGrouped = _.groupBy(subArcModels, 'id');
+    let subArcModels = _.clone(arcModels);
+    subArcModelsGrouped = _.groupBy(subArcModels, 'id');
 
   } else {
     // get subArcModels by selecting those who are children of current model
@@ -151,6 +152,7 @@ export function _createChord(datum, i) {
   let targetCentroid = arcCentroid(datum.targetArc) + _.random(-datum.sourceArc.angle/2, datum.sourceArc.angle/2, true);
 
   return {
+    instanceId: _instanceId(),
     source: {
       startAngle: sourceCentroid,
       endAngle: sourceCentroid,
@@ -172,6 +174,7 @@ export function _createArc(datum, i, arcAngle, arcPadding, start = 0) {
   let startAngle = start + i*arcAngle;
 
   return {
+    instanceId: _instanceId(),
     id: datum.id,
     index: i,
     value: 1,
@@ -190,6 +193,7 @@ export function _createLabel(arc, i, entityLabelKey, outerRadius, position = 'ce
   }
   // console.log(arc.model.name, 'angle', radiansToDegrees(angle))
   return {
+    instanceId: _instanceId(),
     id: arc.model.id,
     index: i,
     value: 1,
@@ -204,4 +208,14 @@ export function _createLabel(arc, i, entityLabelKey, outerRadius, position = 'ce
     rotation: rotation(angle),
     textAnchor: textAnchor(angle)
   }
+}
+
+function _instanceId() {
+  function s4() {
+    return Math.floor((1 + Math.random()) * 0x10000)
+      .toString(16)
+      .substring(1);
+  }
+
+  return s4() + '-' + s4();
 }

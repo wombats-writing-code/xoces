@@ -24,14 +24,29 @@ let defaultState = {
   }
 };
 export default function visReducer(state = defaultState, action) {
-  // console.log('action', action)
-
   switch(action.type) {
+
     case SET_CONFIG:
-      let firstModel = _.find(action.config.data.entities, {type: action.config.hierarchy[0]})
+      var graph = graphProvider(action.config.relationship);
+      let currentLevelEntity;
+      if (action.config.currentLevelEntity) {
+        currentLevelEntity = _.find(action.config.data.entities, {id: action.config.currentLevelEntity});
+
+      } else {
+        currentLevelEntity = _.find(action.config.data.entities, {type: action.config.hierarchy[0]});
+      }
+
+      let chain;
+      if (action.config.hierarchy.indexOf(currentLevelEntity.type) === 0) {
+        chain = _.concat(state.breadcrumbs.present, currentLevelEntity);
+      } else {
+        let parents = _.reverse(graph.getParentsAll(currentLevelEntity.id, action.config.data.entities, action.config.data.relationships));
+        chain = _.concat(state.breadcrumbs.present, parents, currentLevelEntity);
+      }
+
 
       var breadcrumbs = _.assign({}, state.breadcrumbs, {
-        present: _.concat(state.breadcrumbs.present, firstModel)
+        present: chain
       });
 
       // console.log('initial breadcrumbs', breadcrumbs)
@@ -40,17 +55,21 @@ export default function visReducer(state = defaultState, action) {
         data: action.config.data,
         config: action.config,
         breadcrumbs,
-        currentLevelEntity: firstModel
+        currentLevelEntity
       })
 
 
     case CLICK_SUB_ARC:
+      var graph = graphProvider(state.config.relationship);
       var idx = state.config.hierarchy.indexOf(action.entity.type);
       var currentLevel = state.config.hierarchy[idx-1];
 
-      var graph = graphProvider(state.config.relationship);
       // console.log('state.currentClick', state.currentClick)
       var model = graph.getParent(action.entity.id, state.data.entities, state.data.relationships);
+
+      if (model === _.last(state.breadcrumbs.present)) {
+        return state;
+      }
 
       var breadcrumbs = _.assign({}, state.breadcrumbs, {
         present: _.concat(state.breadcrumbs.present, model)

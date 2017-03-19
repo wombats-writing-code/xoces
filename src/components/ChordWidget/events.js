@@ -19,7 +19,7 @@ export function attachEvent(props) {
 
 function _handleMouseOver(datum, i, g, props) {
 
-  console.log('datum', datum)
+  // console.log('datum', datum)
 
   // change the style of the subArc
   d3.select(this)

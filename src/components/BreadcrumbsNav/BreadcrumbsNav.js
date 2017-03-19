@@ -19,7 +19,10 @@ class BreadcrumbsNav extends Component {
 
           return (
             <div key={`crumb_${crumb.id}`} className="breadcrumb" onClick={(e) => props.onClickBreadcrumb(crumb)}>
-              <p className={`breadcrumb__text ${lastStyle}`}>{crumb[props.entityLabelKey]}</p>
+              <p className={`breadcrumb__text ${lastStyle}`}>
+                {crumb[props.entityLabelKey]} &thinsp;
+                <span className="crumb__type">({_.capitalize(crumb.type)})</span>
+              </p>
             </div>
           )
         })}

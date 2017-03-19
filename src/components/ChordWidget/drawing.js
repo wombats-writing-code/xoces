@@ -33,6 +33,7 @@ export const init = (chordVis, props) => {
 export const drawArcs = (props) => {
   let data = props.data;
   // let arc = props.arc;
+  console.log('drawArcs data', data, props.className);
 
   let {innerRadius, outerRadius} = computeDimensions(props.w, props.h);
 
@@ -42,7 +43,7 @@ export const drawArcs = (props) => {
 
   let arcGroup = props.selection
     .selectAll(`path.${props.className}`)
-    .data(data, d => d.id);
+    .data(data, d => d.instanceId);
 
   arcGroup.exit()
     // .transition()
@@ -82,9 +83,7 @@ export const drawLabels = (props) => {
   // console.log('drawLabels props', props);
 
 	let text = props.selection.selectAll(`text.${props.className}`)
-		.data(props.data, d => d.id);
-
-  // console.log('label exit', text.exit())
+		.data(props.data, d => d.instanceId);
 
   text.exit()
     .remove();
@@ -112,10 +111,10 @@ export const drawChords = (props) => {
     .radius(innerRadius);
 
   let chordGroup = props.selection.selectAll(`path.${props.className}`)
-		.data(props.data, d => d.id);
+		.data(props.data, d => d.instanceId);
 
   let arrowGroup = props.selection.selectAll(`.${CHORD_ARROW_CLASS_NAME}`)
-    .data(props.data, d => d.id);
+    .data(props.data, d => d.instanceId);
 
   chordGroup.exit().remove();
 

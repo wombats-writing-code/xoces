@@ -9,6 +9,19 @@ const getParent = (id, entities, relationships) => {
   return rel ? _.find(entities, {id: rel[config.targetRef]}) : null;
 }
 
+const getParentsAll = (id, entities, relationships) => {
+  let parent = getParent(id, entities, relationships);
+  if (parent) {
+    return _.reduce([parent], (result, e) => {
+      result.push(e);
+      let c = getParentsAll(e.id, entities, relationships)
+      return _.concat(result, c);
+    }, []);
+  }
+
+  return []
+}
+
 const getChildren = (id, entities, relationships) => {
   let rels = _.filter(relationships, {[config.targetRef]: id, type: config.parentType})
 
@@ -19,10 +32,9 @@ const getChildrenAll = (id, entities, relationships) => {
   let children = getChildren(id, entities, relationships);
   return _.reduce(children, (result, e) => {
     result.push(e);
-    let c = getChildren(e.id, entities, relationships)
+    let c = getChildrenAll(e.id, entities, relationships)
     return _.concat(result, c);
   }, []);
-
 }
 
 const isParentRelationship = (relationship) => {
@@ -55,6 +67,7 @@ function provider(configuration) {
 
   return {
     getParent,
+    getParentsAll,
     getChildren,
     getChildrenAll,
     isParentRelationship,
