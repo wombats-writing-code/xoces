@@ -15,6 +15,28 @@ const getChildren = (id, entities, relationships) => {
   return _.map(rels, r => _.find(entities, {id: r[config.sourceRef]}));
 }
 
+const getChildrenAll = (id, entities, relationships) => {
+  let children = getChildren(id, entities, relationships);
+  return _.reduce(children, (result, e) => {
+    result.push(e);
+    let c = getChildren(e.id, entities, relationships)
+    return _.concat(result, c);
+  }, []);
+
+}
+
+const isParentRelationship = (relationship) => {
+  return relationship.type === config.parentType;
+}
+
+const isSourceOf = (entity, relationship) => {
+  return entity.id === relationship[config.sourceRef]
+}
+
+const isTargetOf = (entity, relationship) => {
+  return entity.id === relationship[config.targetRef]
+}
+
 
 function provider(configuration) {
   if (!configuration) {
@@ -33,7 +55,11 @@ function provider(configuration) {
 
   return {
     getParent,
-    getChildren
+    getChildren,
+    getChildrenAll,
+    isParentRelationship,
+    isSourceOf,
+    isTargetOf
   }
 
 }

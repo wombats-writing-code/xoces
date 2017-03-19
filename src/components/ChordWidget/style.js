@@ -1,4 +1,4 @@
-
+import _ from 'lodash'
 
 export const stylize = (data, scheme) => {
   if (!scheme) {
@@ -18,6 +18,7 @@ export const stylize = (data, scheme) => {
     subArcLabels: _.map(data.subArcLabels, l => {
       return _.assign({}, l, scheme.subArcLabel)
     }),
+    chords: _.map(data.chords, c => _.assign({}, c, scheme.chord))
   })
 
   return styled;
@@ -49,6 +50,12 @@ export const getScheme = (name) => {
         opacity: 0,
         activeOpacity: 1
       },
+      chord: {
+        stroke: '#fff',
+        opacity: .8,
+        activeOpacity: 1,
+        nonActiveOpacity: .5
+      }
     }
   }
 }

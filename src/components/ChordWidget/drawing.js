@@ -2,12 +2,14 @@ import * as d3 from 'd3';
 import {arcEnterTween, arcExitTween, ARC_TRANSITION_DURATION} from './animation'
 import {getScheme} from './style'
 import {computeDimensions} from './layout'
+import {radiansToDegrees, polarToRectangular} from './geometry'
 
 export const ARC_CLASS_NAME = 'ARC_CLASS_NAME'
 export const SUB_ARC_CLASS_NAME = 'SUB_ARC_CLASS_NAME'
 export const ARC_LABEL_CLASS_NAME = 'ARC_LABEL_CLASS_NAME'
 export const SUB_ARC_LABEL_CLASS_NAME = "SUB_ARC_LABEL_CLASS_NAME"
-
+export const CHORD_CLASS_NAME = 'CHORD_CLASS_NAME'
+export const CHORD_ARROW_CLASS_NAME = 'CHORD_ARROW_CLASS_NAME'
 
 export const init = (chordVis, props) => {
   let scheme = getScheme(props.colorScheme)
@@ -20,23 +22,23 @@ export const init = (chordVis, props) => {
   let w = parseFloat(chordVis.style('width'), 10);
   let h = parseFloat(chordVis.style('height'), 10);
 
-  let {innerRadius, outerRadius} = computeDimensions(w, h);
-
-  let d3Arc = d3.arc()
-    .innerRadius(innerRadius)
-    .outerRadius(outerRadius);
-
   // console.log('arc', innerRadius, outerRadius)
 
   let drawingGroup = chordVis.append('g')
     .attr("transform", "translate(" + w / 2 + "," + h / 2 + ")");
 
-  return {drawingGroup, w, h, d3Arc}
+  return {drawingGroup, w, h}
 }
 
 export const drawArcs = (props) => {
   let data = props.data;
-  let arc = props.arc;
+  // let arc = props.arc;
+
+  let {innerRadius, outerRadius} = computeDimensions(props.w, props.h);
+
+  let arc = d3.arc()
+    .innerRadius(innerRadius)
+    .outerRadius(outerRadius);
 
   let arcGroup = props.selection
     .selectAll(`path.${props.className}`)
@@ -57,10 +59,6 @@ export const drawArcs = (props) => {
     .style('fill', d => d.fill)
     .style('stroke', d => d.stroke);
 
-  // let arcClassName = data.className;
-
-
-
   // arcGroup.attr('d', arc)
   //   .style('fill', (d, i) => d.fill.default)
   //   .transition()
@@ -70,11 +68,6 @@ export const drawArcs = (props) => {
   //
   // arcGroup.enter()
   //   .append('svg:path')
-  //   .attr('transform', (d,i) =>  `translate(${d.translation.x}, ${d.translation.y})`)
-  //   .style('fill', (d,i) => d.fill.default)
-  //   .style('stroke', (d,i) => d.stroke.default)
-  //   .style('opacity', (d,i) => d.opacity.default)
-  //   .attr('class', (d,i) => d.className)
   //   .attr('data-model-id', (d,i) => d.model.id)
   //   .attr('d', arc)
   //   .transition()
@@ -98,11 +91,6 @@ export const drawLabels = (props) => {
 
 	text.enter()
     .append('svg:text')
-		// .transition()
-    // .duration(3000)
-		// .duration(TEXT_TRANSITION_DURATION)
-		// .ease('cubic-in-out')
-		// .style('opacity', function(d,i) { return d.label.opacity.default; })
     .attr( 'class', d => props.className)
     .attr( 'fill', d => d.fill)
 		.attr('x', (d, i) => d.position.x)
@@ -117,12 +105,46 @@ export const drawLabels = (props) => {
     return text
 }
 
-//
-// return arcGroup;
-//
-// if (arcClassName == 'sub-arc') {
-//   arcGroup
-//   .on( "mouseover", Events.mouseoverHandler)
-//   .on( "mouseout", Events.mouseoutHandler)
-//   .on( "click", Events.clickHandler)
-// }
+export const drawChords = (props) => {
+  let {innerRadius, outerRadius} = computeDimensions(props.w, props.h);
+
+  let ribbon = d3.ribbon()
+    .radius(innerRadius);
+
+  let chordGroup = props.selection.selectAll(`path.${props.className}`)
+		.data(props.data, d => d.id);
+
+  let arrowGroup = props.selection.selectAll(`.${CHORD_ARROW_CLASS_NAME}`)
+    .data(props.data, d => d.id);
+
+  chordGroup.exit().remove();
+
+	chordGroup.enter()
+    .append('path')
+    .attr( 'class', d => props.className)
+    // .style( 'fill', '#ff0000')
+    .style( 'stroke', d => d.stroke)
+    .attr('d', ribbon)
+    .style('opacity', d => d.opacity)
+
+  arrowGroup.exit().remove()
+
+  arrowGroup.enter()
+    .append('polygon')
+    .attr('points', "-5,11 0,0 5,11")
+    .attr('class', CHORD_ARROW_CLASS_NAME)
+    .attr('xlink:href', '#arrow')
+    .attr('x', d => polarToRectangular({r: innerRadius, theta: d.source.startAngle}).x )
+    .attr('y', d => polarToRectangular({r: innerRadius, theta: d.source.startAngle}).y )
+    .style('fill', d => d.stroke)
+    .attr('transform', function(d) {
+      let rotationAngle = radiansToDegrees(2*Math.PI - d.source.startAngle);
+      let {x, y} = polarToRectangular({r: innerRadius, theta: d.source.startAngle})
+      // return 'translate(' + d.target.translation.x + ',' + d.target.translation.y + ')' + ' rotate(' + -rotationAngle + ',' + posX + ',' + posY + ')';
+      return `translate(${x}, ${y})` + ` rotate(${-rotationAngle}, ${0}, ${0})`;
+    });
+}
+
+function _arrow() {
+
+}

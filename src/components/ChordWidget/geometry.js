@@ -23,6 +23,10 @@ export function radiansToDegrees(rad) {
   return rad * 180 / Math.PI;
 }
 
+export function degreesToRadians(deg) {
+  return deg *  Math.PI / 180;
+}
+
 export function textAnchor(centroid) {
   // console.log('arc', arc.model.name, 'start', _radiansToDegrees(arc.startAngle), 'end', _radiansToDegrees(arc.endAngle), 'degrees');
   // console.log('arc', arc.model.name, 'start', (arc.startAngle), 'end', (arc.endAngle), 'rad');

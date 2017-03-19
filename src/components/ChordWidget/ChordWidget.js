@@ -8,8 +8,9 @@ import './ChordWidget.scss'
 
 import {computeDimensions, computeLayout} from './layout'
 import {
-  init, drawArcs, drawLabels,
-  ARC_CLASS_NAME, SUB_ARC_CLASS_NAME, ARC_LABEL_CLASS_NAME, SUB_ARC_LABEL_CLASS_NAME
+  init, drawArcs, drawLabels, drawChords,
+  ARC_CLASS_NAME, SUB_ARC_CLASS_NAME, CHORD_CLASS_NAME,
+  ARC_LABEL_CLASS_NAME, SUB_ARC_LABEL_CLASS_NAME,
 } from './drawing'
 import {getScheme, stylize} from './style'
 import {attachEvent, detachEvent} from './events'
@@ -39,7 +40,6 @@ class ChordWidget extends Component {
     this.w = w;
     this.h = h;
     this.drawingGroup = drawingGroup;
-    this.d3Arc = d3Arc;
 
     this._update(drawingGroup, w, h, this.props);
 
@@ -94,12 +94,21 @@ class ChordWidget extends Component {
 
     // console.log('layout', layout)
 
+    drawChords({
+      selection: drawingGroup,
+      data: layout.chords,
+      className: CHORD_CLASS_NAME,
+      w,
+      h,
+    })
+
     // draw arcs
     drawArcs({
       selection: drawingGroup,
       data: layout.arcs,
       className: ARC_CLASS_NAME,
-      arc: this.d3Arc
+      w,
+      h,
     });
 
     // draw subarcs
@@ -107,7 +116,8 @@ class ChordWidget extends Component {
       selection: drawingGroup,
       data: layout.subArcs,
       className: SUB_ARC_CLASS_NAME,
-      arc: this.d3Arc
+      w,
+      h,
     });
 
     // draw labels

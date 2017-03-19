@@ -2,7 +2,7 @@ const _ = require('lodash')
 import graphProvider from '../graph'
 import {
   arcCentroid, arcStart,
-  polarToRectangular, radiansToDegrees,
+  polarToRectangular, radiansToDegrees, degreesToRadians,
   rotation, textAnchor
 } from './geometry'
 
@@ -38,7 +38,6 @@ export const computeLayout = (props) => {
   let graph = props.graph;
   let entityLabelKey = props.entityLabelKey;
   let outerRadius = props.outerRadius;
-
 
   // ====
   // compute layout for arcs
@@ -104,10 +103,67 @@ export const computeLayout = (props) => {
   // console.log('subArc labels', subArcLabels);
 
   // =======
+  // create chords
+  // =======
+  let nonParentRelationships = _.reject(data.relationships, graph.isParentRelationship);
+  // find the model in it or all its children that corresponds to the source of the relationship
+  let chords = _.compact(_.map(nonParentRelationships, (r, idx) => {
+    let sourceArc = _.find(subArcs, arc => {
+      if (graph.isSourceOf(arc.model, r)) {
+        return arc;
+      }
 
-  return {arcs, subArcs, arcLabels, subArcLabels};
+      let childrenAll = graph.getChildrenAll(arc.model.id, data.entities, data.relationships);
+      return _.find(childrenAll, m => graph.isSourceOf(m, r));
+    })
+
+    let targetArc = _.find(subArcs, arc => {
+      if (graph.isTargetOf(arc.model, r)) {
+        return arc;
+      }
+
+      let childrenAll = graph.getChildrenAll(arc.model.id, data.entities, data.relationships);
+      return _.find(childrenAll, m => graph.isTargetOf(m, r));
+    })
+
+    if (sourceArc === targetArc) return null;
+    if (!sourceArc || !targetArc) return null;
+
+    // console.log('sourceArc', sourceArc.model.name, r);
+    // console.log('targetArc', targetArc.model.name, r)
+
+    return _createChord({sourceArc, targetArc}, idx);
+  }));
+
+  // console.log('chords', chords)
+
+  return {
+    arcs, subArcs,
+    chords,
+    arcLabels, subArcLabels
+  };
 }
 
+export function _createChord(datum, i) {
+
+  let sourceCentroid = arcCentroid(datum.sourceArc) + _.random(-datum.sourceArc.angle/2, datum.sourceArc.angle/2, true);
+  let targetCentroid = arcCentroid(datum.targetArc) + _.random(-datum.sourceArc.angle/2, datum.sourceArc.angle/2, true);
+
+  return {
+    source: {
+      startAngle: sourceCentroid,
+      endAngle: sourceCentroid,
+      value: 1,
+      index: i
+    },
+    target: {
+      startAngle: targetCentroid,
+      endAngle: targetCentroid,
+      value: 1,
+      index: i
+    }
+  }
+}
 
 export function _createArc(datum, i, arcAngle, arcPadding, start = 0) {
   let startAngle = start + i*arcAngle;
@@ -118,6 +174,7 @@ export function _createArc(datum, i, arcAngle, arcPadding, start = 0) {
     value: 1,
     startAngle: startAngle + arcPadding,
     endAngle: startAngle + arcAngle,
+    angle: startAngle + arcPadding - startAngle - arcAngle,
     padding: arcPadding,
     model: datum,
   }
