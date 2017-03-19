@@ -6,11 +6,13 @@ import { Provider } from 'react-redux'
 import _ from 'lodash'
 
 import './styles/foundation.min.css'
-// import './styles/core.scss'
+import './styles/core.scss'
 
 import reducer from './reducers'
 import {setConfig} from './reducers/setConfig'
+
 import ChordWidget from './components/ChordWidget';
+import graphProvider from './components/graph'
 
 let store = createStore(reducer)
 
@@ -49,5 +51,8 @@ module.exports = {
            }
         }
      }
-   }
+   },
+   libs: {
+     graphProvider
+   },
 }

@@ -37,6 +37,11 @@ const getChildrenAll = (id, entities, relationships) => {
   }, []);
 }
 
+const getIncomingEntities = (id, entities, relationships) => {
+  let rels = _.filter(relationships, r => r[config.targetRef] === id && r.type !== config.parentType);
+  return _.map(rels, r => _.find(entities, {id: r[config.sourceRef]}));
+}
+
 const isParentRelationship = (relationship) => {
   return relationship.type === config.parentType;
 }
@@ -70,6 +75,7 @@ function provider(configuration) {
     getParentsAll,
     getChildren,
     getChildrenAll,
+    getIncomingEntities,
     isParentRelationship,
     isSourceOf,
     isTargetOf

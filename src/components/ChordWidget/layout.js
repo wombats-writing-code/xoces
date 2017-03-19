@@ -35,6 +35,7 @@ export const computeLayout = (props) => {
   let data = props.data;
   let hierarchy = props.hierarchy;
   let currentLevelEntity = props.currentLevelEntity;
+  let selectedEntities = props.selectedEntities;
   let graph = props.graph;
   let entityLabelKey = props.entityLabelKey;
   let outerRadius = props.outerRadius;
@@ -42,10 +43,10 @@ export const computeLayout = (props) => {
   // ====
   // compute layout for arcs
   // ===
-  let arcModels = graph.getChildren(currentLevelEntity.id, data.entities, data.relationships);
+  let arcModels = _.filter(graph.getChildren(currentLevelEntity.id, data.entities, data.relationships), m => selectedEntities.indexOf(m) > -1);
   let arcAngle = (2*Math.PI / arcModels.length);
   let arcPadding = .025;
-  let arcs = _.map(arcModels, (m, idx) => _createArc(m, idx, arcAngle, arcPadding, null));
+  let arcs = _.map(arcModels, (m, idx) => _createArc(m, idx, arcAngle, arcPadding, idx, null));
 
   // console.log('arcs', arcs);
   // console.log('arc names', _.map(arcs, 'model.name'))
@@ -86,7 +87,7 @@ export const computeLayout = (props) => {
     // get the rightful starting position of each subArc, from its parent
     let parentArc = _.find(arcs, a => a.model.id === parentId);
     // compute arcs for these subarcs and append them to the running result
-    result = _.concat(result, _.map(group, (m, idx) => _createArc(m, idx, subArcAngle, subArcSpacing, parentArc.startAngle)));
+    result = _.concat(result, _.map(group, (m, idx) => _createArc(m, idx, subArcAngle, subArcSpacing, parentArc.index, parentArc.startAngle)));
 
     return result;
   }, []);
@@ -170,13 +171,14 @@ export function _createChord(datum, i) {
   }
 }
 
-export function _createArc(datum, i, arcAngle, arcPadding, start = 0) {
+export function _createArc(datum, i, arcAngle, arcPadding, arcIndex, start = 0) {
   let startAngle = start + i*arcAngle;
 
   return {
     instanceId: _instanceId(),
     id: datum.id,
     index: i,
+    arcIndex,
     value: 1,
     startAngle: startAngle + arcPadding,
     endAngle: startAngle + arcAngle,

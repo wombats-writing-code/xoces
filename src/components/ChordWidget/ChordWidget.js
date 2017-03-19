@@ -3,8 +3,9 @@ import * as d3 from 'd3-selection'
 import _ from 'lodash'
 
 import BreadcrumbsNav from '../BreadcrumbsNav'
-import './ChordWidget.scss'
+import HierarchicalListSearch from '../HierarchicalListSearch'
 
+import './ChordWidget.scss'
 
 import {computeDimensions, computeLayout} from './layout'
 import {
@@ -46,7 +47,9 @@ class ChordWidget extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (this.props.currentLevelEntity !== nextProps.currentLevelEntity) {
+    if (this.props.currentLevelEntity !== nextProps.currentLevelEntity ||
+        this.props.selectedEntities !== nextProps.selectedEntities
+    ) {
 
       this._update(this.drawingGroup, this.w, this.h, nextProps);
     }
@@ -54,11 +57,12 @@ class ChordWidget extends Component {
 
   render() {
     let scheme = getScheme(this.props.colorScheme)
+    let graph = graphProvider(this.props.relationship)
 
     // console.log('props', this.props)
 
     return (
-      <div>
+      <div className="xoces-chord-widget">
         <h1>I am a Chord Widget</h1>
         <BreadcrumbsNav breadcrumbs={this.props.breadcrumbs}
                       schemeName={this.props.colorScheme}
@@ -67,8 +71,23 @@ class ChordWidget extends Component {
                       onClickBreadcrumb={this.props.onClickBreadcrumb}
                     />
 
-        <svg id={_.uniqueId('svg_')} ref={(el) => { this.svgEl = el; }}>
-        </svg>
+        <div className="">
+          <div className="medium-9 columns no-left-padding no-right-padding">
+            <svg id={_.uniqueId('svg_')} ref={(el) => { this.svgEl = el; }}></svg>
+          </div>
+          <div className="medium-3 columns no-left-padding no-right-padding">
+            <HierarchicalListSearch schemeName={this.props.colorScheme}
+                                    hierarchy={this.props.hierarchy}
+                                    currentLevelEntity={this.props.currentLevelEntity}
+                                    data={this.props.data}
+                                    entityLabelKey={this.props.entityLabelKey}
+                                    graph={graph}
+                                    selectedEntities={this.props.selectedEntities}
+                                    onToggleEntity={this.props.onToggleEntity}
+                                  />
+          </div>
+        </div>
+
       </div>
     )
   }
@@ -83,6 +102,7 @@ class ChordWidget extends Component {
       data: props.data,
       hierarchy: props.hierarchy,
       currentLevelEntity: props.currentLevelEntity,
+      selectedEntities: props.selectedEntities,
       graph: graph,
       entityLabelKey: props.entityLabelKey,
       outerRadius: outerRadius
@@ -139,6 +159,8 @@ class ChordWidget extends Component {
       onMouseOver: props.onMouseOver,
       onMouseOut: props.onMouseOut,
       onClick: props.onClickSubArc,
+      graph,
+      data: props.data,
       onMouseOverCallback: props.onMouseOverCallback,
       onMouseOutCallback: props.onMouseOutCallback,
       onClickCallback: props.onClickCallback

@@ -6,6 +6,7 @@ import {
   CHORD_CLASS_NAME, CHORD_ARROW_CLASS_NAME
 } from './drawing'
 
+
 export function attachEvent(props) {
 
     props.selection
@@ -19,35 +20,54 @@ export function attachEvent(props) {
 
 function _handleMouseOver(datum, i, g, props) {
 
-  // console.log('datum', datum)
+  // console.log('current mouseovered', datum.id)
 
-  // change the style of the subArc
-  d3.select(this)
-    .style('fill', d => d.activeFill)
-
-  // change the corresponding subArcLabel to activeOpacity
-  d3.selectAll(`.${SUB_ARC_LABEL_CLASS_NAME}`)
-    .filter(d => d.id === datum.id)
-    .style('opacity', d => d.activeOpacity)
-
+  // =====
   // change the style of all the arc labels to nonActive
+  // =====
   d3.selectAll(`.${ARC_LABEL_CLASS_NAME}`)
     .style('opacity', d => d.nonActiveOpacity)
 
-  // change the style of all the other subArcs to nonActive
-  d3.selectAll(`.${SUB_ARC_CLASS_NAME}`)
-    .filter(d => d !== datum)
-    .style('opacity', d => d.nonActiveOpacity)
-
+  // =======
   // change all the relevant chords to be activeOpacity
+  // =======
+  let highlightArcs = [];      // we need this later on to figure out which source arcs to make active
   d3.selectAll(`.${CHORD_CLASS_NAME}, .${CHORD_ARROW_CLASS_NAME}`)
-    .filter( d => d.source.arc.id === datum.id)
+    .filter( d => {
+      if (d.source.arc.id === datum.id) {
+        highlightArcs.push(d.target.arc.id)
+      }
+
+      return (d.source.arc.id === datum.id);
+    })
     .style('opacity', d => d.activeOpacity)
 
   // change the style of all other chords to be nonActive,
   d3.selectAll(`.${CHORD_CLASS_NAME}, .${CHORD_ARROW_CLASS_NAME}`)
     .filter( d => d.source.arc.id !== datum.id)
     .style('opacity', d => d.nonActiveOpacity)
+
+  // ====
+  // change the corresponding subArcLabel to activeOpacity, and the labels that are the sources
+  // ====
+  d3.selectAll(`.${SUB_ARC_LABEL_CLASS_NAME}`)
+    .filter(d => {return d.id === datum.id || highlightArcs.indexOf(d.id) > -1 })
+    .style('opacity', d => d.activeOpacity)
+
+  // ====
+  // change the style of all the other subArcs to nonActive
+  // ======
+  d3.selectAll(`.${SUB_ARC_CLASS_NAME}`)
+    .filter( d => d.id !== datum.id && highlightArcs.indexOf(d.id) === -1 )
+    .style('opacity', d => d.nonActiveOpacity)
+
+  // change the style of the subArc
+  d3.selectAll(`.${SUB_ARC_CLASS_NAME}`)
+    .filter( d => {
+      // console.log('highlightArcs', highlightArcs);
+      if (d.id === datum.id || highlightArcs.indexOf(d.id) > -1) return true;
+    })
+    .style('opacity', d => d.activeFill)
 
   if (props.onMouseOverCallback) {
     props.onMouseOverCallback(d);
