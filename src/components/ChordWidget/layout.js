@@ -108,6 +108,7 @@ export const computeLayout = (props) => {
   let nonParentRelationships = _.reject(data.relationships, graph.isParentRelationship);
   // find the model in it or all its children that corresponds to the source of the relationship
   let chords = _.compact(_.map(nonParentRelationships, (r, idx) => {
+
     let sourceArc = _.find(subArcs, arc => {
       if (graph.isSourceOf(arc.model, r)) {
         return arc;
@@ -154,13 +155,15 @@ export function _createChord(datum, i) {
       startAngle: sourceCentroid,
       endAngle: sourceCentroid,
       value: 1,
-      index: i
+      index: i,
+      arc: datum.sourceArc        // remember that these are subArcs
     },
     target: {
       startAngle: targetCentroid,
       endAngle: targetCentroid,
       value: 1,
-      index: i
+      index: i,
+      arc: datum.targetArc
     }
   }
 }

@@ -54,7 +54,7 @@ export const getScheme = (name) => {
         stroke: '#fff',
         opacity: .8,
         activeOpacity: 1,
-        nonActiveOpacity: .5
+        nonActiveOpacity: .3
       }
     }
   }
