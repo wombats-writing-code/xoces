@@ -21,12 +21,13 @@ class XocesWidget extends Component {
   render() {
     let graph = graphProvider(this.props.relationship)
 
-    // console.log('props in XocesWidget', this.props)
+    console.log('props in XocesWidget', this.props)
+
     let component;
     if (this.props.view === CHORD_VIEW) {
       component = (<ChordComponent {...this.props} />)
     } else {
-      component = (<TreeComponent {...this.props} />)
+      component = (<TreeComponent {...this.props} nodes={this.props.selectedEntities} />)
     }
 
     return (

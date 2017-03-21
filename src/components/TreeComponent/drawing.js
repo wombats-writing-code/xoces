@@ -1,0 +1,95 @@
+
+export const EDGE_CLASS = 'TREE_VIEW__EDGE_CLASS'
+export const EDGE_ARROW_CLASS = 'TREE_VIEW__EDGE_ARROW_CLASS'
+export const NODE_CLASS = 'TREE_VIEW__NODE_CLASS'
+export const NODE_TAG_CLASS = 'TREE_VIEW__NODE_TAG_CLASS'
+
+// import {polarToRectangular}
+
+export function drawEdges(props) {
+  let data = props.data;
+
+  let edgeGroup = props.selection
+    .selectAll(`path.${EDGE_CLASS}`)
+    .data(data, d => d.instanceId);
+
+  let arrowGroup = props.selection.selectAll(`.${EDGE_ARROW_CLASS}`)
+    .data(props.data, d => d.instanceId);
+
+  edgeGroup.exit().remove();
+
+  edgeGroup.enter()
+    .append('line')
+    .attr('x1', d => d.x1)
+    .attr('y1', d => d.y1)
+    .attr('x2', d => d.x2)
+    .attr('y2', d => d.y2)
+    .attr('stroke', d => d.stroke)
+    .attr('stroke-width', d => d.strokeWidth)
+
+  arrowGroup.enter()
+    .append('polygon')
+    .attr('points', "-5,11 0,0 5,11")
+    .attr('class', EDGE_ARROW_CLASS)
+    .attr('xlink:href', '#arrow')
+    // .attr('x', d => polarToRectangular({r: innerRadius, theta: d.source.startAngle}).x )
+    // .attr('y', d => polarToRectangular({r: innerRadius, theta: d.source.startAngle}).y )
+    .style('fill', d => d.stroke)
+    .attr('transform', function(d) {
+      let x = d.x1;
+      let y = d.y1 - d.source.radius - 11;
+      let rotationAngle = 0;
+      // let rotationAngle = radiansToDegrees(2*Math.PI - d.source.startAngle);
+      // let {x, y} = polarToRectangular({r: innerRadius, theta: d.source.startAngle})
+      // return 'translate(' + d.target.translation.x + ',' + d.target.translation.y + ')' + ' rotate(' + -rotationAngle + ',' + posX + ',' + posY + ')';
+      return `translate(${x}, ${y})` + ` rotate(${-rotationAngle}, ${0}, ${0})`;
+    });
+}
+
+export function drawNodes(props) {
+  let data = props.data;
+
+  let nodeGroup = props.selection
+    .selectAll(`foreignObject.${props.className}`)
+    .data(data, d => d.instanceId);
+
+  nodeGroup.exit().remove();
+
+  let foreignObject = nodeGroup.enter()
+    .append('foreignObject')
+    .attr('class', NODE_CLASS)
+    .attr('width', d => 2*d.radius)
+    .attr('height', d => 2*d.radius)
+    .attr('x', d => d.x)
+    .attr('y', d => d.y)
+
+  foreignObject
+    .append("xhtml:p")
+    .attr('class', `flex-container align-center justify-center xoces-tree-component-${NODE_CLASS}`)
+    .style('width', d => `${2*d.radius}px`)
+    .style('height', d => `${2*d.radius}px`)
+    .style('font-size', d=> `${d.nodeLabelFontSize}px`)
+    .style('background', d => d.fill)
+    .style('color', d => d.nodeLabelColor)
+    .style('border-radius', '50%')
+    .style('margin-bottom', 0)
+    .style('text-align', 'center')
+    .style('line-height', 1)
+    .style('cursor', 'default')
+    .text(d => d.nodeLabelText)
+
+  foreignObject
+    .append("xhtml:p")
+    .attr('class', `xoces-tree-component-${NODE_TAG_CLASS}`)
+    .style('width', d => `${2*d.radius}px`)
+    .style('font-size', d=> `${d.nodeTagFontSize}px`)
+    .style('color', d => d.nodeTagColor)
+    .style('margin-bottom', 0)
+    .style('line-height', 1)
+    .style('cursor', 'default')
+    .style('transform', d => `translate(${2*d.radius+5}px, -${2*d.radius}px)`)
+    .text(d => d.nodeTagText)
+
+  return nodeGroup;
+
+}

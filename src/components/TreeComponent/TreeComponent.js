@@ -4,7 +4,9 @@ import _ from 'lodash'
 
 import './TreeComponent.scss'
 import graphProvider from '../graph/'
+import {computeLayout} from './layout'
 import {getScheme, stylize} from './style'
+import {drawNodes, drawEdges} from './drawing'
 import {init} from '../canvas'
 
 class TreeComponent extends Component {
@@ -29,13 +31,13 @@ class TreeComponent extends Component {
     this.h = h;
     this.drawingGroup = drawingGroup;
 
-    this._update(drawingGroup, w, h, this.props);
+    this._update(visEl, w, h, this.props);
   }
 
 
   render() {
     let scheme = getScheme(this.props.colorScheme)
-    let graph = graphProvider(this.props.relationship)
+    // console.log('props in TreeComponent', this.props)
 
     let canvas;
     if (!this.props.canvasId) {
@@ -52,7 +54,29 @@ class TreeComponent extends Component {
   }
 
   _update(drawingGroup, w, h, props) {
+    let scheme = getScheme(props.colorScheme)
+    let graph = graphProvider(props.relationship)
 
+    let layout = computeLayout({
+      nodes: props.nodes,
+      entityLabelKey: props.entityLabelKey,
+      data: props.data,
+      graph: graph,
+      width: w,
+      height: h,
+    })
+
+    layout = stylize(layout, scheme);
+
+    drawEdges({
+      selection: drawingGroup,
+      data: layout.edges
+    })
+
+    drawNodes({
+      selection: drawingGroup,
+      data: layout.nodes
+    })
   }
 
 

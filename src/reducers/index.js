@@ -71,7 +71,6 @@ export default function visReducer(state = defaultState, action) {
       // ======
 
       return _.assign({}, state, {
-        data: action.config.data,
         config: action.config,
         breadcrumbs: _.assign({}, state.breadcrumbs, {
           present: chain

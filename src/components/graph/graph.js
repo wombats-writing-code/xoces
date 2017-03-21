@@ -42,6 +42,62 @@ const getIncomingEntities = (id, entities, relationships) => {
   return _.map(rels, r => _.find(entities, {id: r[config.sourceRef]}));
 }
 
+const getOutgoingEntities = (id, entities, relationships) => {
+  let rels = _.filter(relationships, r => r[config.sourceRef] === id && r.type !== config.parentType);
+  return _.map(rels, r => _.find(entities, {id: r[config.targetRef]}));
+}
+
+const getRank = (id, entities, relationships, optionalMaxRank = 20) => {
+  let traverse = function traverse(entityId, stackCount, maxStack) {
+    stackCount++;
+
+    let reqs = getOutgoingEntities(entityId, entities, relationships);
+    reqs = _.reject(reqs, e => {
+      return e.id === entityId || getParent(e.id) !== getParent(entityId);  // only consider those within the same group
+    });
+
+    // console.log('reqs of ', entityId, ':', _.map(reqs, 'name'));
+
+    if (reqs.length == 0) {
+      return 0;
+    } else if (stackCount > maxStack) {
+      return Infinity;
+
+    } else {
+      var maxDepth = 0;
+      for (var i=reqs.length; i--;) {
+          maxDepth = Math.max(maxDepth, traverse.bind(this)(reqs[i].id, stackCount, maxStack));
+      }
+      return maxDepth + 1;
+    }
+  }.bind(this);
+
+  return traverse(id, 0, optionalMaxRank)
+
+  // let ranks = {};
+  // for (var entity of entities) {
+  //   let stackCount = 0, maxStack = 20;
+  //   let depth = traverse(entity, stackCount, maxStack);
+  //   ranks[depth] = ranks[depth] || [];
+  //   ranks[depth].push(entity);
+  // }
+  //
+  // // console.log(ranks);
+  //
+  // let maxLevel = -1;
+  // _.forOwn(ranks, (group:any, level:any) => {
+  //   if (level !== Infinity && level > maxLevel) maxLevel = level;
+  //   ranks[level] = _.uniqBy(group, 'id');
+  // });
+  //
+  // if (ranks[Infinity]) {
+  //   ranks[maxLevel+1] = ranks[Infinity];
+  //   delete ranks[Infinity];
+  // }
+  //
+  // return ranks;
+}
+
 const isParentRelationship = (relationship) => {
   return relationship.type === config.parentType;
 }
@@ -76,6 +132,8 @@ function provider(configuration) {
     getChildren,
     getChildrenAll,
     getIncomingEntities,
+    getOutgoingEntities,
+    getRank,
     isParentRelationship,
     isSourceOf,
     isTargetOf

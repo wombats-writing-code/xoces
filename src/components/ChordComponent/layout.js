@@ -5,6 +5,7 @@ import {
   polarToRectangular, radiansToDegrees, degreesToRadians,
   rotation, textAnchor
 } from './geometry'
+import {instanceId} from '../../reducers/utilities'
 
 export const computeDimensions = (width, height) => {
   let w, h;
@@ -153,7 +154,7 @@ export function _createChord(datum, i) {
   let targetCentroid = arcCentroid(datum.targetArc) + _.random(-datum.sourceArc.angle/2, datum.sourceArc.angle/2, true);
 
   return {
-    instanceId: _instanceId(),
+    instanceId: instanceId(),
     source: {
       startAngle: sourceCentroid,
       endAngle: sourceCentroid,
@@ -175,7 +176,7 @@ export function _createArc(datum, i, arcAngle, arcPadding, arcIndex, start = 0) 
   let startAngle = start + i*arcAngle;
 
   return {
-    instanceId: _instanceId(),
+    instanceId: instanceId(),
     id: datum.id,
     index: i,
     arcIndex,
@@ -195,7 +196,7 @@ export function _createLabel(arc, i, entityLabelKey, outerRadius, position = 'ce
   }
   // console.log(arc.model.name, 'angle', radiansToDegrees(angle))
   return {
-    instanceId: _instanceId(),
+    instanceId: instanceId(),
     id: arc.model.id,
     index: i,
     value: 1,
@@ -210,14 +211,4 @@ export function _createLabel(arc, i, entityLabelKey, outerRadius, position = 'ce
     rotation: rotation(angle),
     textAnchor: textAnchor(angle)
   }
-}
-
-function _instanceId() {
-  function s4() {
-    return Math.floor((1 + Math.random()) * 0x10000)
-      .toString(16)
-      .substring(1);
-  }
-
-  return s4() + '-' + s4();
 }
