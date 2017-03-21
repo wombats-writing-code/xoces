@@ -1,40 +1,33 @@
-.clearfix {
-  content: "";
-  display: table;
-  clear: both;
-}
 
-
-.breadcrumbs-nav {
+.xoces-breadcrumbs-nav {
   background: #000;
 }
 
-
-.breadcrumbs-nav {
+.xoces-breadcrumbs-nav {
   width: 100%;
   padding: .75em 1em;
 }
 
-.breadcrumbs-nav.dark {
+.xoces-breadcrumbs-nav.dark {
   background: #303030;
   color: #e0e0e0;
   border-bottom: 1px solid #888;
 }
 
-.breadcrumbs-nav.dark .breadcrumb__text:hover {
+.xoces-breadcrumbs-nav.dark .breadcrumb__text:hover {
   color: #fff;
 }
 
-.breadcrumbs-nav.dark .breadcrumb__text.last:hover {
+.xoces-breadcrumbs-nav.dark .breadcrumb__text.last:hover {
   color: #e0e0e0;
 }
 
-.breadcrumb {
+.xoces-breadcrumb {
   position: relative;
   float: left;
 }
 
-.breadcrumb__text {
+.xoces-breadcrumbs-nav .breadcrumb__text {
   // letter-spacing: .25px;
   font-size: .875rem;
   font-weight: 600;
@@ -42,18 +35,18 @@
   cursor: default;
 }
 
-.breadcrumbs-nav .breadcrumb__text.last {
+.xoces-breadcrumbs-nav .breadcrumb__text.last {
   font-weight: 400;
 }
 
 
-.breadcrumbs-nav .breadcrumb__text::after {
+.xoces-breadcrumbs-nav .breadcrumb__text::after {
   content: '\02282';
   margin-left: 1em;
   margin-right: 1em;
 }
 
-.breadcrumbs-nav .breadcrumb__text.last::after {
+.xoces-breadcrumbs-nav .breadcrumb__text.last::after {
   content: '';
   margin-left: 1em;
   margin-right: 1em;
@@ -62,4 +55,14 @@
 .crumb__type {
   color: #aaa;
   font-size: .875em;
+}
+
+.xoces-breadcrumbs-nav .chord-tree-button {
+  display: block;
+  margin-top: .05em;
+  width: 1.25rem;
+}
+
+.xoces-breadcrumbs-nav .chord-tree-button:hover {
+  opacity: .8;
 }

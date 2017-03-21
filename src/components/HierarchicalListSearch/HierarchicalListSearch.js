@@ -1,5 +1,6 @@
 import React, {Component} from 'react'
 import * as d3 from 'd3-selection'
+import $ from 'jquery'
 import _ from 'lodash'
 import pluralize from 'pluralize'
 
@@ -9,11 +10,16 @@ import './HierarchicalListSearch.scss'
 
 class HierarchicalListSearch extends Component {
 
+  componentDidMount() {
+    // console.log('this.props.height', this.props.height);
+    $(this.el).height(this.props.height)
+  }
+
   render() {
     let props = this.props;
 
     return (
-      <div className={`xoces-hierarchical-list-search ${props.schemeName}`}>
+      <div className={`xoces-hierarchical-list-search ${props.schemeName}`} ref={(el) => { this.el = el; }}>
         {this._renderLevel(props.currentLevelEntity.type, props.currentLevelEntity, props)}
       </div>
     )

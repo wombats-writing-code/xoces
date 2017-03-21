@@ -11,7 +11,7 @@ import './styles/core.scss'
 import reducer from './reducers'
 import {setConfig} from './reducers/setConfig'
 
-import ChordWidget from './components/ChordWidget';
+import XocesWidget from './widgets/XocesWidget';
 import graphProvider from './components/graph'
 
 let store = createStore(reducer)
@@ -23,9 +23,9 @@ module.exports = {
   },
 
   widgets: {
-     ChordWidget: {
+     XocesWidget: {
        new: (config) => {
-           let uid = _.uniqueId('chord_widget_');
+           let uid = _.uniqueId('xoces_widget_');
 
            return {
              render(arg) {
@@ -42,7 +42,7 @@ module.exports = {
 
                ReactDOM.render(
                  <Provider store={store}>
-                   <ChordWidget {...props}/>
+                   <XocesWidget {...props}/>
                  </Provider>,
                  container,
                  arg.callback

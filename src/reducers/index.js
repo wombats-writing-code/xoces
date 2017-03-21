@@ -7,7 +7,11 @@ import graphProvider from '../components/graph'
 
 export const CLICK_SUB_ARC = 'CLICK_SUB_ARC'
 export const CLICK_BREADCRUMB = 'CLICK_BREADCRUMB'
+export const CHANGE_VIEW = 'CHANGE_VIEW'
 export const TOGGLE_ENTITY = 'TOGGLE_ENTITY'
+
+export const TREE_VIEW = 'TREE_VIEW'
+export const CHORD_VIEW = 'CHORD_VIEW'
 
 export const clickSubArc = (entity) => {
   return {type: CLICK_SUB_ARC, entity}
@@ -21,12 +25,17 @@ export const toggleEntity = (entity) => {
   return {type: TOGGLE_ENTITY, entity}
 }
 
+export const changeView = (view, entity) => {
+  return {type: CHANGE_VIEW, view, entity}
+}
+
 
 let defaultState = {
   breadcrumbs: {
     present: [],
     past: []
-  }
+  },
+  view: CHORD_VIEW
 };
 export default function visReducer(state = defaultState, action) {
   switch(action.type) {
@@ -67,6 +76,7 @@ export default function visReducer(state = defaultState, action) {
         breadcrumbs: _.assign({}, state.breadcrumbs, {
           present: chain
         }),
+        view: action.config.view || state.view,
         currentLevelEntity,
         selectedEntities: graph.getChildren(currentLevelEntity.id, data.entities, data.relationships)
       })
@@ -136,6 +146,11 @@ export default function visReducer(state = defaultState, action) {
 
       return _.assign({}, state, {
         selectedEntities: selected
+      })
+
+    case CHANGE_VIEW:
+      return _.assign({}, state, {
+        view: action.view
       })
 
     default:

@@ -32,7 +32,7 @@ class ExpandHideListItem extends Component {
     if (gcType) {
       levelSummary = (<p className="level__summary">{gc.length} {pluralize(gcType, gc.length)}</p>)
       showHideButton = (
-        <button className="button level__show-hide-button"
+        <button className="xoces-button level__show-hide-button"
                 onClick={() => this.setState({isExpanded: !this.state.isExpanded})}
           >[{this.state.isExpanded ? 'Less' : 'More'}]
         </button>)

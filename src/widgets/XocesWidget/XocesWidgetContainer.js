@@ -1,24 +1,25 @@
 import { connect } from 'react-redux'
-import {clickSubArc, clickBreadcrumb, toggleEntity} from '../../reducers/'
-import graphProvider from '../graph'
+import {clickSubArc, clickBreadcrumb, toggleEntity, changeView} from '../../reducers/'
 
-import ChordWidget from './ChordWidget'
+import XocesWidget from './XocesWidget'
 
 const mapDispatchToProps = (dispatch) => {
   return {
     onClickSubArc: d => dispatch(clickSubArc(d)),
+    onToggleEntity: d => dispatch(toggleEntity(d)),
     onClickBreadcrumb: d => dispatch(clickBreadcrumb(d)),
-    onToggleEntity: d => dispatch(toggleEntity(d))
+    onChangeView: (view, currentLevelEntity) => dispatch(changeView(view, currentLevelEntity))
   }
 }
 
 const mapStateToProps = (state) => {
-  console.log('state in ChordWidgetContainer', state)
+  console.log('state in XocesWidgetContainer', state)
 
   return {
     breadcrumbs: state.breadcrumbs.present,
     currentLevelEntity: getCurrentLevelEntity(state),
-    selectedEntities: state.selectedEntities
+    selectedEntities: state.selectedEntities,
+    view: state.view
   }
 }
 
@@ -30,4 +31,4 @@ const getCurrentLevelEntity = (state) => {
 }
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(ChordWidget)
+export default connect(mapStateToProps, mapDispatchToProps)(XocesWidget)

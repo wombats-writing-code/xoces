@@ -31,7 +31,7 @@ export const computeDimensions = (width, height) => {
   }
 */
 export const computeLayout = (props) => {
-  console.log('computeLayout props', props);
+  // console.log('computeLayout props', props);
   let data = props.data;
   let hierarchy = props.hierarchy;
   let currentLevelEntity = props.currentLevelEntity;

@@ -9,7 +9,7 @@
   <div id="root" style="height: 100%"></div>
 </body>
 
-<h1>Xoces</h1>
+<h1>Xoces example</h1>
 
 <div id="chordContainer"></div>
 
@@ -82,13 +82,14 @@
   // =====
   // instantiate a new Chord widget
   // ========
-  var cw = xoces.widgets.ChordWidget.new({
+  var cw = xoces.widgets.XocesWidget.new({
     hierarchy: ['institution', 'track', 'module', 'outcome'],
     data: {
       entities: institutions.concat(tracks, modules, outcomes),
       relationships: relationships
     },
-    // currentLevelEntity: 'm2',
+    currentLevelEntity: 'm1',
+    view: 'TREE_VIEW',
     entityLabelKey: 'name',
     relationship: {
       parentType: 'belongs_to',

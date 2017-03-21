@@ -39,7 +39,7 @@ html {
   padding-right: 0;
 }
 
-button:focus {
+.xoces-button:focus {
   outline: none;
 }
 
@@ -76,5 +76,5 @@ button:focus {
 
 .flex-wrap {
 	flex-wrap: wrap;
-	-webkit-flex-wrap: wrap; 
+	-webkit-flex-wrap: wrap;
 }

@@ -11,29 +11,11 @@ export const SUB_ARC_LABEL_CLASS_NAME = "SUB_ARC_LABEL_CLASS_NAME"
 export const CHORD_CLASS_NAME = 'CHORD_CLASS_NAME'
 export const CHORD_ARROW_CLASS_NAME = 'CHORD_ARROW_CLASS_NAME'
 
-export const init = (chordVis, props) => {
-  let scheme = getScheme(props.colorScheme)
-
-  chordVis
-  .style('height', props.height)
-  .style('width', props.width)
-  .style('background', scheme.background);
-
-  let w = parseFloat(chordVis.style('width'), 10);
-  let h = parseFloat(chordVis.style('height'), 10);
-
-  // console.log('arc', innerRadius, outerRadius)
-
-  let drawingGroup = chordVis.append('g')
-    .attr("transform", "translate(" + w / 2 + "," + h / 2 + ")");
-
-  return {drawingGroup, w, h}
-}
 
 export const drawArcs = (props) => {
   let data = props.data;
   // let arc = props.arc;
-  console.log('drawArcs data', data, props.className);
+  // console.log('drawArcs data', data, props.className);
 
   let {innerRadius, outerRadius} = computeDimensions(props.w, props.h);
 
