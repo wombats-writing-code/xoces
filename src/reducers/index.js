@@ -77,20 +77,20 @@ export default function visReducer(state = defaultState, action) {
       var data = state.config.data;
       var idx = state.config.hierarchy.indexOf(action.entity.type);
       var currentLevel = state.config.hierarchy[idx-1];
-
-      // console.log('state.currentClick', state.currentClick)
       var model = graph.getParent(action.entity.id, state.data.entities, state.data.relationships);
+
       // if we're at the bottom of the hierarchy, do nothing
       if (model === _.last(state.breadcrumbs.present)) {
         return state;
       }
 
       // console.log('breadcrumbs', breadcrumbs)
+      // console.log('model', model)
 
       // ======
       // set the selectedEntities to all of the children of the currentLevelEntity
       // ======
-      let selectedEntities = graph.getChildren(currentLevelEntity.id, data.entities, data.relationships)
+      let selectedEntities = graph.getChildren(model.id, data.entities, data.relationships)
 
       return _.assign({}, state, {
         breadcrumbs: _.assign({}, state.breadcrumbs, {
@@ -102,8 +102,10 @@ export default function visReducer(state = defaultState, action) {
       })
 
     case CLICK_BREADCRUMB:
+      var graph = graphProvider(state.config.relationship);
       var idx = state.config.hierarchy.indexOf(action.entity.type);
       var currentLevel = state.config.hierarchy[idx];
+      var data = state.config.data;
 
       // go back to the breadcrumb that was clicked on
       var breadcrumbs = _.assign({}, state.breadcrumbs, {
@@ -115,7 +117,8 @@ export default function visReducer(state = defaultState, action) {
       return _.assign({}, state, {
         breadcrumbs,
         currentSubArc: null,
-        currentLevelEntity: action.entity
+        currentLevelEntity: action.entity,
+        selectedEntities: graph.getChildren(action.entity.id, data.entities, data.relationships)
       })
 
     case TOGGLE_ENTITY:

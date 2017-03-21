@@ -38,3 +38,43 @@ html {
 .no-right-padding {
   padding-right: 0;
 }
+
+button:focus {
+  outline: none;
+}
+
+/* layout */
+
+.flex-container {
+	display: -webkit-box;      /* OLD - iOS 6-, Safari 3.1-6 */
+	display: -moz-box;         /* OLD - Firefox 19- (buggy but mostly works) */
+	display: -ms-flexbox;      /* TWEENER - IE 10 */
+	display: -webkit-flex;     /* NEW - Chrome */
+	display: flex;
+	align-items: center;
+}
+
+.flex-container.space-around {
+	justify-content: space-around;
+}
+
+.flex-container.space-between {
+	justify-content: space-between;
+}
+
+.flex-container.align-center {
+	align-items: center;
+}
+
+.flex-container.align-top {
+	align-items: flex-start;
+}
+
+.flex-container.justify-center {
+	justify-content: center;
+}
+
+.flex-wrap {
+	flex-wrap: wrap;
+	-webkit-flex-wrap: wrap; 
+}

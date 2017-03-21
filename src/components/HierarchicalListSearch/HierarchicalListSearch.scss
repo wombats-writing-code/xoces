@@ -22,38 +22,8 @@
   list-style: none;
 }
 
-.level__entity__item {
-  cursor: default;
-}
-
-.level__entity__item:hover {
-  opacity: .8;
-}
-
-.level__entity__checkbox {
-  position: relative;
-  margin-top: .25rem;
-  width: .875rem;
-  height: .875rem;
-  background: #eee;
-  margin-right: .5rem;
-  display: inline-block;
-}
-
-.level__entity__checkbox.is-selected {
-  background: $app-blue;
-}
-
-.level__entity__checkbox.is-selected::after {
-  content: '\02713';
-  font-size: .875rem;
-  font-weight: 500;
-  position: absolute;
-  left: 20%;
-  top: -25%;
-}
-
-.level__entity__name {
-  display: inline-block;
-  // line-height: 1.5rem;
+.level__entity-title__type {
+  text-transform: capitalize;
+  font-weight: 400;
+  color: #ccc;
 }

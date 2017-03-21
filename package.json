@@ -41,6 +41,7 @@
   "dependencies": {
     "chroma-js": "^1.2.2",
     "d3": "^4.7.2",
+    "pluralize": "^4.0.0",
     "react": "^15.3.0",
     "react-dom": "^15.3.0",
     "react-redux": "^5.0.3",

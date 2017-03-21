@@ -1,0 +1,68 @@
+@import '../../styles/base';
+
+
+.level__entity__item {
+  cursor: default;
+  font-size: .875rem;
+  margin-bottom: .625rem;
+}
+
+.level__entity-select {
+  margin-right: 1em;
+  margin-bottom: .25rem;
+}
+
+.level__entity-select:hover {
+  opacity: .8;
+}
+
+.level__entity__checkbox {
+  position: relative;
+  width: .875rem;
+  height: .875rem;
+  background: #eee;
+  margin-right: .5rem;
+  display: block;
+  flex-shrink: 0;
+}
+
+.level__entity__checkbox.is-selected {
+  background: $app-blue;
+}
+
+.level__entity__checkbox.is-selected::after {
+  content: '\02713';
+  font-size: .875rem;
+  font-weight: 500;
+  position: absolute;
+  left: 20%;
+  top: -25%;
+}
+
+.level__entity__name {
+  color: #fff;
+  line-height: 1.2;
+  font-size: .75rem;
+  display: block;
+}
+
+.level__summary {
+  color: #ccc;
+  font-size: .75rem;
+  // margin-top: .125rem;
+}
+
+.level__show-hide-button {
+  font-size: .75rem;
+  color: #ddd;
+}
+
+.level__show-hide-button:hover {
+  opacity: .8;
+}
+
+.level__entity__grandchild {
+  font-size: .75rem;
+  margin-bottom: .5rem;
+  line-height: 1.2;
+}
