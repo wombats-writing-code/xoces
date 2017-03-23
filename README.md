@@ -78,7 +78,7 @@ You can also load it directly from CDN:
 Xoces lets you choose from 3 widgets: `XocesWidget`, `ChordWidget`, or `TreeWidget`.
 
 The `ChordWidget` gets you the chord visualization.
-![chord visualization](https://github.com/wombats-writing-code/xoces/blob/master/xoces/img/xoces-chord-widget.png)
+![chord visualization](https://github.com/wombats-writing-code/xoces/blob/master/img/xoces-chord-widget.png)
 
 The chord component visualizes one level of the hierarchy at one time. Whenever you click on a piece, the chord visualization changes to display the next level down. Confused? Take some time to [explore our examples](http://mapping.mit.edu/projects/xoces-examples) and keep reading to see what "hierarchy" means.
 
