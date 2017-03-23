@@ -58,6 +58,17 @@ const getOutgoingEntities = (id, entities, relationships) => {
   return _.map(rels, r => _.find(entities, {id: r[config.targetRef]}));
 }
 
+const _memoizedGetOutgoingEntities = _.memoize(getOutgoingEntities);
+
+const getOutgoingEntitiesAll = (id, entities, relationships) => {
+  let outgoing = _memoizedGetOutgoingEntities(id, entities, relationships)
+  return _.reduce(outgoing, (result, e) => {
+    result.push(e);
+    let c = getOutgoingEntitiesAll(e.id, entities, relationships)
+    return _.concat(result, c);
+  }, []);
+}
+
 const getRank = (id, entities, relationships, optionalMaxRank = 20) => {
   let traverse = function traverse(entityId, stackCount, maxStack) {
     stackCount++;
@@ -84,29 +95,6 @@ const getRank = (id, entities, relationships, optionalMaxRank = 20) => {
   }.bind(this);
 
   return traverse(id, 0, optionalMaxRank)
-
-  // let ranks = {};
-  // for (var entity of entities) {
-  //   let stackCount = 0, maxStack = 20;
-  //   let depth = traverse(entity, stackCount, maxStack);
-  //   ranks[depth] = ranks[depth] || [];
-  //   ranks[depth].push(entity);
-  // }
-  //
-  // // console.log(ranks);
-  //
-  // let maxLevel = -1;
-  // _.forOwn(ranks, (group:any, level:any) => {
-  //   if (level !== Infinity && level > maxLevel) maxLevel = level;
-  //   ranks[level] = _.uniqBy(group, 'id');
-  // });
-  //
-  // if (ranks[Infinity]) {
-  //   ranks[maxLevel+1] = ranks[Infinity];
-  //   delete ranks[Infinity];
-  // }
-  //
-  // return ranks;
 }
 
 const isParentRelationship = (relationship) => {
@@ -144,6 +132,7 @@ function provider(configuration) {
     getChildrenAll: _.memoize(getChildrenAll),
     getIncomingEntities: _.memoize(getIncomingEntities),
     getOutgoingEntities: _.memoize(getOutgoingEntities),
+    getOutgoingEntitiesAll: _.memoize(getOutgoingEntitiesAll),
     getRank,
     isParentRelationship,
     isSourceOf,

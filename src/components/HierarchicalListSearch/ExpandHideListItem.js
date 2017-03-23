@@ -25,7 +25,7 @@ class ExpandHideListItem extends Component {
 
     let idx = props.hierarchy.indexOf(currentLevelEntity.type);
     let gcType = props.hierarchy[idx+2];
-    let gc = graph.getChildren(e.id, data.entities, data.relationships);
+    let gc = _.filter(graph.getChildren(e.id, data.entities, data.relationships), {type: gcType});
 
     let levelSummary;
     let showHideButton;
@@ -41,7 +41,7 @@ class ExpandHideListItem extends Component {
     let grandChildrenList;
     if (this.state.isExpanded && gcType) {
       grandChildrenList = (
-        <ol>
+        <ol className="no-bottom-margin">
           {_.map(gc, model => {
             return (
               <li className="level__entity__grandchild" key={`grandChild-${model.id}`}>

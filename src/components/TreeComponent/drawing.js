@@ -20,10 +20,12 @@ export function drawEdges(props) {
 
   edgeGroup.enter()
     .append('line')
+    .attr('class', EDGE_CLASS)
     .attr('x1', d => d.x1)
     .attr('y1', d => d.y1)
     .attr('x2', d => d.x2)
     .attr('y2', d => d.y2)
+    .attr('opacity', d => d.opacity)
     .attr('stroke', d => d.stroke)
     .attr('stroke-width', d => d.strokeWidth)
 
@@ -32,16 +34,14 @@ export function drawEdges(props) {
     .attr('points', "-5,11 0,0 5,11")
     .attr('class', EDGE_ARROW_CLASS)
     .attr('xlink:href', '#arrow')
-    // .attr('x', d => polarToRectangular({r: innerRadius, theta: d.source.startAngle}).x )
-    // .attr('y', d => polarToRectangular({r: innerRadius, theta: d.source.startAngle}).y )
     .style('fill', d => d.stroke)
     .attr('transform', function(d) {
-      // let x = d.x1;
-      // let y = d.y1 - d.source.radius - 11;
-      // let rotationAngle = 0;
-      let rotationAngle = radiansToDegrees(2*Math.PI - d.source.startAngle);
-      let {x, y} = polarToRectangular({r: 1, theta: d.source.startAngle})
-      return `translate(${x}, ${y})` + ` rotate(${-rotationAngle}, ${0}, ${0})`;
+      let x = d.x1;
+      let y = d.y1;
+      let rotationAngle = d.theta < 0 ? radiansToDegrees(d.theta - Math.PI/2) : radiansToDegrees(d.theta + Math.PI/2);
+
+      // console.log('theta', radiansToDegrees(d.theta), 'rotationAngle', rotationAngle)
+      return `translate(${x}, ${y})` + ` rotate(${rotationAngle}, ${0}, ${0})`;
     });
 }
 
@@ -67,11 +67,15 @@ export function drawNodes(props) {
     .attr('class', `flex-container align-center justify-center xoces-tree-component-${NODE_CLASS}`)
     .style('width', d => `${2*d.radius}px`)
     .style('height', d => `${2*d.radius}px`)
+    .style('opacity', d => d.opacity)
     .style('font-size', d=> `${d.nodeLabelFontSize}px`)
     .style('background', d => d.fill)
     .style('color', d => d.nodeLabelColor)
-    .style('padding-left', '5px')
-    .style('padding-right', '5px')
+    .style('hyphens', 'auto')
+    // .style('border-left', '2px solid #fff')
+    // .style('border-right', '2px solid #fff')
+    // .style('padding-left', '5px')
+    // .style('padding-right', '5px')
     .style('border-radius', '50%')
     .style('margin-bottom', 0)
     .style('text-align', 'center')
@@ -81,9 +85,10 @@ export function drawNodes(props) {
 
   foreignObject
     .append("xhtml:p")
-    .attr('class', `xoces-tree-component-${NODE_TAG_CLASS}`)
+    .attr('class', `${NODE_TAG_CLASS}`)
     .style('width', d => `${2*d.radius}px`)
     .style('font-size', d=> `${d.nodeTagFontSize}px`)
+    .style('opacity', d => d.nodeTagOpacity)
     .style('color', d => d.nodeTagColor)
     .style('margin-bottom', 0)
     .style('line-height', 1)

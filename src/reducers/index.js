@@ -123,13 +123,16 @@ export default function visReducer(state = defaultState, action) {
         present: _.dropRightWhile(state.breadcrumbs.present, crumb => crumb !== action.entity)
       });
 
+      if (currentLevel)
+
       // console.log('breadcrumbs', breadcrumbs)
 
       return _.assign({}, state, {
         breadcrumbs,
         currentSubArc: null,
         currentLevelEntity: action.entity,
-        selectedEntities: graph.getChildren(action.entity.id, data.entities, data.relationships)
+        selectedEntities: graph.getChildren(action.entity.id, data.entities, data.relationships),
+        view: idx !== state.config.hierarchy.length-1 ? CHORD_VIEW : state.view
       })
 
     case TOGGLE_ENTITY:

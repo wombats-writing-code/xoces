@@ -4,11 +4,16 @@
 .level__entity__item {
   cursor: default;
   font-size: .875rem;
-  margin-bottom: .625rem;
+  padding-bottom: .525rem;
+  padding-top: .5rem;
+}
+
+.dark .level__entity__item {
+  border-bottom: 1px solid #888;
 }
 
 .level__entity-select {
-  margin-right: 1em;
+  max-width: 70%;
   margin-bottom: .25rem;
 }
 
@@ -47,9 +52,12 @@
 }
 
 .level__summary {
-  color: #ccc;
   font-size: .75rem;
-  // margin-top: .125rem;
+  margin-bottom: 0;
+}
+
+.dark .level__summary {
+  color: #ccc;
 }
 
 .level__show-hide-button {
@@ -65,4 +73,12 @@
   font-size: .75rem;
   margin-bottom: .5rem;
   line-height: 1.2;
+}
+
+.level__entity__grandchild:first-child {
+  margin-top: .25rem;
+}
+
+.level__entity__grandchild:last-child {
+  margin-bottom: 0;
 }

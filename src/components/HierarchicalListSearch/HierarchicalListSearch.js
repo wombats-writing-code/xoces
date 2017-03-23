@@ -12,7 +12,8 @@ class HierarchicalListSearch extends Component {
 
   componentDidMount() {
     // console.log('this.props.height', this.props.height);
-    $(this.el).height(this.props.height)
+    // $(this.el).height(this.props.height)
+    $(this.el).css('min-height', this.props.height)
   }
 
   render() {
@@ -29,7 +30,9 @@ class HierarchicalListSearch extends Component {
     let data = props.data;
     let graph = props.graph;
     let entityLabelKey = props.entityLabelKey;
-    let children = graph.getChildren(currentLevelEntity.id, data.entities, data.relationships);
+    let childIdx = props.hierarchy.indexOf(props.currentLevelEntity.type) + 1;
+    let children = _.filter(graph.getChildren(currentLevelEntity.id, data.entities, data.relationships),
+        {type: props.hierarchy[childIdx]});
 
     return (
       <div key={`level-${level}`}>
@@ -40,7 +43,7 @@ class HierarchicalListSearch extends Component {
 
         {_.map(children, e => {
           return (
-            <div key={`entity-${e.id}`} className="level__entity__item">
+            <div key={`entity-${e.id}`}>
               <ExpandHideListItem entity={e} {...props} />
             </div>
           )

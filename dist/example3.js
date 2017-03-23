@@ -69,7 +69,7 @@ $.when(entitiesPromise, relationshipsPromise)
       relationships: relationships.concat(schoolRelationships)
     },
     view: 'CHORD_VIEW',
-    // currentLevelEntity: "mc3-objective%3A12722%40MIT-OEIT",
+    // currentLevelEntity: "mc3-objective%3A8152%40MIT-OEIT",
     // view: 'TREE_VIEW',
     entityLabelKey: 'displayName',
     relationship: {

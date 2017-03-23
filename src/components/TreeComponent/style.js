@@ -21,13 +21,21 @@ export const getScheme = (name) => {
       background: '#333',
       node: {
         fill: '#fff',
+        opacity: 1,
+        nonActiveOpacity: .25,
+        activeOpacity: 1,
         nodeLabelColor: '#333',
         nodeLabelFontSize: 11,
+        // node Tag
         nodeTagColor: '#fff',
-        nodeTagFontSize: 11
+        nodeTagFontSize: 11,
+        nodeTagOpacity: 0,
       },
       edge: {
-        stroke: '#aaa',
+        stroke: '#d0d0d0',
+        opacity: .8,
+        nonActiveOpacity: .1,
+        activeOpacity: 1,
         strokeWidth: 1
       }
     }

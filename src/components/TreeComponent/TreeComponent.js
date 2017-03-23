@@ -5,7 +5,8 @@ import _ from 'lodash'
 import './TreeComponent.scss'
 import {computeLayout} from './layout'
 import {getScheme, stylize} from './style'
-import {drawNodes, drawEdges} from './drawing'
+import {NODE_CLASS, drawNodes, drawEdges} from './drawing'
+import {attachEvent, detachEvent} from './events'
 import {init} from '../canvas'
 
 class TreeComponent extends Component {
@@ -75,6 +76,19 @@ class TreeComponent extends Component {
     drawNodes({
       selection: drawingGroup,
       data: layout.nodes
+    })
+
+    // attach events to sub-arcs
+    attachEvent({
+      selection: d3.selectAll(`.${NODE_CLASS}`),
+      onMouseOver: props.onMouseOver,
+      onMouseOut: props.onMouseOut,
+      onClick: props.onClickSubArc,
+      graph,
+      data: props.data,
+      onMouseOverCallback: props.onMouseOverCallback,
+      onMouseOutCallback: props.onMouseOutCallback,
+      onClickCallback: props.onClickCallback
     })
   }
 
