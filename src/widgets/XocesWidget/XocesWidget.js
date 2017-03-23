@@ -31,7 +31,7 @@ class XocesWidget extends Component {
     }
 
     return (
-      <div className="xoces-chord-widget">
+      <div className="xoces-widget">
           <BreadcrumbsNav breadcrumbs={this.props.breadcrumbs}
                         schemeName={this.props.colorScheme}
                         entityLabelKey={this.props.entityLabelKey}

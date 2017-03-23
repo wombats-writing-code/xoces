@@ -1,18 +1,7 @@
-// @import 'base';
-// @import '~normalize.css/normalize';
 
-// Some best-practice CSS that's useful for most apps
-// Just remove them if they're not what you want
-
-html {
+.xoces-widget * {
   box-sizing: border-box;
 }
-
-// html, body {
-//   margin: 0;
-//   padding: 0;
-//   height: 100%;
-// }
 
 *,
 *:before,
@@ -21,35 +10,35 @@ html {
 }
 
 
-.clearfix {
+.xoces-widget .clearfix {
   content: "";
   display: table;
   clear: both;
 }
 
-.no-left-margin {
+.xoces-widget .no-left-margin {
   margin-left: 0;
 }
 
-.no-bottom-margin {
+.xoces-widget .no-bottom-margin {
   margin-bottom: 0;
 }
 
-.no-left-padding {
+.xoces-chord-widget .no-left-padding {
   padding-left: 0;
 }
 
-.no-right-padding {
+.xoces-widget .no-right-padding {
   padding-right: 0;
 }
 
-.xoces-button:focus {
+.xoces-widget .xoces-button:focus {
   outline: none;
 }
 
 /* layout */
 
-.flex-container {
+.xoces-widget .flex-container {
 	display: -webkit-box;      /* OLD - iOS 6-, Safari 3.1-6 */
 	display: -moz-box;         /* OLD - Firefox 19- (buggy but mostly works) */
 	display: -ms-flexbox;      /* TWEENER - IE 10 */
@@ -58,27 +47,27 @@ html {
 	align-items: center;
 }
 
-.flex-container.space-around {
+.xoces-widget .flex-container.space-around {
 	justify-content: space-around;
 }
 
-.flex-container.space-between {
+.xoces-widget .flex-container.space-between {
 	justify-content: space-between;
 }
 
-.flex-container.align-center {
+.xoces-widget .flex-container.align-center {
 	align-items: center;
 }
 
-.flex-container.align-top {
+.xoces-widget .flex-container.align-top {
 	align-items: flex-start;
 }
 
-.flex-container.justify-center {
+.xoces-widget .flex-container.justify-center {
 	justify-content: center;
 }
 
-.flex-wrap {
+.xoces-widget .flex-wrap {
 	flex-wrap: wrap;
 	-webkit-flex-wrap: wrap;
 }

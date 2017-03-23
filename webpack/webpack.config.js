@@ -20,7 +20,14 @@ let configs = _.map(targets, target => {
       publicPath: '/',                  // necessary for HMR to know where to load the hot update chunks,
       library: 'xoces',
     },
-    plugins: _.concat(baseConfig.plugins,  new UglifyJSPlugin(), new WebpackAutoInject() )
+    plugins: _.concat(baseConfig.plugins,
+      new webpack.DefinePlugin({
+        'process.env': {
+          NODE_ENV: JSON.stringify('production')
+        }
+      }),
+      new UglifyJSPlugin(),
+      new WebpackAutoInject() )
   })
 
   if (target === 'umd') {
