@@ -9,7 +9,7 @@ Curricular data often contain many complex relationships - Xoces makes it easier
 
 ## Resources
 - Visit the [MIT Mapping Lab](http://mapping.mit.edu) (our lab)
-    - See guides on how to model and map curricular data, e.g. for [mapping outcomes](), [concepts], [courses](), etc.
+    - See guides on how to model and map curricular data, e.g. for [mapping outcomes](http://mapping.mit.edu/outcomes-mapping), [concepts](http://mapping.mit.edu/concepts-mapping), [courses in a curriculum](http://mapping.mit.edu/curriculum-mapping), etc.
 - [Installing](#installing)
 - [API Docs](#api)
 - [Examples](#examples)
@@ -98,7 +98,7 @@ var config = {
   },
   width: '100%',
   height: 500,
-  colorScheme: 'dark',            
+  colorScheme: 'dark',                  // 'light' or 'dark'
   onMouseOver: function() {},
   onMouseOut: function() {},
   onClick: function() {}
@@ -142,6 +142,9 @@ Your hierarchy array would then be:
 ```
 ['institution', 'school', 'department', 'course']
 ```
+
+## Pull requests
+Please contribute! We respond within 24 hours.    
 
 ## Dependencies
 Xoces comes bundled with [lodash](lodash.com/docs/4.17.4#at), [d3](https://github.com/d3/d3), [jquery](https://github.com/jquery/jquery), [chroma-js](https://github.com/gka/chroma.js/), [react]() and [redux]().

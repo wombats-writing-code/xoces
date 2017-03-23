@@ -19,7 +19,7 @@ export const computeDimensions = (width, height) => {
 
   return {
     innerRadius: h/3.5,
-    outerRadius: h/3.5 + 18
+    outerRadius: h/3.5 + 18*h/700
   }
 }
 
@@ -180,8 +180,8 @@ export const computeLayout = (props) => {
 
 export function _createChord(datum, i) {
 
-  let sourceCentroid = arcCentroid(datum.sourceArc) + _.random(-datum.sourceArc.angle/2, datum.sourceArc.angle/2, true);
-  let targetCentroid = arcCentroid(datum.targetArc) + _.random(-datum.sourceArc.angle/2, datum.sourceArc.angle/2, true);
+  let sourceCentroid = arcCentroid(datum.sourceArc) + Math.min(.1, _.random(-datum.sourceArc.angle/2, datum.sourceArc.angle/2, true));
+  let targetCentroid = arcCentroid(datum.targetArc) + Math.min(.1, _.random(-datum.sourceArc.angle/2, datum.sourceArc.angle/2, true));
 
   return {
     instanceId: instanceId(),

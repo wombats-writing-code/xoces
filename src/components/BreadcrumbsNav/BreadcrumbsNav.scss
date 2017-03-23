@@ -14,12 +14,26 @@
   border-bottom: 1px solid #888;
 }
 
+.xoces-breadcrumbs-nav.light {
+  background: transparent;
+  color: #333;
+  border-bottom: 1px solid #888;
+}
+
 .xoces-breadcrumbs-nav.dark .breadcrumb__text:hover {
   color: #fff;
 }
 
 .xoces-breadcrumbs-nav.dark .breadcrumb__text.last:hover {
   color: #e0e0e0;
+}
+
+.xoces-breadcrumbs-nav.light .breadcrumb__text:hover {
+  color: #444;
+}
+
+.xoces-breadcrumbs-nav.light .breadcrumb__text.last:hover {
+  color: #333;
 }
 
 .xoces-breadcrumb {
@@ -53,8 +67,15 @@
 }
 
 .crumb__type {
-  color: #aaa;
   font-size: .875em;
+}
+
+.xoces-breadcrumbs-nav.dark .crumb__type {
+  color: #aaa;
+}
+
+.xoces-breadcrumbs-nav.light .crumb__type {
+  color: #777;
 }
 
 .xoces-breadcrumbs-nav .chord-tree-button {

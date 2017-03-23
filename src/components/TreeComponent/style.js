@@ -15,29 +15,54 @@ export const stylize = (data, scheme) => {
 }
 
 export const getScheme = (name) => {
+  return schemes[name];
+}
 
-  if (name === 'dark') {
-    return {
-      background: '#333',
-      node: {
-        fill: '#fff',
-        opacity: 1,
-        nonActiveOpacity: .25,
-        activeOpacity: 1,
-        nodeLabelColor: '#333',
-        nodeLabelFontSize: 11,
-        // node Tag
-        nodeTagColor: '#fff',
-        nodeTagFontSize: 11,
-        nodeTagOpacity: 0,
-      },
-      edge: {
-        stroke: '#d0d0d0',
-        opacity: .8,
-        nonActiveOpacity: .1,
-        activeOpacity: 1,
-        strokeWidth: 1
-      }
+const schemes = {
+  'dark': {
+    name: 'dark',
+    background: '#333',
+    node: {
+      fill: '#fff',
+      opacity: 1,
+      nonActiveOpacity: .25,
+      activeOpacity: 1,
+      nodeLabelColor: '#333',
+      nodeLabelFontSize: 11,
+      // node Tag
+      nodeTagColor: '#fff',
+      nodeTagFontSize: 11,
+      nodeTagOpacity: 0,
+    },
+    edge: {
+      stroke: '#d0d0d0',
+      opacity: .8,
+      nonActiveOpacity: .1,
+      activeOpacity: 1,
+      strokeWidth: 1
+    }
+  },
+  'light': {
+    name: 'light',
+    background: 'transparent',
+    node: {
+      fill: '#333',
+      opacity: 1,
+      nonActiveOpacity: .25,
+      activeOpacity: 1,
+      nodeLabelColor: '#fff',
+      nodeLabelFontSize: 11,
+      // node Tag
+      nodeTagColor: '#333',
+      nodeTagFontSize: 11,
+      nodeTagOpacity: 0,
+    },
+    edge: {
+      stroke: '#a0a0a0',
+      opacity: .8,
+      nonActiveOpacity: .1,
+      activeOpacity: 1,
+      strokeWidth: 1
     }
   }
 }

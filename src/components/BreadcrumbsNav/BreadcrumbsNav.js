@@ -2,8 +2,11 @@ import React, {Component} from 'react'
 import _ from 'lodash'
 
 import {CHORD_VIEW, TREE_VIEW} from '../../reducers'
-import TreeImage from './assets/tree.png'
-import ChordImage from './assets/chord.png'
+import TreeImageLight from './assets/tree-view-light.png'
+import ChordImageLight from './assets/chord-view-light.png'
+
+import TreeImageDark from './assets/tree-view-dark.png'
+import ChordImageDark from './assets/chord-view-dark.png'
 
 import './BreadcrumbsNav.scss'
 
@@ -22,7 +25,7 @@ class BreadcrumbsNav extends Component {
           <button className="xoces-button chord-tree-button"
                   onClick={() => props.onChangeView(TREE_VIEW, _.last(props.breadcrumbs))}
           >
-            <img src={TreeImage} />
+            <img src={props.schemeName === 'dark' ? TreeImageLight : TreeImageDark} />
           </button>
         )
       } else {
@@ -30,7 +33,7 @@ class BreadcrumbsNav extends Component {
           <button className="xoces-button chord-tree-button"
                   onClick={() => props.onChangeView(CHORD_VIEW, _.last(props.breadcrumbs))}
           >
-            <img src={ChordImage} />
+            <img src={props.schemeName === 'dark' ? ChordImageLight : ChordImageDark} />
           </button>
         )
       }

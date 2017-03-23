@@ -67,7 +67,7 @@ function _handleMouseOver(datum, i, g, props) {
       // console.log('highlightArcs', highlightArcs);
       if (d.id === datum.id || highlightArcs.indexOf(d.id) > -1) return true;
     })
-    .style('opacity', d => d.activeFill)
+    .style('opacity', d => d.activeOpacity)
 
   if (props.onMouseOverCallback) {
     props.onMouseOverCallback(d);

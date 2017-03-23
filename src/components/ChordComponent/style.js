@@ -7,7 +7,10 @@ export const stylize = (data, scheme) => {
   }
 
   let colorScale = chroma.scale(scheme.subArc.fillRange)
-    .domain([0, data.arcs.length-1]);
+    .domain([0, data.arcs.length-1])
+    // .mode('lab')
+    .mode('lch')
+
 
   let styled = _.assign({}, data, {
     arcs: _.map(data.arcs, (a, idx) => {
@@ -31,37 +34,82 @@ export const stylize = (data, scheme) => {
 }
 
 export const getScheme = (name) => {
+  return schemes[name];
+}
 
-  if (name === 'dark') {
-    return {
-      background: '#333',
-      arc: {
-        fill: '#555',
-      },
-      subArc: {
-        fillRange: ['#D58C47', '#8049BD', '#609733'],
-        stroke: '#e0e0e0',
-        activeFill: '#fff',
-        nonActiveOpacity: .3
-      },
-      arcLabel: {
-        fill: '#fff',
-        fontSize: 13,
-        opacity: 1,
-        nonActiveOpacity: .3
-      },
-      subArcLabel: {
-        fill: '#fff',
-        fontSize: 11,
-        opacity: 0,
-        activeOpacity: 1
-      },
-      chord: {
-        stroke: '#fff',
-        opacity: .7,
-        activeOpacity: 1,
-        nonActiveOpacity: .1
-      }
+const schemes = {
+  // ========================
+  // dark scheme
+  // ========================
+  'dark': {
+    name: 'dark',
+    background: '#333',
+    arc: {
+      fill: '#555',
+    },
+    subArc: {
+      // fillRange: ['#D58C47', '#8049BD', '#609733'],
+      // fillRange: ['#D58C47', '#355CBF'],
+      fillRange: ['#D58C47', '#355CBF', '#4A941E'],
+      stroke: '#e0e0e0',
+      opacity: 1,
+      activeOpacity: 1,
+      nonActiveOpacity: .3
+    },
+    arcLabel: {
+      fill: '#fff',
+      fontSize: 13,
+      opacity: 1,
+      nonActiveOpacity: .3
+    },
+    subArcLabel: {
+      fill: '#fff',
+      fontSize: 11,
+      opacity: 0,
+      activeOpacity: 1
+    },
+    chord: {
+      stroke: '#fff',
+      opacity: .7,
+      activeOpacity: 1,
+      nonActiveOpacity: .1
+    }
+  },
+
+  // ========================
+  // light scheme
+  // ========================
+  'light': {
+    name: 'light',
+    background: 'transparent',
+    arc: {
+      fill: '#eee',
+    },
+    subArc: {
+      fillRange: ['#2686BF', '#BCD693', '#AF7575'],
+      stroke: '#fff',
+      opacity: 1,
+      activeOpacity: 1,
+      nonActiveOpacity: .3
+    },
+    arcLabel: {
+      fill: '#333',
+      fontSize: 13,
+      opacity: 1,
+      nonActiveOpacity: .3
+    },
+    subArcLabel: {
+      fill: '#333',
+      fontSize: 11,
+      opacity: 0,
+      activeOpacity: 1
+    },
+    chord: {
+      stroke: '#999',
+      opacity: .6,
+      activeOpacity: 1,
+      nonActiveOpacity: .1
     }
   }
+
 }

@@ -12,6 +12,10 @@
   border-bottom: 1px solid #888;
 }
 
+.light .level__entity__item {
+  border-bottom: 1px solid #aaa;
+}
+
 .level__entity-select {
   max-width: 70%;
   margin-bottom: .25rem;
@@ -45,11 +49,19 @@
 }
 
 .level__entity__name {
-  color: #fff;
   line-height: 1.2;
   font-size: .75rem;
   display: block;
 }
+
+.dark .level__entity__name {
+  color: #fff;
+}
+
+.light .level__entity__name {
+  color: #333;
+}
+
 
 .level__summary {
   font-size: .75rem;
@@ -60,9 +72,20 @@
   color: #ccc;
 }
 
+.light .level__summary {
+  color: #555;
+}
+
 .level__show-hide-button {
   font-size: .75rem;
+}
+
+.dark .level__show-hide-button {
   color: #ddd;
+}
+
+.light .level__show-hide-button {
+  color: #555;
 }
 
 .level__show-hide-button:hover {
