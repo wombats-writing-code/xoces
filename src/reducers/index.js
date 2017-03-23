@@ -29,6 +29,7 @@ export const changeView = (view, entity) => {
   return {type: CHANGE_VIEW, view, entity}
 }
 
+let graph;
 
 let defaultState = {
   breadcrumbs: {
@@ -41,7 +42,8 @@ export default function visReducer(state = defaultState, action) {
   switch(action.type) {
 
     case SET_CONFIG:
-      var graph = graphProvider(action.config.relationship);
+      graph = graphProvider(action.config.relationship);
+
       var data = action.config.data;
 
       // ====
@@ -54,6 +56,8 @@ export default function visReducer(state = defaultState, action) {
       } else {
         currentLevelEntity = _.find(action.config.data.entities, {type: action.config.hierarchy[0]});
       }
+
+      // console.log('currentLevelEntity', currentLevelEntity, action.config.currentLevelEntity)
 
       // =====
       // figure out the breadcrumb chain
@@ -82,17 +86,15 @@ export default function visReducer(state = defaultState, action) {
 
 
     case CLICK_SUB_ARC:
-      var graph = graphProvider(state.config.relationship);
       var data = state.config.data;
       var idx = state.config.hierarchy.indexOf(action.entity.type);
       var currentLevel = state.config.hierarchy[idx-1];
-      var model = graph.getParent(action.entity.id, state.data.entities, state.data.relationships);
+      var model = graph.getParent(action.entity.id, data.entities, data.relationships);
 
       // if we're at the bottom of the hierarchy, do nothing
       if (model === _.last(state.breadcrumbs.present)) {
         return state;
       }
-
       // console.log('breadcrumbs', breadcrumbs)
       // console.log('model', model)
 
@@ -100,6 +102,7 @@ export default function visReducer(state = defaultState, action) {
       // set the selectedEntities to all of the children of the currentLevelEntity
       // ======
       let selectedEntities = graph.getChildren(model.id, data.entities, data.relationships)
+      // console.log('selectedEntities', selectedEntities)
 
       return _.assign({}, state, {
         breadcrumbs: _.assign({}, state.breadcrumbs, {
@@ -111,7 +114,6 @@ export default function visReducer(state = defaultState, action) {
       })
 
     case CLICK_BREADCRUMB:
-      var graph = graphProvider(state.config.relationship);
       var idx = state.config.hierarchy.indexOf(action.entity.type);
       var currentLevel = state.config.hierarchy[idx];
       var data = state.config.data;

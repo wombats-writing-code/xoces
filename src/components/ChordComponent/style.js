@@ -58,9 +58,9 @@ export const getScheme = (name) => {
       },
       chord: {
         stroke: '#fff',
-        opacity: .8,
+        opacity: .7,
         activeOpacity: 1,
-        nonActiveOpacity: .3
+        nonActiveOpacity: .1
       }
     }
   }

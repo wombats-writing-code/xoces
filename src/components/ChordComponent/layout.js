@@ -4,7 +4,7 @@ import {
   arcCentroid, arcStart,
   polarToRectangular, radiansToDegrees, degreesToRadians,
   rotation, textAnchor
-} from './geometry'
+} from '../canvas/geometry'
 import {instanceId} from '../../reducers/utilities'
 
 export const computeDimensions = (width, height) => {
@@ -44,19 +44,23 @@ export const computeLayout = (props) => {
   // ====
   // compute layout for arcs
   // ===
-  let arcModels = _.filter(graph.getChildren(currentLevelEntity.id, data.entities, data.relationships), m => selectedEntities.indexOf(m) > -1);
+  let arcLevelIndex = hierarchy.indexOf(currentLevelEntity.type) + 1;
+  // console.log('arcLevelIndex', arcLevelIndex, currentLevelEntity.type)
+  let children = graph.getChildren(currentLevelEntity.id, data.entities, data.relationships);
+  let arcModels = _.filter(children, m => selectedEntities.indexOf(m) > -1 && m.type === hierarchy[arcLevelIndex]);
   let arcAngle = (2*Math.PI / arcModels.length);
   let arcPadding = .025;
   let arcs = _.map(arcModels, (m, idx) => _createArc(m, idx, arcAngle, arcPadding, idx, null));
 
   // console.log('arcs', arcs);
-  // console.log('arc names', _.map(arcs, 'model.name'))
+  // console.log('arc names', _.map(arcs, 'model.displayName'))
 
   if (!arcModels || arcModels.length === 0) {
     console.warn('no arc models')
-    // console.log('arc names', _.map(arcs, 'model.name'))
     return null;
   }
+
+  let subArcLevel = hierarchy[arcLevelIndex+1];
 
   // =======
   // compute layout for subarcs
@@ -68,10 +72,13 @@ export const computeLayout = (props) => {
     subArcModelsGrouped = _.groupBy(subArcModels, 'id');
 
   } else {
-    // get subArcModels by selecting those who are children of current model
-    let subArcModels = _.flatten(_.map(arcModels, e => {
+    // get subArcModels by selecting those who are children of current arc model
+    // only those children one level down in the hierarchy will be selected
+    let subArcModels = _.filter(_.flatten(_.map(arcModels, e => {
       return graph.getChildren(e.id, data.entities, data.relationships);
-    }));
+    })), {type: subArcLevel});
+
+    // console.log('subArcModels names', _.map(subArcModels, 'displayName'))
 
     subArcModelsGrouped = _.groupBy(subArcModels, model => {
       let parent = graph.getParent(model.id, data.entities, data.relationships);
@@ -87,6 +94,12 @@ export const computeLayout = (props) => {
     let subArcAngle = (arcAngle-arcPadding) / group.length;
     // get the rightful starting position of each subArc, from its parent
     let parentArc = _.find(arcs, a => a.model.id === parentId);
+
+    if (!parentArc) {
+      console.log('no parent arc of', parentId, 'for ', _.map(result, 'model.displayName'));
+      return;
+    }
+
     // compute arcs for these subarcs and append them to the running result
     result = _.concat(result, _.map(group, (m, idx) => _createArc(m, idx, subArcAngle, subArcSpacing, parentArc.index, parentArc.startAngle)));
 
@@ -109,19 +122,27 @@ export const computeLayout = (props) => {
   // create chords
   // =======
   let nonParentRelationships = _.reject(data.relationships, graph.isParentRelationship);
-  // find the model in it or all its children that corresponds to the source of the relationship
+  // for all non parent relationships, see how many arcs they contain
   let chords = _.compact(_.map(nonParentRelationships, (r, idx) => {
 
+    // find the source arc of the sourceId in this relationship
     let sourceArc = _.find(subArcs, arc => {
+      // if the source is in one of the subarcs, return the model
       if (graph.isSourceOf(arc.model, r)) {
+      // if (arc.model.id === r[config.sourceId])
         return arc;
       }
+      // console.log('arc', arc)
 
+      // if not, get all of its children and see which ones are its source arc
       let childrenAll = graph.getChildrenAll(arc.model.id, data.entities, data.relationships);
       return _.find(childrenAll, m => graph.isSourceOf(m, r));
     })
 
+    if (!sourceArc) return null;;
+
     let targetArc = _.find(subArcs, arc => {
+      // if the target is in one of the subarcs, return the model
       if (graph.isTargetOf(arc.model, r)) {
         return arc;
       }
@@ -130,11 +151,20 @@ export const computeLayout = (props) => {
       return _.find(childrenAll, m => graph.isTargetOf(m, r));
     })
 
-    if (sourceArc === targetArc) return null;
-    if (!sourceArc || !targetArc) return null;
+    if (!targetArc) return null;
 
-    // console.log('sourceArc', sourceArc.model.name, r);
-    // console.log('targetArc', targetArc.model.name, r)
+    if (sourceArc === targetArc) return null;
+
+    // get the parent to filter out same-parent arcs
+    // but only if we're not in the last layer of the hierarchy
+    if (arcModels[0].type !== _.last(hierarchy)) {
+      let sourceArcParent = graph.getParent(sourceArc.model.id, data.entities, data.relationships);
+      let targetArcParent = graph.getParent(targetArc.model.id, data.entities, data.relationships);
+      if (sourceArcParent === targetArcParent) return null;
+    }
+
+    // console.log('sourceArc', sourceArc.model.displayName, r);
+    // console.log('targetArc', targetArc.model.displayName, r)
 
     return _createChord({sourceArc, targetArc}, idx);
   }));

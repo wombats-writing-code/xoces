@@ -13,7 +13,6 @@ import {
 } from './drawing'
 import {getScheme, stylize} from './style'
 import {attachEvent, detachEvent} from './events'
-import graphProvider from '../graph/'
 
 
 class ChordComponent extends Component {
@@ -56,7 +55,6 @@ class ChordComponent extends Component {
 
   render() {
     let scheme = getScheme(this.props.colorScheme)
-    let graph = graphProvider(this.props.relationship)
 
     let canvas;
     if (!this.props.canvasId) {
@@ -74,9 +72,9 @@ class ChordComponent extends Component {
 
   _update(drawingGroup, w, h, props) {
     let {innerRadius, outerRadius} = computeDimensions(w, h);
+    let graph = props.graph;
 
     let scheme = getScheme(props.colorScheme)
-    let graph = graphProvider(props.relationship)
 
     let layout = computeLayout({
       data: props.data,

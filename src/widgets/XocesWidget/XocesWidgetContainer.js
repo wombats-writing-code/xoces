@@ -1,7 +1,7 @@
 import { connect } from 'react-redux'
 import {clickSubArc, clickBreadcrumb, toggleEntity, changeView} from '../../reducers/'
-
 import XocesWidget from './XocesWidget'
+import graphProvider from '../../components/graph/'
 
 const mapDispatchToProps = (dispatch) => {
   return {
@@ -16,6 +16,7 @@ const mapStateToProps = (state) => {
   console.log('state in XocesWidgetContainer', state)
 
   return {
+    graph: graphProvider(state.config.relationship),
     breadcrumbs: state.breadcrumbs.present,
     currentLevelEntity: getCurrentLevelEntity(state),
     selectedEntities: state.selectedEntities,

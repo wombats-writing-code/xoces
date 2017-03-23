@@ -2,7 +2,7 @@ import * as d3 from 'd3';
 import {arcEnterTween, arcExitTween, ARC_TRANSITION_DURATION} from './animation'
 import {getScheme} from './style'
 import {computeDimensions} from './layout'
-import {radiansToDegrees, polarToRectangular} from './geometry'
+import {radiansToDegrees, polarToRectangular} from '../canvas/geometry'
 
 export const ARC_CLASS_NAME = 'ARC_CLASS_NAME'
 export const SUB_ARC_CLASS_NAME = 'SUB_ARC_CLASS_NAME'

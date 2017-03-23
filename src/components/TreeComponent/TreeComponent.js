@@ -3,7 +3,6 @@ import * as d3 from 'd3-selection'
 import _ from 'lodash'
 
 import './TreeComponent.scss'
-import graphProvider from '../graph/'
 import {computeLayout} from './layout'
 import {getScheme, stylize} from './style'
 import {drawNodes, drawEdges} from './drawing'
@@ -55,7 +54,7 @@ class TreeComponent extends Component {
 
   _update(drawingGroup, w, h, props) {
     let scheme = getScheme(props.colorScheme)
-    let graph = graphProvider(props.relationship)
+    let graph = props.graph;
 
     let layout = computeLayout({
       nodes: props.nodes,

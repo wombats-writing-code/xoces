@@ -6,7 +6,16 @@ const getParent = (id, entities, relationships) => {
 
   if (!rel) return null;
 
-  return rel ? _.find(entities, {id: rel[config.targetRef]}) : null;
+  // return _.find(entities, {id: rel[config.targetRef]});
+
+  let parents = _.filter(entities, {id: rel[config.targetRef]});
+  if (parents.length > 1) {
+    console.warn('more than one parent found for', id)
+  }
+
+  // console.log('parents.length', parents.length)
+
+  return parents[0]
 }
 
 const getParentsAll = (id, entities, relationships) => {
@@ -28,8 +37,10 @@ const getChildren = (id, entities, relationships) => {
   return _.map(rels, r => _.find(entities, {id: r[config.sourceRef]}));
 }
 
+const _memoizedGetChildren = _.memoize(getChildren)
+
 const getChildrenAll = (id, entities, relationships) => {
-  let children = getChildren(id, entities, relationships);
+  let children = _memoizedGetChildren(id, entities, relationships);
   return _.reduce(children, (result, e) => {
     result.push(e);
     let c = getChildrenAll(e.id, entities, relationships)
@@ -53,7 +64,7 @@ const getRank = (id, entities, relationships, optionalMaxRank = 20) => {
 
     let reqs = getOutgoingEntities(entityId, entities, relationships);
     reqs = _.reject(reqs, e => {
-      return e.id === entityId || getParent(e.id) !== getParent(entityId);  // only consider those within the same group
+      return e.id === entityId || getParent(e.id, entities, relationships) !== getParent(entityId, entities, relationships);  // only consider those within the same group
     });
 
     // console.log('reqs of ', entityId, ':', _.map(reqs, 'name'));
@@ -127,12 +138,12 @@ function provider(configuration) {
   config = configuration;
 
   return {
-    getParent,
-    getParentsAll,
-    getChildren,
-    getChildrenAll,
-    getIncomingEntities,
-    getOutgoingEntities,
+    getParent: _.memoize(getParent),
+    getParentsAll: _.memoize(getParentsAll),
+    getChildren: _.memoize(getChildren),
+    getChildrenAll: _.memoize(getChildrenAll),
+    getIncomingEntities: _.memoize(getIncomingEntities),
+    getOutgoingEntities: _.memoize(getOutgoingEntities),
     getRank,
     isParentRelationship,
     isSourceOf,

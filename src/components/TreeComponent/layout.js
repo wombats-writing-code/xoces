@@ -9,7 +9,7 @@ export const computeLayout = (props) => {
   // rank each node
   let nodesGrouped = _.groupBy(props.nodes, model => props.graph.getRank(model.id, data.entities, data.relationships));
 
-  // console.log('nodesGrouped', nodesGrouped);
+  console.log('nodesGrouped', nodesGrouped);
   let ranks = _.keys(nodesGrouped);
 
   let nodeRadius = 30;
@@ -21,20 +21,18 @@ export const computeLayout = (props) => {
 
     _.forEach(models, (model, idx) => {
       // console.log('idx:', idx, 'rank:', rank, 'rankSpacing:', rankSpacing, 'nodeSpacing', nodeSpacing)
-
       let node = {
         instanceId: instanceId(),
         x: nodeSpacing*idx + nodeSpacing/2,
         y: rank*rankSpacing + topPadding,
         radius: nodeRadius,
-        nodeLabelText: _.truncate(model[props.entityLabelKey]),
+        nodeLabelText: _.truncate(model[props.entityLabelKey], {length: 25}),
         nodeTagText: model[props.entityLabelKey],
         model
       }
 
       result.push(node)
     });
-
 
     return result;
   }, []);
@@ -48,8 +46,13 @@ export const computeLayout = (props) => {
 
       let es = graph.getOutgoingEntities(model.id, data.entities, data.relationships);
       _.forEach(es, (m, i) => {
-        // console.log('source:', sourceNode.model.name, 'requires ', m.name)
         let targetNode = _.find(nodes, {model: m});
+
+        console.log('source:', sourceNode.model[props.entityLabelKey], 'requires: ', m[props.entityLabelKey])
+
+        if (!targetNode) return;
+
+        // console.log('source:', sourceNode.model[props.entityLabelKey], 'requires: ', m[props.entityLabelKey])
 
         let edge = {
           instanceId: instanceId(),

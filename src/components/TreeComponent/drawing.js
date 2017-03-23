@@ -4,7 +4,7 @@ export const EDGE_ARROW_CLASS = 'TREE_VIEW__EDGE_ARROW_CLASS'
 export const NODE_CLASS = 'TREE_VIEW__NODE_CLASS'
 export const NODE_TAG_CLASS = 'TREE_VIEW__NODE_TAG_CLASS'
 
-// import {polarToRectangular}
+import {polarToRectangular, radiansToDegrees} from '../canvas/geometry'
 
 export function drawEdges(props) {
   let data = props.data;
@@ -36,12 +36,11 @@ export function drawEdges(props) {
     // .attr('y', d => polarToRectangular({r: innerRadius, theta: d.source.startAngle}).y )
     .style('fill', d => d.stroke)
     .attr('transform', function(d) {
-      let x = d.x1;
-      let y = d.y1 - d.source.radius - 11;
-      let rotationAngle = 0;
-      // let rotationAngle = radiansToDegrees(2*Math.PI - d.source.startAngle);
-      // let {x, y} = polarToRectangular({r: innerRadius, theta: d.source.startAngle})
-      // return 'translate(' + d.target.translation.x + ',' + d.target.translation.y + ')' + ' rotate(' + -rotationAngle + ',' + posX + ',' + posY + ')';
+      // let x = d.x1;
+      // let y = d.y1 - d.source.radius - 11;
+      // let rotationAngle = 0;
+      let rotationAngle = radiansToDegrees(2*Math.PI - d.source.startAngle);
+      let {x, y} = polarToRectangular({r: 1, theta: d.source.startAngle})
       return `translate(${x}, ${y})` + ` rotate(${-rotationAngle}, ${0}, ${0})`;
     });
 }
@@ -71,6 +70,8 @@ export function drawNodes(props) {
     .style('font-size', d=> `${d.nodeLabelFontSize}px`)
     .style('background', d => d.fill)
     .style('color', d => d.nodeLabelColor)
+    .style('padding-left', '5px')
+    .style('padding-right', '5px')
     .style('border-radius', '50%')
     .style('margin-bottom', 0)
     .style('text-align', 'center')

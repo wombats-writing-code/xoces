@@ -21,7 +21,7 @@ class XocesWidget extends Component {
   render() {
     let graph = graphProvider(this.props.relationship)
 
-    console.log('props in XocesWidget', this.props)
+    // console.log('props in XocesWidget', this.props)
 
     let component;
     if (this.props.view === CHORD_VIEW) {
