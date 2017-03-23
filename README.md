@@ -9,7 +9,7 @@ Xoces is a JavaScript widget for visualizing data that have both hierarchical le
 **Why use Xoces**
 We want to save people time by providing a neat but powerful, configurable visualization that works more or less out of the box. You could code it from scratch from d3, but we think you'll find the API pretty easy to use. Just include the widget in your code or HTML, specify your data, and you're good to go.
 
-If you want to try out the visualization, we have a few [examples here](http://mapping.mit.edu/projects/xoces-examples)
+See what the visualization looks like -- we have a [few examples here](http://mapping.mit.edu/projects/xoces-examples).
 
 
 ## Resources
@@ -46,7 +46,7 @@ var xoces = require('xoces')
 
 If you use the UMD bundle, everything is bundled along with you, so you don't need to install dependencies and can just do:
 ```
-import xoces from 'xoces/xoces-umd'
+import xoces from 'xoces/umd/xoces-umd'
 ```
 
 If you want to [download the standalone bundle](http://github.com/wombats-writing-code/xoces/dist/umd/xoces-umd.js) and load it into your HTML, this will makes the `xoces` variable globally available. If you're not sure what NPM / CommonJS / ES6 is, this option is probably for you.
@@ -78,15 +78,17 @@ You can also load it directly from CDN:
 Xoces lets you choose from 3 widgets: `XocesWidget`, `ChordWidget`, or `TreeWidget`.
 
 The `ChordWidget` gets you the chord visualization.
-![chord visualization](https://github.com/wombats-writing-code/blob/master/xoces/img/xoces-chord-widget.png)
+![chord visualization](https://github.com/wombats-writing-code/xoces/blob/master/xoces/img/xoces-chord-widget.png)
 
-The chord visualization is an interactive, nested visualization.
+The chord component visualizes one level of the hierarchy at one time. Whenever you click on a piece, the chord visualization changes to display the next level down. Confused? Take some time to [explore our examples](http://mapping.mit.edu/projects/xoces-examples) and keep reading to see what "hierarchy" means.
 
 The `TreeWidget` gives you the tree visualization:
 ![tree visualization](https://github.com/wombats-writing-code/xoces/blob/master/img/xoces-tree-widget.png)
 
+The tree component computes a rank for each entity and arranges them in order of increasing rank. So, the top-most entity is the "beginning" and the bottom-most entity has the "most things going into it".
+
 The `XocesWidget` gets you the chord and tree visualization by displaying entities in tree view when you're at the bottom of the hierarchy.
-![tree visualization](https://github.com/wombats-writing-code/xoces/blob/master/img/xoces-chord-treewidget.png)
+![chord-tree visualization](https://github.com/wombats-writing-code/xoces/blob/master/img/xoces-chord-tree-widget.png)
 
 To initialize a widget, call:
 ```
@@ -96,7 +98,10 @@ var myWidget = xoces.widgets.ChordWidget.new({});
 Of course this doesn't quite work -- if you inspect the console, xoces tells you that you're missing **mandatory** configuration settings. At minimum, you need to specify:
 ```
 var myWidget = xoces.widgets.ChordWidget.new({
-  hierarchy: ['top-level-group', 'group', 'team', 'person'],      // just an example
+
+  // in this made-up example, we have a top level group. Within this top-level group, we have smaller groups.
+  // ...within groups, we have teams. Within a team, we have people.
+  hierarchy: ['top-level-group', 'group', 'team', 'person'],     
   data: {
     entities: [
 
@@ -190,7 +195,7 @@ Read more below on each field.
 
 This field is an object with 2 fields: `entities` and `relationships`. `entities` must be an array of Entity objects (see below for more detail), and `relationships` must be an array of Relationship objects.
 
-**configuration.data.Entity**
+**configuration.data.entities**
 
 An `Entity` object is just a plain-old JavaScript object, with two mandatory properties: `id` and `type`. The `id` field is a unique identifier for the entity and must not be repeated. The `type` field specifies what type of entity it is.
 
@@ -203,7 +208,7 @@ var validEntity = {
   someOtherProperty: 'hello world!'
 }
 ```
-**configuration.data.Relationship**
+**configuration.data.relationships**
 
 A `Relationship` object is also just a plain-old JavaScript object, with three mandatory properties: `type`, `sourceId`, `targetId`.
 
@@ -224,6 +229,12 @@ Your hierarchy array would then be:
 
 **configuration.colorScheme**
 `'light'` or `dark`. The light scheme works better for print outs, while the dark scheme looks better for presentations.
+
+**configuration.width**
+Sets the width of the entire widget.
+
+**configuration.height**
+Sets the height of the entire widget. We recommend at least a `500`px height.
 
 ## Examples
 
