@@ -1,13 +1,15 @@
 
 # Xoces
-![Xoces: Chord & Tree visualization widget](https://github.com/wombats-writing-code/xoces/img/xoces-chord-tree.png)
+![Xoces: Chord & Tree visualization widget](https://github.com/wombats-writing-code/xoces/blob/master/img/xoces-chord-tree.png)
 
 
 ## What and why
-Xoces is a JavaScript widget for visualizing data that have both hierarchical levels and also relationships 'within the same level'. For example, you have learning outcomes grouped into subjects and you want to visualize how your outcomes relate to each other. Or you have actors and movies grouped by A/B/C/D-lists and you want to see how those all relate to each other.
+Xoces is a JavaScript widget for visualizing data that have both hierarchical levels and also relationships "within the same level". For example, you have learning outcomes grouped into subjects and you want to visualize how your outcomes relate to each other. Or you have actors and movies grouped by A/B/C/D-lists and you want to see how those all relate to each other.
 
 **Why use Xoces**
 We want to save people time by providing a neat but powerful, configurable visualization that works more or less out of the box. You could code it from scratch from d3, but we think you'll find the API pretty easy to use. Just include the widget in your code or HTML, specify your data, and you're good to go.
+
+If you want to try out the visualization, we have a few [examples here](http://mapping.mit.edu/projects/xoces-examples)
 
 
 ## Resources
@@ -76,15 +78,15 @@ You can also load it directly from CDN:
 Xoces lets you choose from 3 widgets: `XocesWidget`, `ChordWidget`, or `TreeWidget`.
 
 The `ChordWidget` gets you the chord visualization.
-![chord visualization](https://github.com/wombats-writing-code/xoces/img/xoces-chord-widget.png)
+![chord visualization](https://github.com/wombats-writing-code/blob/master/xoces/img/xoces-chord-widget.png)
 
 The chord visualization is an interactive, nested visualization.
 
 The `TreeWidget` gives you the tree visualization:
-![tree visualization](https://github.com/wombats-writing-code/xoces/img/xoces-tree-widget.png)
+![tree visualization](https://github.com/wombats-writing-code/xoces/blob/master/img/xoces-tree-widget.png)
 
 The `XocesWidget` gets you the chord and tree visualization by displaying entities in tree view when you're at the bottom of the hierarchy.
-![tree visualization](https://github.com/wombats-writing-code/xoces/img/xoces-chord-treewidget.png)
+![tree visualization](https://github.com/wombats-writing-code/xoces/blob/master/img/xoces-chord-treewidget.png)
 
 To initialize a widget, call:
 ```
@@ -227,8 +229,8 @@ Your hierarchy array would then be:
 
 In the `dist/` folder, there are 3 examples that are loaded into `dist/index.html`:
 * `example1.js`: Uses a made-up data set
-* `example2.js`: Uses the Singapore University of Technology & Design core curriculum dataset. Check out the [interactive visualization here](http://localhost:5000/projects/xoces-examples#sutdoces).
-* `example3.js`: Uses a subset of the Massachusetts Institute of Technology outcomes mapping dataset. Check out the [interactive visualization here](http://localhost:5000/projects/xoces-examples#mitoces)
+* `example2.js`: Uses the Singapore University of Technology & Design core curriculum dataset. Check out the [interactive visualization here](http://localhost:5000/projects/xoces-examples?name=sutdoces).
+* `example3.js`: Uses a subset of the Massachusetts Institute of Technology outcomes mapping dataset. Check out the [interactive visualization here](http://localhost:5000/projects/xoces-examples?name=mitoces)
 
 ## Pull requests
 Please contribute! We respond within 24 hours.
