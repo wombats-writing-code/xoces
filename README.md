@@ -10,7 +10,6 @@ Xoces is a JavaScript widget for visualizing data that have both hierarchical le
 We want to save people time by providing a neat but powerful, configurable visualization that works more or less out of the box. You could code it from scratch from d3, but we think you'll find the API pretty easy to use. Just include the widget in your code or HTML, specify your data, and you're good to go.
 
 
-
 ## Resources
 - Visit the [MIT Mapping Lab](http://mapping.mit.edu) (the people who made xoces)
     - See guides on how to model and map curricular data, e.g. for [mapping outcomes](http://mapping.mit.edu/outcomes-mapping), [concepts](http://mapping.mit.edu/concepts-mapping), [courses in a curriculum](http://mapping.mit.edu/curriculum-mapping), etc.
@@ -236,4 +235,4 @@ Please contribute! We respond within 24 hours.
 
 ## Feedback
 
-Contact us at the [MIT Mapping Lab](http://mapping.mit.edu) [mapping at mit.edu]
+Contact us at the [MIT Mapping Lab](http://mapping.mit.edu) [mapping-lab at mit.edu]
