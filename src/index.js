@@ -19,7 +19,6 @@ let store = createStore(reducer)
 
 module.exports = {
   config: (config) => {
-    LibConfig = config;
   },
 
   widgets: {
@@ -50,7 +49,7 @@ module.exports = {
              }
            }
         }
-     }
+     },
    },
    libs: {
      graphProvider

@@ -1,28 +1,36 @@
 
-
 # Xoces
+![Xoces: Chord & Tree visualization widget](https://github.com/wombats-writing-code/xoces/img/xoces-chord-tree.png)
 
-## About
-Xoces is an interactive visualization library for visualizing curricular data.
 
-Curricular data often contain many complex relationships - Xoces makes it easier to interact with and explore those relationships.
+## What and why
+Xoces is an interactive visualization tool for visualizing data that have both hierarchical levels and also relationships 'within the same level'. For example, you have learning outcomes grouped into subjects and you want to visualize how your outcomes relate to each other. Or you have actors and movies grouped by A/B/C/D-lists and you want to see how those all relate to each other.
+
+**Why use Xoces**
+We want to save people time by providing a neat but powerful, configurable visualization that works more or less out of the box. You could code it from scratch from d3, but we think you'll find the API pretty easy to use.
+
 
 ## Resources
 - Visit the [MIT Mapping Lab](http://mapping.mit.edu) (our lab)
     - See guides on how to model and map curricular data, e.g. for [mapping outcomes](http://mapping.mit.edu/outcomes-mapping), [concepts](http://mapping.mit.edu/concepts-mapping), [courses in a curriculum](http://mapping.mit.edu/curriculum-mapping), etc.
 - [Installing](#installing)
+- [Getting started](#getting-started)
 - [API Docs](#api)
 - [Examples](#examples)
 
-## Installing (#installing)
+## Installing
 If you use NPM and want to require Xoces as a module:
 
 ```
 npm install --save xoces
 ```
 
-To require Xoces in your ES6:
+Xoces has dependencies and needs these dependencies to be installed and `require`'d into your environment:
+```
+npm --save jquery react react-dom redux react-redux
+```
 
+To require Xoces in your ES6:
 ```
 import xoces from 'xoces'
 ```
@@ -34,18 +42,22 @@ var xoces = require('xoces')
 
 ### UMD
 
-If you want to download the standalone bundle and load it into your HTML, this will makes the `xoces` variable globally available. If you're not sure what NPM / CommonJS / ES6 is, this option is probably for you.
+If you use the UMD bundle, everything is bundled along with you, so you don't need to install dependencies and can just do:
+```
+import xoces from 'xoces/xoces-umd'
+```
+
+If you want to [download the standalone bundle](http://github.com/wombats-writing-code/xoces/dist/xoces-umd.js) and load it into your HTML, this will makes the `xoces` variable globally available. If you're not sure what NPM / CommonJS / ES6 is, this option is probably for you.
 
 ```
 <html>
   <body>
 
-  <script src="https://xoces-v2.0.0.min.js"></script>
+  <script src="/scripts/xoces-umd.js"></script>
   <script>
-  console.log('xoces is loaded!', xoces);
-  var config = {...};
-  var myWidget = xoces.widgets.ChordWidget.new(config);
-
+    console.log('xoces is loaded!', xoces);
+    var config = {...};
+    var myWidget = xoces.widgets.ChordWidget.new(config);
   </script>
   </body>
 </html>
@@ -56,8 +68,30 @@ If you want to download the standalone bundle and load it into your HTML, this w
 
 You can also load it directly from CDN:
 ```
-<script src="https://cdnjs.org/xoces-v2.0.0.min.js"></script>
+<script src="https://cdnjs.org/xoces-v2.0.0.umd.min.js"></script>
 ```
+
+## Getting started
+
+Xoces lets you choose from 3 widgets: `XocesWidget`, `ChordWidget`, or `TreeWidget`.
+
+The `ChordWidget` gets you the chord visualization.
+![chord visualization](https://github.com/wombats-writing-code/xoces/img/xoces-chord-widget.png)
+
+
+The `TreeWidget` gives you the tree visualization:
+![tree visualization](https://github.com/wombats-writing-code/xoces/img/xoces-tree-widget.png)
+
+The `XocesWidget` gets you the chord and tree visualization.
+![tree visualization](https://github.com/wombats-writing-code/xoces/img/xoces-widget.png)
+
+To initialize a widget, call:
+```
+var myWidget = xoces.widgets.ChordWidget.new({});
+```
+
+
+
 
 ## API
 
@@ -90,7 +124,7 @@ var config = {
   },
   hierarchy: [],                         // required!
   currentLevelEntity: null,
-  entityLabelKey: 'name',
+  entityLabelKey: '',                    // required!
   relationship: {
     parentType: '',                      // required!
     sourceRef: '',                       // required!
@@ -133,20 +167,26 @@ A `Relationship` object is also just a plain-old JavaScript object, with three m
 
 This field is **required**. This is an array of the types of entities, ordered by increasing granularity. This specifies how your entities are supposed to be nested. For example, your data model may look like:
 ```
-- Institution
-  - School
-    - Department
-      - Course
+- institution
+  - school
+    - department
+      - course
 ```
 Your hierarchy array would then be:
 ```
 ['institution', 'school', 'department', 'course']
 ```
 
+## Examples
+
+In the `dist/` folder, there are 3 examples that are loaded into `dist/index.html`:
+* `example1.js`: Uses a made-up data set
+* `example2.js`: Uses the Singapore University of Technology & Design core curriculum dataset. Check out the [interactive visualization here](http://localhost:5000/projects/xoces-examples#sutdoces).
+* `example3.js`: Uses a subset of the Massachusetts Institute of Technology outcomes mapping dataset. Check out the [interactive visualization here](http://localhost:5000/projects/xoces-examples#mitoces)
+
 ## Pull requests
-Please contribute! We respond within 24 hours.    
+Please contribute! We respond within 24 hours.
 
-## Dependencies
-Xoces comes bundled with [lodash](lodash.com/docs/4.17.4#at), [d3](https://github.com/d3/d3), [jquery](https://github.com/jquery/jquery), [chroma-js](https://github.com/gka/chroma.js/), [react]() and [redux]().
+## Feedback
 
-For the vast majority of users, this is fine. But if you want to load your own versions of this libraries,
+Contact us at the [MIT Mapping Lab](http://mapping.mit.edu) [mapping at mit.edu]

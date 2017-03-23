@@ -4,8 +4,13 @@
   <title>Xoces</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- jquery and lodash are loaded below for convenience only (to fetch example data sets).
+      You do NOT need to load them if you're using the UMD, already-bundled version of Xoces
+  -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.4/lodash.min.js"></script>
+
 </head>
 <body>
   <div id="root" style="height: 100%"></div>
@@ -15,10 +20,11 @@
 
 <div id="xocesContainer"></div>
 
-<script src="/bundle.js"></script>
-<!-- <script src="/example1.js"></script>> -->
-<!-- <script src="/example2.js"></script> -->
-<script src="/example3.js"></script>
+
+<script src="/xoces-umd.js"></script>
+<!-- <script src="/examples/example1.js"></script>> -->
+<!-- <script src="/examples/example2.js"></script> -->
+<script src="/examples/example3.js"></script>
 
 
 </html>

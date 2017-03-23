@@ -86,7 +86,7 @@ export function drawNodes(props) {
   foreignObject
     .append("xhtml:p")
     .attr('class', `${NODE_TAG_CLASS}`)
-    .style('width', d => `${2*d.radius}px`)
+    .style('width', d => `${4*d.radius}px`)
     .style('font-size', d=> `${d.nodeTagFontSize}px`)
     .style('opacity', d => d.nodeTagOpacity)
     .style('color', d => d.nodeTagColor)

@@ -3,8 +3,12 @@
 export const SET_CONFIG = 'SET_CONFIG'
 
 export const setConfig = (config) => {
-  if (!config.hierarchy) {
+  if (!config.hierarchy || config.hierarchy.length === 0) {
     throw new TypeError("config must contain a 'hierarchy' array");
+  }
+
+  if (!config.entityLabelKey) {
+    throw new TypeError("config must contain a 'entityLabelKey' field that specifies what property of the entity to use for display")
   }
 
   if (!config.relationship || !config.relationship.parentType || !config.relationship.sourceRef || !config.relationship.targetRef) {

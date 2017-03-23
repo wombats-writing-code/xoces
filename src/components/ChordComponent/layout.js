@@ -19,7 +19,7 @@ export const computeDimensions = (width, height) => {
 
   return {
     innerRadius: h/3.5,
-    outerRadius: h/3.5 + 18*h/700
+    outerRadius: h/3.5 + 18*h/620
   }
 }
 
