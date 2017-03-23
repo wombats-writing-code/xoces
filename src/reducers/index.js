@@ -31,6 +31,14 @@ export const changeView = (view, entity) => {
 
 let graph;
 
+let defaultConfig = {
+  width: '100%',
+  height: 500,
+  colorScheme: 'dark',
+  currentLevelEntity: null,
+  view: CHORD_VIEW,
+}
+
 let defaultState = {
   breadcrumbs: {
     present: [],
@@ -43,7 +51,6 @@ export default function visReducer(state = defaultState, action) {
 
     case SET_CONFIG:
       graph = graphProvider(action.config.relationship);
-
       var data = action.config.data;
 
       // ====
@@ -71,11 +78,12 @@ export default function visReducer(state = defaultState, action) {
       }
 
       // ======
-      // set the selectedEntities to all of the children of the currentLevelEntity
+      // set default config
       // ======
+      let config = _.assign({}, defaultConfig, action.config);
 
       return _.assign({}, state, {
-        config: action.config,
+        config: config,
         breadcrumbs: _.assign({}, state.breadcrumbs, {
           present: chain
         }),

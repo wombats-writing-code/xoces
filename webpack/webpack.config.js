@@ -16,7 +16,7 @@ let configs = _.map(targets, target => {
     output: {
       filename: `xoces-${target}.js`,         // the output bundle
       libraryTarget: target,             // Possible value - amd, commonjs, commonjs2, commonjs-module, this, var
-      path: DIST_PATH,
+      path: `${DIST_PATH}/umd/`,
       publicPath: '/',                  // necessary for HMR to know where to load the hot update chunks,
       library: 'xoces',
     },

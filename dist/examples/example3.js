@@ -93,8 +93,6 @@ $.when(entitiesPromise, relationshipsPromise)
   // console.log('chord widget', cw);
 
   // render it into the specified container
-  cw.render({
-    container: 'xocesContainer'
-  });
+  cw.render({});
 
 })

@@ -31,8 +31,10 @@ module.exports = {
                let container;
                if (_.isString(arg.container)) {
                  container = document.getElementById(arg.container);
-               } else {
+               } else if (arg.container) {
                  container = arg.container;
+               } else {
+                 container = document.body;
                }
 
                let props = _.assign({}, config, arg);

@@ -4,14 +4,15 @@
 
 
 ## What and why
-Xoces is an interactive visualization tool for visualizing data that have both hierarchical levels and also relationships 'within the same level'. For example, you have learning outcomes grouped into subjects and you want to visualize how your outcomes relate to each other. Or you have actors and movies grouped by A/B/C/D-lists and you want to see how those all relate to each other.
+Xoces is a JavaScript widget for visualizing data that have both hierarchical levels and also relationships 'within the same level'. For example, you have learning outcomes grouped into subjects and you want to visualize how your outcomes relate to each other. Or you have actors and movies grouped by A/B/C/D-lists and you want to see how those all relate to each other.
 
 **Why use Xoces**
-We want to save people time by providing a neat but powerful, configurable visualization that works more or less out of the box. You could code it from scratch from d3, but we think you'll find the API pretty easy to use.
+We want to save people time by providing a neat but powerful, configurable visualization that works more or less out of the box. You could code it from scratch from d3, but we think you'll find the API pretty easy to use. Just include the widget in your code or HTML, specify your data, and you're good to go.
+
 
 
 ## Resources
-- Visit the [MIT Mapping Lab](http://mapping.mit.edu) (our lab)
+- Visit the [MIT Mapping Lab](http://mapping.mit.edu) (the people who made xoces)
     - See guides on how to model and map curricular data, e.g. for [mapping outcomes](http://mapping.mit.edu/outcomes-mapping), [concepts](http://mapping.mit.edu/concepts-mapping), [courses in a curriculum](http://mapping.mit.edu/curriculum-mapping), etc.
 - [Installing](#installing)
 - [Getting started](#getting-started)
@@ -47,7 +48,7 @@ If you use the UMD bundle, everything is bundled along with you, so you don't ne
 import xoces from 'xoces/xoces-umd'
 ```
 
-If you want to [download the standalone bundle](http://github.com/wombats-writing-code/xoces/dist/xoces-umd.js) and load it into your HTML, this will makes the `xoces` variable globally available. If you're not sure what NPM / CommonJS / ES6 is, this option is probably for you.
+If you want to [download the standalone bundle](http://github.com/wombats-writing-code/xoces/dist/umd/xoces-umd.js) and load it into your HTML, this will makes the `xoces` variable globally available. If you're not sure what NPM / CommonJS / ES6 is, this option is probably for you.
 
 ```
 <html>
@@ -68,7 +69,7 @@ If you want to [download the standalone bundle](http://github.com/wombats-writin
 
 You can also load it directly from CDN:
 ```
-<script src="https://cdnjs.org/xoces-v2.0.0.umd.min.js"></script>
+<script src="https://unpkg.com/xoces@1.1.12/umd/xoces-umd.js"></script>
 ```
 
 ## Getting started
@@ -78,19 +79,62 @@ Xoces lets you choose from 3 widgets: `XocesWidget`, `ChordWidget`, or `TreeWidg
 The `ChordWidget` gets you the chord visualization.
 ![chord visualization](https://github.com/wombats-writing-code/xoces/img/xoces-chord-widget.png)
 
+The chord visualization is an interactive, nested visualization.
 
 The `TreeWidget` gives you the tree visualization:
 ![tree visualization](https://github.com/wombats-writing-code/xoces/img/xoces-tree-widget.png)
 
-The `XocesWidget` gets you the chord and tree visualization.
-![tree visualization](https://github.com/wombats-writing-code/xoces/img/xoces-widget.png)
+The `XocesWidget` gets you the chord and tree visualization by displaying entities in tree view when you're at the bottom of the hierarchy.
+![tree visualization](https://github.com/wombats-writing-code/xoces/img/xoces-chord-treewidget.png)
 
 To initialize a widget, call:
 ```
 var myWidget = xoces.widgets.ChordWidget.new({});
 ```
 
+Of course this doesn't quite work -- if you inspect the console, xoces tells you that you're missing **mandatory** configuration settings. At minimum, you need to specify:
+```
+var myWidget = xoces.widgets.ChordWidget.new({
+  hierarchy: ['top-level-group', 'group', 'team', 'person'],      // just an example
+  data: {
+    entities: [
 
+      // let's start with two entities. 'id' and 'type' fields are mandatory.
+      {
+        id: 'entity1',
+        type: 'top-level-group',
+        nameForDisplay: 'i am the first entity'
+      },
+      {
+        id: 'entity2',
+        type: 'group',
+        nameForDisplay: 'another entity'
+      },
+    ],
+    relationships: [
+
+      // this relationship points from entity2 ---> entity1, saying that entity2 'has_parent_of' entity1
+      {               
+        id: 'r1',
+        type: 'has_parent_of',
+        sourceId: 'entity2',
+        parentId: 'entity1'
+      }
+    ]
+  },
+
+  // we choose the key 'nameForDisplay' for displaying the entity
+  entityLabelKey: 'nameForDisplay',
+
+  // we tell xoces that grouping relationships have type 'has_parent_of'
+  // and that relationships have keys 'sourceId' and 'targetId' that point to the source and target respectively
+  relationship: {
+    parentType: 'has_parent_of',
+    sourceRef: 'sourceId',
+    targetRef: 'targetId',
+  },
+});
+```
 
 
 ## API
@@ -104,7 +148,7 @@ var myWidget = xoces.widgets.ChordWidget.new(config);
 
 **widget.render()**
 
-Calling this method renders the widget onto screen. This method expects the id of the container element that wraps the widget. If the name you provided is not found, it will create an element and
+Calling this method renders the widget onto screen. This method expects either the container or the id of the container element that wraps the widget. If the name you provided is not found, it will create an element and append it to the body. We recommend you always specify a container.
 
 ```
 myWidget.render({
@@ -176,6 +220,9 @@ Your hierarchy array would then be:
 ```
 ['institution', 'school', 'department', 'course']
 ```
+
+**configuration.colorScheme**
+`'light'` or `dark`. The light scheme works better for print outs, while the dark scheme looks better for presentations.
 
 ## Examples
 
