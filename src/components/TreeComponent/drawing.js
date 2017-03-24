@@ -77,6 +77,7 @@ export function drawNodes(props) {
     // .style('padding-left', '5px')
     // .style('padding-right', '5px')
     .style('border-radius', '50%')
+    .style('margin-top', 0)
     .style('margin-bottom', 0)
     .style('text-align', 'center')
     .style('line-height', 1)

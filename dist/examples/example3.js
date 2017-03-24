@@ -3,7 +3,7 @@ var entities, relationships;
 var entitiesPromise = $.ajax('https://xoces.mit.edu/api/v1/handcar/services/learning/objectivebanks/mc3-objectivebank:11@MIT-OEIT/objectives/')
 var relationshipsPromise = $.ajax('https://xoces.mit.edu/api/v1/handcar/services/relationship/families/mc3-family:12@MIT-OEIT/relationships')
 
-let school = {
+var school = {
   id: 'MIT',
   type: 'school',
   displayName: 'MIT'
@@ -35,7 +35,7 @@ $.when(entitiesPromise, relationshipsPromise)
   });
 
   relationships = _.map(rData[0], function(relationship) {
-    let r = _.assign({}, relationship, {
+    var r = _.assign({}, relationship, {
       type: relationship.genusTypeId
     })
 
@@ -68,9 +68,9 @@ $.when(entitiesPromise, relationshipsPromise)
       entities: entities.concat(school),
       relationships: relationships.concat(schoolRelationships)
     },
-    view: 'CHORD_VIEW',
-    // currentLevelEntity: "mc3-objective%3A8152%40MIT-OEIT",
-    // view: 'TREE_VIEW',
+    // view: 'CHORD_VIEW',
+    currentLevelEntity: "mc3-objective%3A8152%40MIT-OEIT",
+    view: 'TREE_VIEW',
     entityLabelKey: 'displayName',
     relationship: {
       parentType: parentType,

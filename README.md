@@ -145,11 +145,11 @@ var myWidget = xoces.widgets.XocesWidget.new({
 
 ## API
 
-**xoces.widgets.ChordWidget()**
+**xoces.widgets.XocesWidget()**
 
 The first step is to create a widget by passing in a **config** object.
 ```
-var myWidget = xoces.widgets.ChordWidget.new(config);
+var myWidget = xoces.widgets.XocesWidget.new(config);
 ```
 
 **widget.render()**

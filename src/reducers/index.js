@@ -71,10 +71,10 @@ export default function visReducer(state = defaultState, action) {
       // =====
       let chain;
       if (action.config.hierarchy.indexOf(currentLevelEntity.type) === 0) {
-        chain = _.concat(state.breadcrumbs.present, currentLevelEntity);
+        chain = _.concat([], currentLevelEntity);
       } else {
         let parents = _.reverse(graph.getParentsAll(currentLevelEntity.id, data.entities, data.relationships));
-        chain = _.concat(state.breadcrumbs.present, parents, currentLevelEntity);
+        chain = _.concat([], parents, currentLevelEntity);
       }
 
       // ======
@@ -82,9 +82,9 @@ export default function visReducer(state = defaultState, action) {
       // ======
       let config = _.assign({}, defaultConfig, action.config);
 
-      return _.assign({}, state, {
+      return _.assign({}, defaultState, {
         config: config,
-        breadcrumbs: _.assign({}, state.breadcrumbs, {
+        breadcrumbs: _.assign({}, defaultState.breadcrumbs, {
           present: chain
         }),
         view: action.config.view || state.view,
