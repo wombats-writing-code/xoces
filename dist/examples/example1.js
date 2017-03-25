@@ -82,17 +82,16 @@ var cw = xoces.widgets.XocesWidget.new({
   width: '100%',
   height: 500,
   colorScheme: 'dark',
-  onMouseOver: function(e, data) {
-    // console.log('embedded!: i was mouseovered!', e, data)
+  onMouseOverFinish: function(data) {
+    // console.log('onMouseOverFinish: i was mouseovered!', data)
   },
-  onMouseOut: function() {
-
+  onMouseOutFinish: function(data) {
+    // console.log('onMouseOutFinish: i was mouseovered!', data)
   },
-  onClick: function(e, data) {
-    // console.log('i was clicked!', e, data)
+  onClickFinish: function(data) {
+    // console.log('onClickFinish: i was clicked!', data)
   }
 });
-// console.log('chord widget', cw);
 
 // render it into the specified container
 cw.render({

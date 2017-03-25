@@ -80,14 +80,11 @@ var cw = xoces.widgets.ChordWidget.new({
   width: '100%',
   height: 500,
   colorScheme: 'light',
-  onMouseOver: function(e, data) {
-    // console.log('embedded!: i was mouseovered!', e, data)
+  onMouseOverFinish: function(data) {
   },
-  onMouseOut: function() {
-
+  onMouseOutFinish: function() {
   },
-  onClick: function(e, data) {
-    // console.log('i was clicked!', e, data)
+  onClickFinish: function(edata) {
   }
 });
 // console.log('chord widget', cw);

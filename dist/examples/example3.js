@@ -80,17 +80,13 @@ $.when(entitiesPromise, relationshipsPromise)
     width: '100%',
     height: 900,
     colorScheme: 'light',
-    onMouseOver: function(e, data) {
-      // console.log('embedded!: i was mouseovered!', e, data)
+    onMouseOverFinish: function(data) {
     },
-    onMouseOut: function() {
-
+    onMouseOutFinish: function() {
     },
-    onClick: function(e, data) {
-      // console.log('i was clicked!', e, data)
+    onClickFinish: function(e, data) {
     }
   });
-  // console.log('chord widget', cw);
 
   // render it into the specified container
   cw.render({});
