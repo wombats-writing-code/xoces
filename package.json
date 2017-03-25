@@ -7,7 +7,7 @@
     "start": "webpack-dev-server --open --config ./webpack/webpack-dev.config.js",
     "test": "./node_modules/.bin/mocha -r jsdom-global/register --compilers js:babel-core/register --colors  $(find . ! -path './node_modules/*' -name '*.spec.js')",
     "build": "rm ./dist/*.js; rm ./dist/umd/*.js; webpack --config ./webpack/webpack.config.js",
-    "dist": "cp package.json dist/; cd dist/; npm publish"
+    "dist": "cp package.json dist/; cd dist/; npm publish; git push origin master"
   },
   "repository": {
     "type": "git",
