@@ -19,7 +19,7 @@ class BreadcrumbsNav extends Component {
   render() {
     let props = this.props;
     let button;
-    if (props.breadcrumbs.length === props.hierarchy.length - 1) {
+    if (props.onChangeView && props.breadcrumbs.length === props.hierarchy.length - 1) {
       if (this.props.view === CHORD_VIEW) {
         button = (
           <button className="xoces-button chord-tree-button"
@@ -37,7 +37,6 @@ class BreadcrumbsNav extends Component {
           </button>
         )
       }
-
     }
 
     return (

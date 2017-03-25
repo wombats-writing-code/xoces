@@ -12,6 +12,8 @@ import reducer from './reducers'
 import {setConfig} from './reducers/setConfig'
 
 import XocesWidget from './widgets/XocesWidget';
+import ChordWidget from './widgets/ChordWidget';
+import TreeWidget from './widgets/TreeWidget';
 import graphProvider from './components/graph'
 
 let store = createStore(reducer)
@@ -24,36 +26,88 @@ module.exports = {
   widgets: {
      XocesWidget: {
        new: (config) => {
-           let uid = _.uniqueId('xoces_widget_');
+         let uid = _.uniqueId('xoces_widget_');
 
-           return {
-             render(arg) {
-               let container;
-               if (_.isString(arg.container)) {
-                 container = document.getElementById(arg.container);
-               } else if (arg.container) {
-                 container = arg.container;
-               } else {
-                 container = document.body;
-               }
+         return {
+           render(arg) {
+             let container = _getContainer(arg.container);
+             let props = _.assign({}, config, arg, {
+               __widgetType: 'XocesWidget'
+             });
 
-               let props = _.assign({}, config, arg);
+             store.dispatch(setConfig(props))
 
-               store.dispatch(setConfig(props))
-
-               ReactDOM.render(
-                 <Provider store={store}>
-                   <XocesWidget {...props}/>
-                 </Provider>,
-                 container,
-                 arg.callback
-               )
-             }
+             ReactDOM.render(
+               <Provider store={store}>
+                 <XocesWidget {...props}/>
+               </Provider>,
+               container,
+               arg.callback
+             )
            }
+         }
         }
      },
+     ChordWidget: {
+       new: (config) => {
+         let uid = _.uniqueId('xoces_chord_widget_');
+
+         return {
+           render(arg) {
+             let container = _getContainer(arg.container);
+             let props = _.assign({}, config, arg, {
+               __widgetType: 'ChordWidget'
+             });
+
+             store.dispatch(setConfig(props))
+
+             ReactDOM.render(
+               <Provider store={store}>
+                 <ChordWidget {...props}/>
+               </Provider>,
+               container,
+               arg.callback
+             )
+           }
+         }
+      }
+     },
+     TreeWidget: {
+       new: (config) => {
+         let uid = _.uniqueId('xoces_tree_widget_');
+
+         return {
+           render(arg) {
+             let container = _getContainer(arg.container);
+             let props = _.assign({}, config, arg, {
+               __widgetType: 'TreeWidget'
+             });
+
+             store.dispatch(setConfig(props))
+
+             ReactDOM.render(
+               <Provider store={store}>
+                 <TreeWidget {...props}/>
+               </Provider>,
+               container,
+               arg.callback
+             )
+           }
+         }
+        }
+     }
    },
    libs: {
      graphProvider
    },
+}
+
+function _getContainer(container) {
+  if (_.isString(container)) {
+    return document.getElementById(container);
+  } else if (container) {
+    return container;
+  }
+
+  return container = document.body;
 }
