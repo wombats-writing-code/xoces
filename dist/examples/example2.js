@@ -58,9 +58,9 @@ $.when(entitiesPromise, relationshipsPromise)
       entities: entities.concat(school),
       relationships: relationships.concat(schoolRelationships)
     },
-    // view: 'CHORD_VIEW',
-    currentLevelEntity: "mc3-objective%3A12722%40MIT-OEIT",
-    view: 'TREE_VIEW',
+    view: 'CHORD_VIEW',
+    // currentLevelEntity: "mc3-objective%3A12722%40MIT-OEIT",
+    // view: 'TREE_VIEW',
     entityLabelKey: 'displayName',
     relationship: {
       parentType: parentType,
@@ -69,7 +69,7 @@ $.when(entitiesPromise, relationshipsPromise)
     },
     width: '100%',
     height: 500,
-    colorScheme: 'dark',
+    colorScheme: 'light',
     onMouseOverFinish: function(data) {
     },
     onMouseOutFinish: function() {

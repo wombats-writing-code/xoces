@@ -88,7 +88,11 @@ Xoces lets you choose from 3 widgets: `XocesWidget`, `ChordWidget`, or `TreeWidg
 The `ChordWidget` gets you the chord visualization.
 ![chord visualization](https://github.com/wombats-writing-code/xoces/blob/master/img/xoces-chord-widget.png)
 
-The chord component visualizes one level of the hierarchy at one time. Whenever you click on a piece, the chord visualization changes to display the next level down. Confused? Take some time to [explore our examples](http://mapping.mit.edu/projects/xoces-examples) and keep reading to see what "hierarchy" means.
+The chord component visualizes one level of the hierarchy at one time. The major segments (arcs) are the entities that are in that level, and the minor arcs are the entities that are children of that entity. For example, in the below example, there are 5 arcs representing 5 programs, and the highlighted class of Circuits &amp; Electronics is a subarc:
+![xoces arcs and sub-arcs](https://github.com/wombats-writing-code/xoces/blob/master/img/xoces-arcs-subarcs.png)
+
+
+Whenever you click on a piece, the chord visualization changes to display the next level down. Confused? Take some time to [explore our examples](http://mapping.mit.edu/projects/xoces-examples) and keep reading to see what "hierarchy" means.
 
 The `TreeWidget` gives you the tree visualization:
 ![tree visualization](https://github.com/wombats-writing-code/xoces/blob/master/img/xoces-tree-widget.png)
@@ -103,7 +107,7 @@ To initialize a widget, call:
 var myWidget = xoces.widgets.XocesWidget.new({});
 ```
 
-Of course this doesn't quite work -- if you inspect the console, xoces tells you that you're missing **mandatory** configuration settings. At minimum, you need to specify:
+Of course this doesn't quite work -- if you inspect the console, xoces tells you that you're missing mandatory configuration settings. At minimum, you need to specify:
 ```
 var myWidget = xoces.widgets.XocesWidget.new({
 
@@ -191,9 +195,9 @@ var config = {
   width: '100%',
   height: 500,
   colorScheme: 'dark',                  // 'light' or 'dark'
-  onMouseOver: function() {},
-  onMouseOut: function() {},
-  onClick: function() {}
+  onMouseOverFinish: function(entity) {},
+  onMouseOutFinish: function(entity) {},
+  onClickFinish: function(entity) {}
 }
 ```
 
@@ -243,6 +247,38 @@ Sets the width of the entire widget.
 
 **configuration.height**
 Sets the height of the entire widget. We recommend at least a `500`px height.
+
+**configuration.onMouseOverFinish**
+A callback function invoked when the user mouseovers a subarc or tree node. The function is invoked with one argument -- the object of the mouseover'ed entity
+
+**configuration.onMouseOutFinish**
+A callback function invoked when the user mouses-out out of a subarc or tree node. The function is invoked with one argument -- the object of the mouse-out entity
+
+**configuration.onClickFinish**
+A callback function invoked when the user clicks on a subarc or tree node. The function is invoked with one argument -- the object of the clicked entity.
+
+**xoces.widgets.TreeWidget()**
+The config argument passed into `xoces.widgets.TreeWidget(config)` is an object with these fields (and their default values):
+
+```
+var config = {
+  data: {
+    entities: [Entity],                  // required!
+    relationships: [Relationship]         
+  },
+  entityLabelKey: '',                    // required!
+  relationship: {
+    sourceRef: '',                       // required!
+    targetRef: '',                       // required!
+  },
+  width: '100%',
+  height: 500,
+  colorScheme: 'dark',                  // 'light' or 'dark'
+  onMouseOverFinish: function(entity) {},
+  onMouseOutFinish: function(entity) {},
+  onClickFinish: function(entity) {}
+}
+```
 
 ## Examples
 
