@@ -2,7 +2,7 @@
 // import thunk from 'redux-thunk'
 // import { browserHistory } from 'react-router'
 import _ from 'lodash'
-import {SET_CONFIG} from './setConfig'
+import {SET_CONFIG, SET_CONFIG_TREE} from './setConfig'
 import graphProvider from '../components/graph'
 
 export const CLICK_SUB_ARC = 'CLICK_SUB_ARC'
@@ -47,6 +47,7 @@ let defaultState = {
   view: CHORD_VIEW
 };
 export default function visReducer(state = defaultState, action) {
+  let config;
   switch(action.type) {
 
     case SET_CONFIG:
@@ -63,7 +64,6 @@ export default function visReducer(state = defaultState, action) {
       } else {
         currentLevelEntity = _.find(action.config.data.entities, {type: action.config.hierarchy[0]});
       }
-
       // console.log('currentLevelEntity', currentLevelEntity, action.config.currentLevelEntity)
 
       // =====
@@ -80,7 +80,7 @@ export default function visReducer(state = defaultState, action) {
       // ======
       // set default config
       // ======
-      let config = _.assign({}, defaultConfig, action.config);
+      config = _.assign({}, defaultConfig, action.config);
 
       return _.assign({}, defaultState, {
         config: config,
@@ -92,6 +92,18 @@ export default function visReducer(state = defaultState, action) {
         selectedEntities: graph.getChildren(currentLevelEntity.id, data.entities, data.relationships)
       })
 
+    case SET_CONFIG_TREE:
+      graph = graphProvider(action.config.relationship);
+      var data = action.config.data;
+
+      // ======
+      // set default config
+      // ======
+      config = _.assign({}, defaultConfig, action.config);
+
+      return _.assign({}, defaultState, {
+        config: config,
+      })
 
     case CLICK_SUB_ARC:
       var data = state.config.data;
