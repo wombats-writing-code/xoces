@@ -1,7 +1,5 @@
 
 export const init = (visCanvas, backgroundColor, props) => {
-  console.log('props.height', props.height)
-
   let setHeight = _.isNumber(props.height) ? `${props.height}px` : props.height;
   let setWidth = _.isNumber(props.width) ? `${props.width}px` : props.width;
 

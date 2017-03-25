@@ -53,7 +53,7 @@ $.when(entitiesPromise, relationshipsPromise)
 
   // console.log('relationships', relationships)
 
-  var schoolRelationships = _.map(_.filter(entities, {type: 'department'}), e => {
+  var schoolRelationships = _.map(_.filter(entities, {type: 'department'}), function(e) {
     return {
       id: _.uniqueId(),
       sourceId: e.id,

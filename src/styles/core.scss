@@ -42,6 +42,7 @@
 	display: -webkit-box;      /* OLD - iOS 6-, Safari 3.1-6 */
 	display: -moz-box;         /* OLD - Firefox 19- (buggy but mostly works) */
 	display: -ms-flexbox;      /* TWEENER - IE 10 */
+  display: flexbox;
 	display: -webkit-flex;     /* NEW - Chrome */
 	display: flex;
 	align-items: center;
@@ -53,6 +54,10 @@
 
 .xoces-widget .flex-container.space-between {
 	justify-content: space-between;
+  -webkit-justify-content: space-between;
+  -ms-justify-content: space-between;
+  -ms-flex-pack: space-between;
+  -ms-flex-pack: justify;
 }
 
 .xoces-widget .flex-container.align-center {
@@ -65,6 +70,8 @@
 
 .xoces-widget .flex-container.justify-center {
 	justify-content: center;
+  -webkit-justify-content: center;
+  -ms-justify-content: center;
 }
 
 .xoces-widget .flex-wrap {
