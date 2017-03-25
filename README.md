@@ -4,7 +4,8 @@
 
 ![Chrome](https://cdnjs.cloudflare.com/ajax/libs/browser-logos/41.0.0/archive/chrome_1-11/chrome_1-11_24x24.png) | ![Firefox](https://cdnjs.cloudflare.com/ajax/libs/browser-logos/41.0.0/archive/firefox_1.5-3/firefox_1.5-3_24x24.png) | ![IE](https://cdnjs.cloudflare.com/ajax/libs/browser-logos/41.0.0/archive/internet-explorer_6/internet-explorer_6_24x24.png) | ![Edge](https://cdnjs.cloudflare.com/ajax/libs/browser-logos/41.0.0/edge-tile/edge-tile_24x24.png) | ![Safari](https://cdnjs.cloudflare.com/ajax/libs/browser-logos/41.0.0/archive/safari_1-7/safari_1-7_24x24.png)
 --- | --- | --- | --- | --- |
-Latest ✔ | 51+ ✔ | 10+ ✔ | Latest ✔ | 10+ ✔ |
+Latest ✔ | Latest ✔ | Latest ✔ | Latest ✔ | Latest ✔
+| 35+ ✔ | 10+ ✔ | 13+ ✔  | 8+ ✔
 
 ## What and why
 Xoces is a JavaScript widget for visualizing data that have both hierarchical levels and also relationships "within the same level". For example, you have learning outcomes grouped into subjects and you want to visualize how your outcomes relate to each other. Or you have actors and movies grouped by A/B/C/D-lists and you want to see how those all relate to each other.
