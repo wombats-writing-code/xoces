@@ -2,6 +2,9 @@
 # Xoces
 ![Xoces: Chord & Tree visualization widget](https://github.com/wombats-writing-code/xoces/blob/master/img/xoces-chord-tree.png)
 
+![Chrome](https://cdnjs.cloudflare.com/ajax/libs/browser-logos/41.0.0/archive/chrome_1-11/chrome_1-11_24x24.png) | ![Firefox](https://cdnjs.cloudflare.com/ajax/libs/browser-logos/41.0.0/archive/firefox_1.5-3/firefox_1.5-3_24x24.png) | ![IE](https://cdnjs.cloudflare.com/ajax/libs/browser-logos/41.0.0/archive/internet-explorer_6/internet-explorer_6_24x24.png) | ![Edge](https://cdnjs.cloudflare.com/ajax/libs/browser-logos/41.0.0/edge-tile/edge-tile_24x24.png) | ![Safari](https://cdnjs.cloudflare.com/ajax/libs/browser-logos/41.0.0/archive/safari_1-7/safari_1-7_24x24.png)
+--- | --- | --- | --- | --- |
+Latest ✔ | Latest ✔ | 10+ ✔ | Latest ✔ | 6.1+ ✔ |
 
 ## What and why
 Xoces is a JavaScript widget for visualizing data that have both hierarchical levels and also relationships "within the same level". For example, you have learning outcomes grouped into subjects and you want to visualize how your outcomes relate to each other. Or you have actors and movies grouped by A/B/C/D-lists and you want to see how those all relate to each other.
@@ -9,7 +12,7 @@ Xoces is a JavaScript widget for visualizing data that have both hierarchical le
 **Why use Xoces**
 We want to save people time by providing a neat but powerful, configurable visualization that works more or less out of the box. You could code it from scratch from d3, but we think you'll find the API pretty easy to use. Just include the widget in your code or HTML, specify your data, and you're good to go.
 
-See what the visualization looks like -- we have a [few examples here](http://mapping.mit.edu/projects/xoces-examples).
+See what the visualization looks like -- we have a [few demos here](http://mapping.mit.edu/projects/xoces-examples).
 
 
 ## Resources
@@ -70,7 +73,11 @@ If you want to [download the standalone bundle](http://github.com/wombats-writin
 
 You can also load it directly from CDN:
 ```
-<script src="https://unpkg.com/xoces@1.1.4/umd/xoces-umd.js"></script>
+<!-- Loading a fixed version, e.g. 1.1.51 -->
+<script src="https://unpkg.com/xoces@1.1.51/umd/xoces-umd.js"></script>
+
+<!-- or load the latest  -->
+<script src="https://unpkg.com/xoces/umd/xoces-umd.js"></script>
 ```
 
 ## Getting started
@@ -240,8 +247,8 @@ Sets the height of the entire widget. We recommend at least a `500`px height.
 
 In the `dist/` folder, there are 3 examples that are loaded into `dist/index.html`:
 * `example1.js`: Uses a made-up data set
-* `example2.js`: Uses the Singapore University of Technology & Design core curriculum dataset. A smaller data set of hundreds of outcomes -- [interactive visualization](http://localhost:5000/projects/xoces-examples?name=sutdoces).
-* `example3.js`: Uses a subset of the Massachusetts Institute of Technology outcomes mapping dataset. This data set has thousands of outcomes -- [interactive visualization](http://localhost:5000/projects/xoces-examples?name=mitoces)
+* `example2.js`: Uses the Singapore University of Technology & Design core curriculum dataset. A smaller data set of hundreds of outcomes -- [interactive visualization](http://mapping.mit.edu/projects/xoces-examples?name=sutdoces).
+* `example3.js`: Uses a subset of the Massachusetts Institute of Technology outcomes mapping dataset. This data set has thousands of outcomes -- [interactive visualization](http://mapping.mit.edu/projects/xoces-examples?name=mitoces)
 
 ## Pull requests and bugs
 Please contribute or file requests! We respond within 24 hours.

@@ -40,7 +40,7 @@ const getChildren = (id, entities, relationships) => {
 const _memoizedGetChildren = _.memoize(getChildren)
 
 const getChildrenAll = (id, entities, relationships) => {
-  let children = _memoizedGetChildren(id, entities, relationships);
+  let children = getChildren(id, entities, relationships);
   return _.reduce(children, (result, e) => {
     result.push(e);
     let c = getChildrenAll(e.id, entities, relationships)
@@ -61,11 +61,15 @@ const getOutgoingEntities = (id, entities, relationships) => {
 const _memoizedGetOutgoingEntities = _.memoize(getOutgoingEntities);
 
 const getOutgoingEntitiesAll = (id, entities, relationships) => {
-  let outgoing = _memoizedGetOutgoingEntities(id, entities, relationships)
+  let outgoing = getOutgoingEntities(id, entities, relationships)
   return _.reduce(outgoing, (result, e) => {
-    result.push(e);
-    let c = getOutgoingEntitiesAll(e.id, entities, relationships)
-    return _.concat(result, c);
+    if (result.indexOf(e) === -1) {
+      result.push(e);
+      let c = getOutgoingEntitiesAll(e.id, entities, relationships)
+      return _.concat(result, c);
+    }
+
+    return result;
   }, []);
 }
 
