@@ -9,7 +9,7 @@ import './styles/foundation.min.css'
 import './styles/core.scss'
 
 import reducer from './reducers'
-import {setConfig} from './reducers/setConfig'
+import {setConfig, setConfigTree} from './reducers/setConfig'
 
 import XocesWidget from './widgets/XocesWidget';
 import ChordWidget from './widgets/ChordWidget';
@@ -83,7 +83,7 @@ module.exports = {
                __widgetType: 'TreeWidget'
              });
 
-             store.dispatch(setConfig(props))
+             store.dispatch(setConfigTree(props))
 
              ReactDOM.render(
                <Provider store={store}>
