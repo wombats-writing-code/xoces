@@ -8,6 +8,9 @@ export function attachEvent(props) {
   .on('click', function(d, i, g) {
     // console.log('clicked!', d, this)
     props.onClick(d.model);
+    if (props.onClickFinish) {
+      props.onClickFinish(d.model)
+    }
   });
 }
 
@@ -47,8 +50,8 @@ function _handleMouseOver(datum, i, g, props) {
     .style('opacity', d => d.activeOpacity)
 
 
-  if (props.onMouseOverCallback) {
-    props.onMouseOverCallback(d);
+  if (props.onMouseOverFinish) {
+    props.onMouseOverFinish(datum);
   }
 }
 
@@ -72,8 +75,8 @@ function _handleMouseOut(d, i, g, props) {
   d3.selectAll(`.${EDGE_CLASS}, .${EDGE_ARROW_CLASS}`)
   .style('opacity', d => d.opacity)
 
-  if (props.onMouseOutCallback) {
-    props.onMouseOutCallback(d);
+  if (props.onMouseOutFinish) {
+    props.onMouseOutFinish(d);
   }
 }
 

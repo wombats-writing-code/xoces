@@ -139,9 +139,9 @@ class ChordComponent extends Component {
       onClick: props.onClickSubArc,
       graph,
       data: props.data,
-      onMouseOverCallback: props.onMouseOverCallback,
-      onMouseOutCallback: props.onMouseOutCallback,
-      onClickCallback: props.onClickCallback
+      onMouseOverFinish: props.onMouseOverFinish,
+      onMouseOutFinish: props.onMouseOutFinish,
+      onClickFinish: props.onClickFinish
     })
   }
 

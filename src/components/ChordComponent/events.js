@@ -9,13 +9,16 @@ import {
 
 export function attachEvent(props) {
 
-    props.selection
-    .on('mouseover', _.partialRight(_handleMouseOver, props))
-    .on('mouseout', _.partialRight(_handleMouseOut, props))
-    .on('click', function(d, i, g) {
-      // console.log('clicked!', d, this)
-      props.onClick(d.model);
-    });
+  props.selection
+  .on('mouseover', _.partialRight(_handleMouseOver, props))
+  .on('mouseout', _.partialRight(_handleMouseOut, props))
+  .on('click', function(d, i, g) {
+    // console.log('clicked!', d, this)
+    props.onClick(d.model);
+    if (props.onClickFinish) {
+      props.onClickFinish(d.model);
+    }
+  });
 }
 
 function _handleMouseOver(datum, i, g, props) {
@@ -69,8 +72,8 @@ function _handleMouseOver(datum, i, g, props) {
     })
     .style('opacity', d => d.activeOpacity)
 
-  if (props.onMouseOverCallback) {
-    props.onMouseOverCallback(d);
+  if (props.onMouseOverFinish) {
+    props.onMouseOverFinish(datum);
   }
 }
 
@@ -94,8 +97,8 @@ function _handleMouseOut(d, i, g, props) {
   d3.selectAll(`.${CHORD_CLASS_NAME}, .${CHORD_ARROW_CLASS_NAME}`)
   .style('opacity', d => d.opacity)
 
-  if (props.onMouseOutCallback) {
-    props.onMouseOutCallback(d);
+  if (props.onMouseOutFinish) {
+    props.onMouseOutFinish(d);
   }
 }
 

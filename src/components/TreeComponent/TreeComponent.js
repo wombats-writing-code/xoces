@@ -16,7 +16,7 @@ class TreeComponent extends Component {
   }
 
   componentDidMount() {
-    // console.log('componentDidMount in ChordComponent', this.canvasId)
+    // console.log('componentDidMount in TreeComponent', this.canvasId)
     let props = this.props;
     let scheme = getScheme(props.colorScheme)
 
@@ -86,9 +86,9 @@ class TreeComponent extends Component {
       onClick: props.onClickSubArc,
       graph,
       data: props.data,
-      onMouseOverCallback: props.onMouseOverCallback,
-      onMouseOutCallback: props.onMouseOutCallback,
-      onClickCallback: props.onClickCallback
+      onMouseOverFinish: props.onMouseOverFinish,
+      onMouseOutFinish: props.onMouseOutFinish,
+      onClickFinish: props.onClickFinish
     })
   }
 
