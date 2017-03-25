@@ -1,8 +1,13 @@
 
 export const init = (visCanvas, backgroundColor, props) => {
+  console.log('props.height', props.height)
+
+  let setHeight = _.isNumber(props.height) ? `${props.height}px` : props.height;
+  let setWidth = _.isNumber(props.width) ? `${props.width}px` : props.width;
+
   visCanvas
-  .style('height', props.height)
-  .style('width', props.width)
+  .style('height', setHeight)
+  .style('width', setWidth)
   .style('background', backgroundColor);
 
   let w = parseFloat(visCanvas.style('width'), 10);
