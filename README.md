@@ -13,12 +13,12 @@ Xoces is a JavaScript widget for visualizing data that have both hierarchical le
 **Why use Xoces**
 We want to save people time by providing a neat but powerful, configurable visualization that works more or less out of the box. You could code it from scratch from d3, but we think you'll find the API pretty easy to use. Just include the widget in your code or HTML, specify your data, and you're good to go.
 
-See what the visualization looks like -- we have a [few demos here](http://mapping.mit.edu/projects/xoces-examples).
+See what the visualization looks like -- we have a [few demos here](https://mapping.mit.edu/projects/xoces-examples).
 
 
 ## Resources
-- Visit the [MIT Mapping Lab](http://mapping.mit.edu) (the people who made xoces)
-    - See guides on how to model and map curricular data, e.g. for [mapping outcomes](http://mapping.mit.edu/outcomes-mapping), [concepts](http://mapping.mit.edu/concepts-mapping), [courses in a curriculum](http://mapping.mit.edu/curriculum-mapping), etc.
+- Visit the [MIT Mapping Lab](https://mapping.mit.edu) (the people who made xoces)
+    - See guides on how to model and map curricular data, e.g. for [mapping outcomes](https://mapping.mit.edu/outcomes-mapping), [concepts](https://mapping.mit.edu/concept-mapping), [courses in a curriculum](https://mapping.mit.edu/curriculum-mapping), etc.
 - [Installing](#installing)
 - [Getting started](#getting-started)
 - [API Docs](#api)
@@ -92,7 +92,7 @@ The chord component visualizes one level of the hierarchy at one time. The major
 ![xoces arcs and sub-arcs](https://github.com/wombats-writing-code/xoces/blob/master/img/xoces-arcs-subarcs.png)
 
 
-Whenever you click on a piece, the chord visualization changes to display the next level down. Confused? Take some time to [explore our examples](http://mapping.mit.edu/projects/xoces-examples) and keep reading to see what "hierarchy" means.
+Whenever you click on a piece, the chord visualization changes to display the next level down. Confused? Take some time to [explore our examples](https://mapping.mit.edu/projects/xoces-examples) and keep reading to see what "hierarchy" means.
 
 The `TreeWidget` gives you the tree visualization:
 ![tree visualization](https://github.com/wombats-writing-code/xoces/blob/master/img/xoces-tree-widget.png)
@@ -284,12 +284,12 @@ var config = {
 
 In the `dist/` folder, there are 3 examples that are loaded into `dist/index.html`:
 * `example1.js`: Uses a made-up data set
-* `example2.js`: Uses the Singapore University of Technology & Design core curriculum dataset. A smaller data set of hundreds of outcomes -- [interactive visualization](http://mapping.mit.edu/projects/xoces-examples?name=sutdoces).
-* `example3.js`: Uses a subset of the Massachusetts Institute of Technology outcomes mapping dataset. This data set has thousands of outcomes -- [interactive visualization](http://mapping.mit.edu/projects/xoces-examples?name=mitoces)
+* `example2.js`: Uses the Singapore University of Technology & Design core curriculum dataset. A smaller data set of hundreds of outcomes -- [interactive visualization](https://mapping.mit.edu/projects/xoces-examples?name=sutdoces).
+* `example3.js`: Uses a subset of the Massachusetts Institute of Technology outcomes mapping dataset. This data set has thousands of outcomes -- [interactive visualization](https://mapping.mit.edu/projects/xoces-examples?name=mitoces)
 
 ## Pull requests and bugs
 Please contribute or file requests! We respond within 24 hours.
 
 ## Feedback
 
-Contact us at the [MIT Mapping Lab](http://mapping.mit.edu) [mapping-lab at mit.edu]
+Contact us at the [MIT Mapping Lab](https://mapping.mit.edu) [mapping-lab at mit.edu]
