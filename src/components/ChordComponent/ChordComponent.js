@@ -6,7 +6,7 @@ import './ChordComponent.scss'
 import {computeDimensions, computeLayout} from './layout'
 import {init} from '../canvas'
 import {
-  drawArcs, drawLabels, drawChords,
+  drawArcs, drawLabels, drawChords, clearDrawing,
   ARC_CLASS_NAME, SUB_ARC_CLASS_NAME, CHORD_CLASS_NAME,
   ARC_LABEL_CLASS_NAME, SUB_ARC_LABEL_CLASS_NAME,
 } from './drawing'
@@ -44,7 +44,7 @@ class ChordComponent extends Component {
   }
 
   componentWillUnmount() {
-    this.canvasId = null;
+    clearDrawing(this.drawingGroup)
   }
 
   componentWillReceiveProps(nextProps) {

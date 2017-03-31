@@ -129,3 +129,27 @@ export const drawChords = (props) => {
 function _arrow() {
 
 }
+
+export function clearDrawing(selection) {
+  let arcGroup = selection
+    .selectAll(`path.${ARC_CLASS_NAME}, path.${SUB_ARC_CLASS_NAME}`)
+    .data([], d => d.instanceId);
+
+  arcGroup.exit().remove();
+
+  let text = selection.selectAll(`text.${ARC_LABEL_CLASS_NAME}, text.${SUB_ARC_LABEL_CLASS_NAME}`)
+    .data([], d => d.instanceId);
+
+  text.exit().remove()
+
+  let chordGroup = selection.selectAll(`path.${CHORD_CLASS_NAME}`)
+    .data([], d => d.instanceId);
+
+  let arrowGroup = selection.selectAll(`.${CHORD_ARROW_CLASS_NAME}`)
+    .data([], d => d.instanceId);
+
+  chordGroup.exit().remove();
+  arrowGroup.exit().remove();
+
+  selection.selectAll('*').remove()
+}
