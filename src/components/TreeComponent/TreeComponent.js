@@ -38,6 +38,14 @@ class TreeComponent extends Component {
     this.canvasId = null;
   }
 
+  shouldComponentUpdate(nextProps) {
+    if (this.props.nodes !== nextProps.nodes) {
+      return true;
+    }
+    
+    return false;
+  }
+
 
   render() {
     let scheme = getScheme(this.props.colorScheme)
