@@ -1,3 +1,4 @@
+import _ from 'lodash'
 
 export const init = (visCanvas, backgroundColor, props) => {
   let setHeight = _.isNumber(props.height) ? `${props.height}px` : props.height;

@@ -1,4 +1,3 @@
-import _ from 'lodash'
 
 export function arcCentroid(arc) {
   return arc.startAngle + (arc.endAngle - arc.startAngle) / 2;

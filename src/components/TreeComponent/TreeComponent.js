@@ -1,6 +1,5 @@
 import React, {Component} from 'react'
 import * as d3 from 'd3-selection'
-import _ from 'lodash'
 
 import './TreeComponent.scss'
 import {computeLayout} from './layout'
@@ -20,6 +19,7 @@ class TreeComponent extends Component {
     let props = this.props;
     let scheme = getScheme(props.colorScheme)
 
+    console.log('TreeComponent canvasId', this.canvasId)
     let visEl = d3.select(`#${this.canvasId}`);
 
     let {drawingGroup, w, h} = init(visEl, scheme.background, {
@@ -34,6 +34,10 @@ class TreeComponent extends Component {
     this._update(visEl, w, h, this.props);
   }
 
+  componentWillUnmount() {
+    this.canvasId = null;
+  }
+
 
   render() {
     let scheme = getScheme(this.props.colorScheme)
@@ -41,7 +45,7 @@ class TreeComponent extends Component {
 
     let canvas;
     if (!this.props.canvasId) {
-      canvas = (<svg id={_.uniqueId('svg_')} ref={(el) => { this.canvasId = el && el.id; }}></svg>)
+      canvas = (<svg id={`xocesTreeComponentCanvas`} ref={(el) => { this.canvasId = el && el.id; }}></svg>)
     } else {
       this.canvasId = this.props.canvasId;
     }

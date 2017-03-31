@@ -1,6 +1,4 @@
 import React, {Component} from 'react'
-import * as d3 from 'd3-selection'
-import _ from 'lodash'
 
 import BreadcrumbsNav from '../../components/BreadcrumbsNav'
 import HierarchicalListSearch from '../../components/HierarchicalListSearch'

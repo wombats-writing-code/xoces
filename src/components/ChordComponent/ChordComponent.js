@@ -1,6 +1,5 @@
 import React, {Component} from 'react'
 import * as d3 from 'd3-selection'
-import _ from 'lodash'
 
 import './ChordComponent.scss'
 
@@ -44,6 +43,10 @@ class ChordComponent extends Component {
     this._update(drawingGroup, w, h, this.props);
   }
 
+  componentWillUnmount() {
+    this.canvasId = null;
+  }
+
   componentWillReceiveProps(nextProps) {
     if (this.props.currentLevelEntity !== nextProps.currentLevelEntity ||
         this.props.selectedEntities !== nextProps.selectedEntities
@@ -58,7 +61,7 @@ class ChordComponent extends Component {
 
     let canvas;
     if (!this.props.canvasId) {
-      canvas = (<svg id={_.uniqueId('svg_')} ref={(el) => { this.canvasId = el && el.id; }}></svg>)
+      canvas = (<svg id={`xocesChordComponentCanvas`} ref={(el) => { this.canvasId = el && el.id; }}></svg>)
     } else {
       this.canvasId = this.props.canvasId;
     }
