@@ -13,14 +13,15 @@ class HierarchicalListSearch extends Component {
   componentDidMount() {
     // console.log('this.props.height', this.props.height);
     // $(this.el).height(this.props.height)
-    $(this.el).css('min-height', this.props.height)
+    $(`#${this.el.id}`).css('min-height', this.props.height)
   }
 
   render() {
     let props = this.props;
 
     return (
-      <div className={`xoces-hierarchical-list-search ${props.schemeName}`} ref={(el) => { this.el = el; }}>
+      <div className={`xoces-hierarchical-list-search ${props.schemeName}`} id="xoces-hierarchical-list-search"
+            ref={(el) => { this.el = el; }}>
         {this._renderLevel(props.currentLevelEntity.type, props.currentLevelEntity, props)}
       </div>
     )
