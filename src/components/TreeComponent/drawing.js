@@ -17,6 +17,7 @@ export function drawEdges(props) {
     .data(props.data, d => d.instanceId);
 
   edgeGroup.exit().remove();
+  arrowGroup.exit().remove()
 
   edgeGroup.enter()
     .append('line')
@@ -49,7 +50,7 @@ export function drawNodes(props) {
   let data = props.data;
 
   let nodeGroup = props.selection
-    .selectAll(`foreignObject.${props.className}`)
+    .selectAll(`foreignObject.${NODE_CLASS}`)
     .data(data, d => d.instanceId);
 
   nodeGroup.exit().remove();
@@ -102,5 +103,22 @@ export function drawNodes(props) {
 }
 
 export function clearDrawing(selection) {
+  let nodeGroup = selection
+    .selectAll(`foreignObject.${NODE_CLASS}`)
+    .data([], d => d.instanceId);
+
+  nodeGroup.exit().remove();
+
+  let edgeGroup = selection
+    .selectAll(`path.${EDGE_CLASS}`)
+    .data([], d => d.instanceId);
+
+  let arrowGroup = selection.selectAll(`.${EDGE_ARROW_CLASS}`)
+    .data([], d => d.instanceId);
+
+  edgeGroup.exit().remove();
+  arrowGroup.exit().remove()
+
+
   selection.selectAll('*').remove()
 }
