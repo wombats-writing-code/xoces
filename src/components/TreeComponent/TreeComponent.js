@@ -4,7 +4,7 @@ import * as d3 from 'd3-selection'
 import './TreeComponent.scss'
 import {computeLayout} from './layout'
 import {getScheme, stylize} from './style'
-import {NODE_CLASS, drawNodes, drawEdges} from './drawing'
+import {NODE_CLASS, drawNodes, drawEdges, clearDrawing} from './drawing'
 import {attachEvent, detachEvent} from './events'
 import {init} from '../canvas'
 
@@ -30,19 +30,21 @@ class TreeComponent extends Component {
     this.w = w;
     this.h = h;
     this.drawingGroup = drawingGroup;
+    this.visEl = visEl;
 
     this._update(visEl, w, h, this.props);
   }
 
   componentWillUnmount() {
-    this.canvasId = null;
+    console.log('unmounting tree', this.visEl);
+    clearDrawing(this.visEl);
   }
 
   shouldComponentUpdate(nextProps) {
     if (this.props.nodes !== nextProps.nodes) {
       return true;
     }
-    
+
     return false;
   }
 
@@ -77,6 +79,8 @@ class TreeComponent extends Component {
       width: w,
       height: h,
     })
+
+    console.log('number of nodes in TreeComponent', layout.nodes, layout.nodes.length)
 
     layout = stylize(layout, scheme);
 

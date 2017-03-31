@@ -100,3 +100,7 @@ export function drawNodes(props) {
   return nodeGroup;
 
 }
+
+export function clearDrawing(selection) {
+  selection.selectAll('*').remove()
+}

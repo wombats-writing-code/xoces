@@ -13,7 +13,7 @@ const mapDispatchToProps = (dispatch) => {
 }
 
 const mapStateToProps = (state) => {
-  console.log('state in XocesWidgetContainer', state)
+  // console.log('state in XocesWidgetContainer', state)
 
   return {
     graph: graphProvider(state.config.relationship),
