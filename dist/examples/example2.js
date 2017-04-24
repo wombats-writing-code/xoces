@@ -1,7 +1,7 @@
 
 var entities, relationships;
-var entitiesPromise = $.ajax('https://xoces.mit.edu/api/v1/handcar/services/learning/objectivebanks/mc3-objectivebank:2814@MIT-OEIT/objectives/')
-var relationshipsPromise = $.ajax('https://xoces.mit.edu/api/v1/handcar/services/relationship/families/mc3-family:139@MIT-OEIT/relationships')
+var entitiesPromise = $.ajax('https://mc3.mit.edu/handcar/services/learning/objectivebanks/mc3-objectivebank:2814@MIT-OEIT/objectives/')
+var relationshipsPromise = $.ajax('https://mc3.mit.edu/handcar/services/relationship/families/mc3-family:139@MIT-OEIT/relationships')
 
 let school = {
   id: 'SUTD',
