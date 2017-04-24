@@ -50,12 +50,12 @@ const getChildrenAll = (id, entities, relationships) => {
 
 const getIncomingEntities = (id, entities, relationships) => {
   let rels = _.filter(relationships, r => r[config.targetRef] === id && r.type !== config.parentType);
-  return _.map(rels, r => _.find(entities, {id: r[config.sourceRef]}));
+  return _.compact(_.map(rels, r => _.find(entities, {id: r[config.sourceRef]})));
 }
 
 const getOutgoingEntities = (id, entities, relationships) => {
   let rels = _.filter(relationships, r => r[config.sourceRef] === id && r.type !== config.parentType);
-  return _.map(rels, r => _.find(entities, {id: r[config.targetRef]}));
+  return _.compact(_.map(rels, r => _.find(entities, {id: r[config.targetRef]})));
 }
 
 const _memoizedGetOutgoingEntities = _.memoize(getOutgoingEntities);
