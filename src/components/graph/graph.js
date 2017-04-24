@@ -79,7 +79,11 @@ const getRank = (id, entities, relationships, optionalMaxRank = 20) => {
 
     let reqs = getOutgoingEntities(entityId, entities, relationships);
     reqs = _.reject(reqs, e => {
-      return e.id === entityId || getParent(e.id, entities, relationships) !== getParent(entityId, entities, relationships);  // only consider those within the same group
+      if (!e || e.id === entityId) return true;
+
+      if (config.limitToSameParentInTree) {
+        return getParent(e.id, entities, relationships) !== getParent(entityId, entities, relationships);  // only consider those within the same group
+      }
     });
 
     // console.log('reqs of ', entityId, ':', _.map(reqs, 'name'));

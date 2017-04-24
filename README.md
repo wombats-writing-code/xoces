@@ -1,5 +1,5 @@
 
-# Xoces
+# Xoces: Visualizing curricular data
 ![Xoces: Chord & Tree visualization widget](https://github.com/wombats-writing-code/xoces/blob/master/img/xoces-chord-tree.png)
 
 ![Chrome](https://cdnjs.cloudflare.com/ajax/libs/browser-logos/41.0.0/archive/chrome_1-11/chrome_1-11_24x24.png) | ![Firefox](https://cdnjs.cloudflare.com/ajax/libs/browser-logos/41.0.0/archive/firefox_1.5-3/firefox_1.5-3_24x24.png) | ![IE](https://cdnjs.cloudflare.com/ajax/libs/browser-logos/41.0.0/archive/internet-explorer_6/internet-explorer_6_24x24.png) | ![Edge](https://cdnjs.cloudflare.com/ajax/libs/browser-logos/41.0.0/edge-tile/edge-tile_24x24.png) | ![Safari](https://cdnjs.cloudflare.com/ajax/libs/browser-logos/41.0.0/archive/safari_1-7/safari_1-7_24x24.png)
@@ -33,7 +33,7 @@ npm install --save xoces
 
 Xoces has dependencies and needs these dependencies to be installed and `require`'d into your environment:
 ```
-npm --save jquery react react-dom redux react-redux
+npm install --save jquery react react-dom redux react-redux
 ```
 
 To require Xoces in your ES6:
