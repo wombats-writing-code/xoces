@@ -73,6 +73,7 @@ class TreeComponent extends Component {
 
     let layout = computeLayout({
       nodes: props.nodes,
+      nodeLabelKey: props.nodeLabelKey,
       entityLabelKey: props.entityLabelKey,
       data: props.data,
       graph: graph,
@@ -80,9 +81,9 @@ class TreeComponent extends Component {
       height: h,
     })
 
-    console.log('number of nodes in TreeComponent', layout.nodes, layout.nodes.length)
+    // console.log('number of nodes in TreeComponent', layout.nodes, layout.nodes.length)
 
-    layout = stylize(layout, scheme);
+    layout = stylize(layout, scheme, props);
 
     drawEdges({
       selection: drawingGroup,

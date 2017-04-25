@@ -74,6 +74,7 @@ var cw = xoces.widgets.XocesWidget.new({
   currentLevelEntity: 'm1',
   view: 'TREE_VIEW',
   entityLabelKey: 'name',
+  nodeLabelKey: 'name',
   relationship: {
     parentType: 'belongs_to',
     sourceRef: 'sourceId',

@@ -32,6 +32,15 @@ var cw = xoces.widgets.TreeWidget.new({
     relationships: relationships
   },
   entityLabelKey: 'name',
+  nodeLabelKey: 'name',
+  // nodeColor: 'blue',
+  nodeColor: function(entity) {
+    if (entity.name.indexOf('systems') > -1) {
+      return 'blue'
+    }
+
+    return '#f387a2'
+  },
   relationship: {
     sourceRef: 'sourceId',
     targetRef: 'targetId',

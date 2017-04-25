@@ -194,7 +194,7 @@ var config = {
   },
   width: '100%',
   height: 500,
-  colorScheme: 'dark',                  // 'light' or 'dark'
+  colorScheme: 'light',                  // 'light' or 'dark',
   onMouseOverFinish: function(entity) {},
   onMouseOutFinish: function(entity) {},
   onClickFinish: function(entity) {}
@@ -274,11 +274,18 @@ var config = {
   width: '100%',
   height: 500,
   colorScheme: 'dark',                  // 'light' or 'dark'
+  nodeLabelKey: null,                    // [String]
+  nodeColor: null,                       // [String | Function] e.g., 'black', '#ff0033', or a function that returns a valid color
+  limitToSameParentInTree: false,        // [Boolean] that indicates whether when nodes that are external to the parent of the given nodes should be drawn. most likely you want to leave it as the default value (false),
   onMouseOverFinish: function(entity) {},
   onMouseOutFinish: function(entity) {},
   onClickFinish: function(entity) {}
 }
 ```
+
+**configuration.nodeColor**
+[String | Function]
+If passed a function, the function is called with the current entity and is expected to return a valid color string.
 
 ## Examples
 

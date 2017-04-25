@@ -27,7 +27,7 @@ export const computeLayout = (props) => {
         x: nodeSpacing*idx + nodeSpacing/2,
         y: rank*rankSpacing + topPadding,
         radius: nodeRadius,
-        nodeLabelText: _.truncate(model[props.entityLabelKey], {length: 20}),
+        nodeLabelText: _.truncate(model[props.nodeLabelKey], {length: 20}),
         nodeTagText: model[props.entityLabelKey],
         model
       }

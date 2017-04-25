@@ -1,7 +1,7 @@
 import _ from 'lodash'
 import chroma from 'chroma-js'
 
-export const stylize = (data, scheme) => {
+export const stylize = (data, scheme, props) => {
   if (!scheme) {
     throw new TypeError('stylize must be provided the style scheme')
   }
@@ -10,6 +10,14 @@ export const stylize = (data, scheme) => {
     nodes: _.map(data.nodes, n => _.assign({}, n, scheme.node)),
     edges: _.map(data.edges, e => _.assign({}, e, scheme.edge))
   })
+
+  if (props.nodeColor) {
+    styled.nodes = _.map(styled.nodes, (node) => {
+      return _.assign(node, {
+        fill: _.isFunction(props.nodeColor) ? props.nodeColor(node.model) : props.nodeColor
+      })
+    })
+  }
 
   return styled;
 }

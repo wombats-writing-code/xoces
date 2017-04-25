@@ -62,6 +62,7 @@ $.when(entitiesPromise, relationshipsPromise)
     // currentLevelEntity: "mc3-objective%3A12722%40MIT-OEIT",
     // view: 'TREE_VIEW',
     entityLabelKey: 'displayName',
+    nodeLabelKey: 'displayName',
     relationship: {
       parentType: parentType,
       sourceRef: 'sourceId',
