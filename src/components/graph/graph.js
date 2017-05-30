@@ -1,3 +1,4 @@
+import _ from 'lodash'
 
 let config;
 
@@ -73,6 +74,14 @@ const getOutgoingEntitiesAll = (id, entities, relationships) => {
   }, []);
 }
 
+const getOutgoingEdges = (sourceId, targetId, relationshipType, relationships) => {
+  if (relationshipType) {
+    return _.filter(relationships, r => r.sourceId === sourceId && r.targetId === targetId && r.type === relationshipType)
+  }
+
+  return _.filter(relationships, {sourceId: sourceId, targetId: targetId})
+}
+
 const getRank = (id, entities, relationships, optionalMaxRank = 20) => {
   let traverse = function traverse(entityId, stackCount, maxStack) {
     stackCount++;
@@ -141,6 +150,7 @@ function provider(configuration) {
     getIncomingEntities: _.memoize(getIncomingEntities),
     getOutgoingEntities: _.memoize(getOutgoingEntities),
     getOutgoingEntitiesAll: _.memoize(getOutgoingEntitiesAll),
+    getOutgoingEdges: _.memoize(getOutgoingEdges),
     getRank,
     isParentRelationship,
     isSourceOf,
