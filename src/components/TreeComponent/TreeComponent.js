@@ -19,7 +19,7 @@ class TreeComponent extends Component {
     let props = this.props;
     let scheme = getScheme(props.colorScheme)
 
-    console.log('TreeComponent canvasId', this.canvasId)
+    // console.log('TreeComponent canvasId', this.canvasId)
     let visEl = d3.select(`#${this.canvasId}`);
 
     let {drawingGroup, w, h} = init(visEl, scheme.background, {
@@ -36,7 +36,7 @@ class TreeComponent extends Component {
   }
 
   componentWillUnmount() {
-    console.log('unmounting tree', this.visEl);
+    // console.log('unmounting tree', this.visEl);
     clearDrawing(this.visEl);
   }
 
