@@ -1,6 +1,6 @@
 {
   "name": "xoces",
-  "version": "1.1.69",
+  "version": "1.2.2",
   "description": "Interactive chord and tree visualization widget",
   "main": "index.js",
   "scripts": {

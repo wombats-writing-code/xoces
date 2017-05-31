@@ -19,6 +19,16 @@ const getParent = (id, entities, relationships) => {
   return parents[0]
 }
 
+const getParents = (id, entities, relationships) => {
+  let rel = _.find(relationships, {[config.sourceRef]: id, type: config.parentType})
+
+  if (!rel) return null;
+
+  let parents = _.filter(entities, {id: rel[config.targetRef]});
+
+  return parents
+}
+
 const getParentsAll = (id, entities, relationships) => {
   let parent = getParent(id, entities, relationships);
   if (parent) {
@@ -144,6 +154,7 @@ function provider(configuration) {
 
   return {
     getParent: _.memoize(getParent),
+    getParents: _.memoize(getParents),
     getParentsAll: _.memoize(getParentsAll),
     getChildren: _.memoize(getChildren),
     getChildrenAll: _.memoize(getChildrenAll),
