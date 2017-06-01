@@ -9,7 +9,8 @@ describe('graph lib', () => {
   beforeEach(function() {
     graph = graphProvider({
       sourceRef: 'sourceId',
-      targetRef: 'targetId'
+      targetRef: 'targetId',
+      parentType: 'HAS_PARENT_OF'
     })
   })
 
@@ -30,5 +31,33 @@ describe('graph lib', () => {
 
     result.should.be.a('array')
     result[0].should.be.eql(rels[0]);
+  })
+
+  it('should get parents ', () => {
+    let rels = [
+      {
+        sourceId: 1,
+        targetId: 2,
+        type: 'HAS_PARENT_OF'
+      },
+      {
+        sourceId: 1,
+        targetId: 3,
+        type: 'HAS_PARENT_OF'
+      },
+    ]
+
+    let entities = [
+      {
+        id: 2,
+      },
+      {
+        id: 3
+      },
+    ]
+    let result = graph.getParents(1, entities, rels)
+
+    result.should.be.a('array')
+    result.length.should.eql(2)
   })
 })

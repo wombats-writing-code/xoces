@@ -20,11 +20,14 @@ const getParent = (id, entities, relationships) => {
 }
 
 const getParents = (id, entities, relationships) => {
-  let rel = _.find(relationships, {[config.sourceRef]: id, type: config.parentType})
+  let rels = _.filter(relationships, {[config.sourceRef]: id, type: config.parentType})
+  let targetIds = _.map(rels, config.targetRef)
 
-  if (!rel) return null;
+  let parents = _.filter(entities, e => {
+    return targetIds.indexOf(e.id) > -1
+  });
 
-  let parents = _.filter(entities, {id: rel[config.targetRef]});
+  console.log('parents', parents, targetIds, rels)
 
   return parents
 }
