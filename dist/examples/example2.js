@@ -17,6 +17,15 @@ $.when(getDataPromise)
   var entities = data.entities;
   var relationships = data.relationships;
 
+  entities = _.filter(entities, e => e && e.displayName.indexOf('[L') == -1);
+  relationships = _.filter(relationships, r => {
+    let source = _.find(entities, {id: r.sourceId})
+    let target = _.find(entities, {id: r.targetId})
+
+    return source && target;
+  })
+
+
   var parentType = 'HAS_PARENT_OF';
 
   var schoolRelationships = _.map(_.filter(entities, {type: 'DEPARTMENT'}), e => {
