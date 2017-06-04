@@ -1,59 +1,39 @@
 
 var entities, relationships;
-var entitiesPromise = $.ajax('https://mc3.mit.edu/handcar/services/learning/objectivebanks/mc3-objectivebank:2814@MIT-OEIT/objectives/')
-var relationshipsPromise = $.ajax('https://mc3.mit.edu/handcar/services/relationship/families/mc3-family:139@MIT-OEIT/relationships')
+var getDataPromise = $.ajax('http://open-ed-graph.aeizqnc7mw.us-east-1.elasticbeanstalk.com/api/mapping?domainId=593026b4734d1d5068f21e9d&entities=SUBJECT&entities=DEPARTMENT&entities=OUTCOME&relationships=HAS_PREREQUISITE_OF&relationships=HAS_PARENT_OF')
 
 let school = {
   id: 'SUTD',
-  type: 'school',
+  type: 'SCHOOL',
   displayName: 'SUTD'
 }
 
 // =====
 // instantiate a new Xoces widget
 // ========
-$.when(entitiesPromise, relationshipsPromise)
-.done(function(eData, rData) {
-  // console.log('done', eData[0], rData[0]);
+$.when(getDataPromise)
+.done(function(data) {
+  console.log('done', data);
+  var entities = data.entities;
+  var relationships = data.relationships;
 
-  var parentType = 'mc3-relationship%3Amc3.lo.2.lo.parent.child%40MIT-OEIT';
+  var parentType = 'HAS_PARENT_OF';
 
-  entities = _.map(eData[0], function(item) {
-    // console.log(item.genusTypeId)
-    return _.assign({}, item, {
-      displayName: item.displayName.text,
-      type: item.genusTypeId.replace('mc3-objective%3Amc3.', '').replace('%40MIT-OEIT', '').replace('learning.', '')
-    })
-  });
-
-  relationships = _.map(rData[0], function(relationship) {
-    let r = _.assign({}, relationship, {
-      type: relationship.genusTypeId
-    })
-
-    if (r.genusTypeId === parentType) {
-      var tempSourceId = r.sourceId;
-
-      r.sourceId = r.destinationId,
-      r.destinationId = tempSourceId;
-    }
-
-    return r;
-  });
-
-  // console.log('relationships', relationships)
-
-  var schoolRelationships = _.map(_.filter(entities, {type: 'department'}), e => {
+  var schoolRelationships = _.map(_.filter(entities, {type: 'DEPARTMENT'}), e => {
     return {
       id: _.uniqueId(),
       sourceId: e.id,
-      destinationId: school.id,
+      targetId: school.id,
       type: parentType
     }
   })
 
+  console.log('departments', _.filter(entities, {type: 'DEPARTMENT'}))
+  console.log('subjects', _.filter(entities, {type: 'SUBJECT'}))
+  console.log('outcomes', _.filter(entities, {type: 'OUTCOME'}))
+
   var cw = xoces.widgets.XocesWidget.new({
-    hierarchy: ['school', 'department', 'subject', 'outcome'],
+    hierarchy: ['SCHOOL', 'DEPARTMENT', 'SUBJECT', 'OUTCOME'],
     data: {
       entities: entities.concat(school),
       relationships: relationships.concat(schoolRelationships)
@@ -66,7 +46,7 @@ $.when(entitiesPromise, relationshipsPromise)
     relationship: {
       parentType: parentType,
       sourceRef: 'sourceId',
-      targetRef: 'destinationId',
+      targetRef: 'targetId',
     },
     width: '100%',
     height: 500,

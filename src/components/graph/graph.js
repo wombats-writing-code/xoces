@@ -27,7 +27,7 @@ const getParents = (id, entities, relationships) => {
     return targetIds.indexOf(e.id) > -1
   });
 
-  console.log('parents', parents, targetIds, rels)
+  // console.log('parents', parents, targetIds, rels)
 
   return parents
 }
