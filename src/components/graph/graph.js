@@ -48,7 +48,7 @@ const getParentsAll = (id, entities, relationships) => {
 const getChildren = (id, entities, relationships) => {
   let rels = _.filter(relationships, {[config.targetRef]: id, type: config.parentType})
 
-  return _.map(rels, r => _.find(entities, {id: r[config.sourceRef]}));
+  return _.compact(_.map(rels, r => _.find(entities, {id: r[config.sourceRef]})));
 }
 
 const _memoizedGetChildren = _.memoize(getChildren)

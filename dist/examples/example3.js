@@ -1,82 +1,66 @@
 
 var entities, relationships;
-var entitiesPromise = $.ajax('https://mc3.mit.edu/handcar/services/learning/objectivebanks/mc3-objectivebank:11@MIT-OEIT/objectives/')
-var relationshipsPromise = $.ajax('https://mc3.mit.edu/handcar/services/relationship/families/mc3-family:12@MIT-OEIT/relationships')
+var getDataPromise = $.ajax('http://open-ed-graph-dev.us-east-1.elasticbeanstalk.com/api/mapping?domainId=5939baa2f36d2842458b0ff5&entities=SUBJECT&entities=DEPARTMENT&entities=MODULE&entities=OUTCOME&relationships=HAS_PREREQUISITE_OF&relationships=HAS_PARENT_OF');
 
 var school = {
   id: 'MIT',
-  type: 'school',
+  type: 'SCHOOL',
   displayName: 'MIT'
 }
 
 // =====
 // instantiate a new Xoces widget
 // ========
-$.when(entitiesPromise, relationshipsPromise)
-.done(function(eData, rData) {
-  // console.log('done', eData[0], rData[0]);
+$.when(getDataPromise)
+.done(function(data) {
+  var entities = data.entities;
+  var relationships = data.relationships;
 
-  var parentType = 'mc3-relationship%3Amc3.lo.2.lo.parent.child%40MIT-OEIT';
-
-  entities = _.map(eData[0], function(item) {
-    // console.log(item.genusTypeId)
-    return _.assign({}, item, {
-      displayName: item.displayName.text,
-      type: item.genusTypeId.replace('mc3-objective%3Amc3.', '').replace('%40MIT-OEIT', '').replace('learning.', '')
-    })
-  });
+  var parentType = 'HAS_PARENT_OF';
 
   entities = _.filter(entities, function(e) {
-    if (e.type === 'department') {
+    if (e.type === 'DEPARTMENT') {
       return e.displayName === 'Course 16' || e.displayName === 'Course 18' || e.displayName === 'Course 6' || e.displayName === 'Course 8';
     }
 
     return true;
   });
 
-  relationships = _.map(rData[0], function(relationship) {
-    var r = _.assign({}, relationship, {
-      type: relationship.genusTypeId
-    })
+  relationships = _.filter(relationships, r => {
+    let source = _.find(entities, {id: r.sourceId})
+    let target = _.find(entities, {id: r.targetId})
 
-    // console.log('type', r.type)
-
-    if (r.genusTypeId === parentType) {
-      var tempSourceId = r.sourceId;
-
-      r.sourceId = r.destinationId,
-      r.destinationId = tempSourceId;
-    }
-
-    return r;
-  });
+    return source && target;
+  })
 
   // console.log('relationships', relationships)
+  // console.log('entities', entities)
+  console.log('departments', _.filter(entities, {type: 'DEPARTMENT'}))
+  console.log('subjects', _.filter(entities, {type: 'SUBJECT'}))
 
-  var schoolRelationships = _.map(_.filter(entities, {type: 'department'}), function(e) {
+
+  var schoolRelationships = _.map(_.filter(entities, {type: 'DEPARTMENT'}), function(e) {
     return {
       id: _.uniqueId(),
       sourceId: e.id,
-      destinationId: school.id,
+      targetId: school.id,
       type: parentType
     }
   })
 
   var cw = xoces.widgets.XocesWidget.new({
-    hierarchy: ['school', 'department', 'subject', 'topic', 'outcome'],
+    hierarchy: ['SCHOOL', 'DEPARTMENT', 'SUBJECT', 'MODULE', 'OUTCOME'],
     data: {
       entities: entities.concat(school),
       relationships: relationships.concat(schoolRelationships)
     },
     view: 'CHORD_VIEW',
-    // currentLevelEntity: "mc3-objective%3A7992%40MIT-OEIT",
-    // view: 'TREE_VIEW',
     entityLabelKey: 'displayName',
     nodeLabelKey: 'displayName',
     relationship: {
       parentType: parentType,
       sourceRef: 'sourceId',
-      targetRef: 'destinationId',
+      targetRef: 'targetId',
     },
     width: '100%',
     height: 900,
