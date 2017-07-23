@@ -25,7 +25,10 @@ class XocesWidget extends Component {
     if (this.props.view === CHORD_VIEW) {
       component = (<ChordComponent {...this.props} />)
     } else {
-      component = (<TreeComponent {...this.props} nodes={this.props.selectedEntities} />)
+      // we want the tree component to show ALL prerequsities
+      let nodes = _.uniq(_.flatMap(this.props.selectedEntities, e => graph.getOutgoingEntitiesAll(e.id, this.props.data.entities, this.props.data.relationships)));
+      // console.log(nodes)
+      component = (<TreeComponent {...this.props} nodes={nodes} />)
     }
 
     return (
