@@ -72,8 +72,6 @@ const getOutgoingEntities = (id, entities, relationships) => {
   return _.compact(_.map(rels, r => _.find(entities, {id: r[config.targetRef]})));
 }
 
-const _memoizedGetOutgoingEntities = _.memoize(getOutgoingEntities);
-
 const getOutgoingEntitiesAll = (id, entities, relationships) => {
   let outgoing = getOutgoingEntities(id, entities, relationships)
   return _.reduce(outgoing, (result, e) => {
