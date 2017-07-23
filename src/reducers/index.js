@@ -89,7 +89,7 @@ export default function visReducer(state = defaultState, action) {
         }),
         view: action.config.view || state.view,
         currentLevelEntity,
-        selectedEntities: graph.getChildren(currentLevelEntity.id, data.entities, data.relationships)
+        selectedEntities: config.view === 'TREE_VIEW' ? graph.getOutgoingEntitiesAll(currentLevelEntity.id, data.entities, data.relationships) : graph.getChildren(currentLevelEntity.id, data.entities, data.relationships)
       })
 
     case SET_CONFIG_TREE:

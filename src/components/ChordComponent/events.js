@@ -22,7 +22,6 @@ export function attachEvent(props) {
 }
 
 function _handleMouseOver(datum, i, g, props) {
-
   // console.log('current mouseovered', datum.id)
 
   // =====

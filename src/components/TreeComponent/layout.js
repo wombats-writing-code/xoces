@@ -48,10 +48,11 @@ export const computeLayout = (props) => {
       let es = graph.getOutgoingEntities(model.id, data.entities, data.relationships);
       _.forEach(es, (m, i) => {
         let targetNode = _.find(nodes, {model: m});
-
         // console.log('source:', sourceNode.model[props.entityLabelKey], 'requires: ', m[props.entityLabelKey])
-
-        if (!targetNode) return;
+        if (!targetNode) {
+          // console.log('missing target node for edge', m)
+          return
+        };
 
         // console.log('source:', sourceNode.model[props.entityLabelKey], 'requires: ', m[props.entityLabelKey]);
         let x1 = sourceNode.x + sourceNode.radius;

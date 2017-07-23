@@ -50,7 +50,7 @@ $.when(getDataPromise)
       relationships: relationships.concat(schoolRelationships)
     },
     view: 'CHORD_VIEW',
-    // currentLevelEntity: "mc3-objective%3A12722%40MIT-OEIT",
+    // currentLevelEntity: "5932bd4381722a3085091442",
     // view: 'TREE_VIEW',
     entityLabelKey: 'displayName',
     nodeLabelKey: 'displayName',
@@ -60,8 +60,9 @@ $.when(getDataPromise)
       targetRef: 'targetId',
     },
     width: '100%',
-    height: 500,
+    height: 600,
     colorScheme: 'light',
+    limitToSameParentInTree: false,
     onMouseOverFinish: function(data) {
     },
     onMouseOutFinish: function() {
