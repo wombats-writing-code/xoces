@@ -65,6 +65,8 @@ $.when(getDataPromise)
     width: '100%',
     height: 900,
     colorScheme: 'light',
+    onMouseOverDirection: 'both',
+    // onMouseOverDirection: 'incoming',
     onMouseOverFinish: function(data) {
     },
     onMouseOutFinish: function() {

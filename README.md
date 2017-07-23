@@ -195,6 +195,7 @@ var config = {
   width: '100%',
   height: 500,
   colorScheme: 'light',                  // 'light' or 'dark',
+  onMouseOverDirection: 'outgoing',
   onMouseOverFinish: function(entity) {},
   onMouseOutFinish: function(entity) {},
   onClickFinish: function(entity) {}
@@ -247,6 +248,9 @@ Sets the width of the entire widget.
 
 **configuration.height**
 Sets the height of the entire widget. We recommend at least a `500`px height.
+
+**configuration.onMouseOverDirection**
+`incoming` or `outgoing`, or `both`. Controls which entities are shown when you mouseover an arc. Default is `outgoing`
 
 **configuration.onMouseOverFinish**
 A callback function invoked when the user mouseovers a subarc or tree node. The function is invoked with one argument -- the object of the mouseover'ed entity

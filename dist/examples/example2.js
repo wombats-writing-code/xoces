@@ -50,6 +50,7 @@ $.when(getDataPromise)
       relationships: relationships.concat(schoolRelationships)
     },
     view: 'CHORD_VIEW',
+    onMouseOverDirection: 'both',
     // currentLevelEntity: "5932bd4381722a3085091442",
     // view: 'TREE_VIEW',
     entityLabelKey: 'displayName',

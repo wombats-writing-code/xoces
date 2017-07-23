@@ -23,6 +23,7 @@ export function attachEvent(props) {
 
 function _handleMouseOver(datum, i, g, props) {
   // console.log('current mouseovered', datum.id)
+  // console.log('props', props)
 
   // =====
   // change the style of all the arc labels to nonActive
@@ -36,17 +37,58 @@ function _handleMouseOver(datum, i, g, props) {
   let highlightArcs = [];      // we need this later on to figure out which source arcs to make active
   d3.selectAll(`.${CHORD_CLASS_NAME}, .${CHORD_ARROW_CLASS_NAME}`)
     .filter( d => {
-      if (d.source.arc.id === datum.id) {
-        highlightArcs.push(d.target.arc.id)
+      if (props.onMouseOverDirection === 'incoming') {
+        if (d.target.arc.id === datum.id) {
+          highlightArcs.push(d.source.arc.id)
+        }
+
+        return (d.target.arc.id === datum.id);
+
+      } else if (props.onMouseOverDirection === 'both') {
+        if (d.source.arc.id === datum.id || d.target.arc.id === datum.id) {
+          highlightArcs.push(d.target.arc.id)
+          highlightArcs.push(d.source.arc.id)
+        }
+
+        return (d.source.arc.id === datum.id || d.target.arc.id === datum.id);
+
+      } else {
+        if (d.source.arc.id === datum.id) {
+          highlightArcs.push(d.target.arc.id)
+        }
+
+        return (d.source.arc.id === datum.id);
       }
 
-      return (d.source.arc.id === datum.id);
     })
     .style('opacity', d => d.activeOpacity)
 
   // change the style of all other chords to be nonActive,
   d3.selectAll(`.${CHORD_CLASS_NAME}, .${CHORD_ARROW_CLASS_NAME}`)
-    .filter( d => d.source.arc.id !== datum.id)
+    .filter( d => {
+      if (props.onMouseOverDirection === 'incoming') {
+        if (d.target.arc.id === datum.id) {
+          highlightArcs.push(d.target.arc.id)
+        }
+
+        return (d.target.arc.id !== datum.id);
+
+      } else if (props.onMouseOverDirection === 'both') {
+        if (d.source.arc.id === datum.id || d.target.arc.id === datum.id) {
+          highlightArcs.push(d.target.arc.id)
+        }
+
+        return (d.source.arc.id !== datum.id && d.target.arc.id !== datum.id);
+
+      } else {
+        if (d.source.arc.id === datum.id) {
+          highlightArcs.push(d.target.arc.id)
+        }
+
+        return (d.source.arc.id !== datum.id);
+      }
+
+    })
     .style('opacity', d => d.nonActiveOpacity)
 
   // ====

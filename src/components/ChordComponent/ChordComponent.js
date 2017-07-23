@@ -140,6 +140,7 @@ class ChordComponent extends Component {
       onMouseOver: props.onMouseOver,
       onMouseOut: props.onMouseOut,
       onClick: props.onClickSubArc,
+      onMouseOverDirection: props.onMouseOverDirection,
       graph,
       data: props.data,
       onMouseOverFinish: props.onMouseOverFinish,
