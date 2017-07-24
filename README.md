@@ -187,6 +187,7 @@ var config = {
   hierarchy: [],                         // required!
   currentLevelEntity: null,
   entityLabelKey: '',                    // required!
+  nodeLabelKey: '',                     
   relationship: {
     parentType: '',                      // required!
     sourceRef: '',                       // required!

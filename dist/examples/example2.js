@@ -50,9 +50,8 @@ $.when(getDataPromise)
       relationships: relationships.concat(schoolRelationships)
     },
     view: 'CHORD_VIEW',
-    onMouseOverDirection: 'both',
-    // currentLevelEntity: "5932bd4381722a3085091442",
-    // view: 'TREE_VIEW',
+    currentLevelEntity: "5941e69b2b70774a40e3030f",
+    view: 'TREE_VIEW',
     entityLabelKey: 'displayName',
     nodeLabelKey: 'displayName',
     relationship: {
@@ -64,6 +63,7 @@ $.when(getDataPromise)
     height: 600,
     colorScheme: 'light',
     limitToSameParentInTree: false,
+    onMouseOverDirection: 'both',
     onMouseOverFinish: function(data) {
     },
     onMouseOutFinish: function() {
